@@ -123,13 +123,13 @@ ul.lim{padding-left:18px;color:var(--muted);font-size:15px}
 <section class="prop" id="p1">
 <div><span class="num">1</span>
 <h2>Fare la misura su una sorgente ad alto flusso</h2>
-<p><span class="k">Problema.</span> Per il 10% su g in 11 mesi servono 5×10⁷ Ps/s. Con una sorgente al ²²Na il calcolo dà circa 10⁴ Ps/s: migliaia di volte meno. Le migliorie su convertitore e cavità valgono fattori 2–3, non migliaia.</p>
+<p><span class="k">Problema.</span> Per misurare g al 10% in 11 mesi servono 5×10⁷ Ps/s. Con le efficienze dell'articolo, ogni positrone moderato diventa circa 0,001 Ps: servirebbero circa 4×10¹⁰ positroni/s, più di qualsiasi sorgente esistente. Con una sorgente da laboratorio al ²²Na (moderatore al neon) si arriva a circa 10⁴ Ps/s, migliaia di volte meno. Le migliorie su convertitore e cavità valgono fattori 2–3.</p>
 <p><span class="k">Proposta.</span> Mettere a punto la linea a Milano e fare la misura in un impianto come NEPOMUC (Monaco, circa 9×10⁸ positroni/s), che è continuo come la cavità laser già costruita.</p>
-<p><span class="k">Effetto stimato.</span> Circa 100 volte più Ps, passando da una precisione su g non misurabile a qualche decina di per cento.</p>
+<p><span class="k">Effetto stimato.</span> Circa 100 volte più Ps: l'incertezza statistica su g scende da circa il 700% (nessuna misura) a circa il 65%. Resta un fattore 40 dal target, che va colmato aumentando l'efficienza della catena.</p>
 </div>
 <div class="panel">
 <div class="btns" id="srcbtns"></div>
-<div class="reads"><div class="big" id="p1-ops">–<small>orto-Ps al secondo</small></div><div class="big" id="p1-prec">–<small>precisione statistica su g</small></div></div>
+<div class="reads"><div class="big" id="p1-ops">–<small>orto-Ps al secondo</small></div><div class="big" id="p1-prec">–<small>incertezza statistica su g</small></div></div>
 <div class="funnel" id="funnel"></div>
 <p class="note" style="margin:8px 0 0">Barre in scala logaritmica, da 1 a 10¹¹ al secondo.</p>
 </div>
@@ -145,6 +145,7 @@ ul.lim{padding-left:18px;color:var(--muted);font-size:15px}
 <div class="panel">
 <div class="seg" role="group" aria-label="Geometria del convertitore"><button id="g-ref" aria-pressed="true">Riflessione</button><button id="g-tra" aria-pressed="false">Trasmissione</button></div>
 <div class="ill" id="ill3"></div>
+<p class="note" style="margin:0 0 6px">Il disegno mostra le due geometrie; i numeri dipendono solo dalle distanze.</p>
 <div class="reads"><div class="big" id="p3-s">–<small>Ps⁻ che arrivano al laser</small></div><div class="big" id="p3-g">–<small>rispetto a 10 mm</small></div></div>
 <div class="ctl"><label for="i-drift">Distanza griglia → asse del laser <output id="o-i-drift"></output></label><input type="range" id="i-drift" min="0.5" max="20" step="0.5"></div>
 <div class="ctl"><label for="i-gap">Gap di accelerazione <output id="o-i-gap"></output></label><input type="range" id="i-gap" min="0.2" max="5" step="0.1"></div>
@@ -154,7 +155,7 @@ ul.lim{padding-left:18px;color:var(--muted);font-size:15px}
 <section class="prop" id="p3">
 <div><span class="num">3</span>
 <h2>Proteggere e sorvegliare gli specchi</h2>
-<p><span class="k">Problema.</span> A 198 kW gli specchi si deformano circa 4 volte più del previsto (4 cm contro 1 cm di variazione del raggio di curvatura): assorbono più del calcolato. Vapori di sodio vicino a specchi con perdite sotto 1 ppm peggiorerebbero le cose.</p>
+<p><span class="k">Problema.</span> Ad alta potenza il raggio di curvatura degli specchi cambia di circa 4 cm, contro circa 1 cm previsto dalla simulazione. La cavità funziona comunque, ma probabilmente gli specchi assorbono più del previsto. Depositi di sodio su specchi con perdite sotto 1 ppm peggiorerebbero le cose.</p>
 <p><span class="k">Proposta.</span> Preparare il convertitore (sodio, riscaldamento a 2000 °C) in una camera separata da una valvola. Misurare periodicamente lo spostamento dei modi trasversi: è un controllo rapido dello stato degli specchi durante gli 11 mesi.</p>
 <p><span class="k">Effetto atteso.</span> Cavità stabile per tutta la presa dati. Costo basso.</p>
 </div>
@@ -172,7 +173,7 @@ ul.lim{padding-left:18px;color:var(--muted);font-size:15px}
 <ul class="lim">
 <li>Waist dalla geometria misurata della cavità (L = 2,0468 m, R = 2 m); sezione d'urto di fotodistacco costante (6,5×10⁻¹⁷ cm²), senza effetto Doppler; incrocio perpendicolare.</li>
 <li>Ps⁻ emessi quasi da fermi, accelerati in campo uniforme, poi in deriva fino al laser. Rinculo del fotodistacco isotropo.</li>
-<li>Precisione su g scalata come 1/√N dal riferimento dell'articolo (10% con 5×10⁷ Ps/s in 11 mesi, Vinelli et al. 2023).</li>
+<li>Incertezza su g scalata come 1/√N dal riferimento dell'articolo (10% con 5×10⁷ Ps/s in 11 mesi, Vinelli et al. 2023).</li>
 <li>Strumento per confrontare scenari: non sostituisce le simulazioni complete della collaborazione.</li>
 </ul>
 </details>
@@ -308,7 +309,7 @@ $('g-ref').addEventListener('click',()=>setGeo('ref'));$('g-tra').addEventListen
 $('reset').addEventListener('click',()=>{P={...DEF};render();$('copied').textContent='Valori iniziali ripristinati'});
 $('copy').addEventListener('click',async()=>{
   const txt=['QUPLAS - modello semplificato della catena e+ -> Ps- -> Ps',`Sorgente: ${sci(P.src)} e+/s`,...CTL.map(c=>`${c.l}: ${c.f(P[c.id])}${c.ip?' (ipotesi)':''}`),'---',
-   ...STAGES.map(s=>`${s[0]}: ${sci(s[2]==='src'?P.src:R[s[2]])} /s`),`Sopravvivenza Ps-: ${it(R.surv,2)}; fotodistacco: ${it(R.pd,2)}`,`Precisione statistica su g: ${it(R.prec*100,0)}% in ${P.mesi} mesi`].join('\n');
+   ...STAGES.map(s=>`${s[0]}: ${sci(s[2]==='src'?P.src:R[s[2]])} /s`),`Sopravvivenza Ps-: ${it(R.surv,2)}; fotodistacco: ${it(R.pd,2)}`,`Incertezza statistica su g: ${it(R.prec*100,0)}% in ${P.mesi} mesi`].join('\n');
   try{await navigator.clipboard.writeText(txt);$('copied').textContent='Copiato'}catch(e){$('copied').textContent='Copia non consentita da questo visualizzatore'}});
 let rw=0;const ro=new ResizeObserver(()=>{const w=document.body.clientWidth;if(w!==rw&&R){rw=w;placeTarget()}});ro.observe(document.body);
 ill4();render();

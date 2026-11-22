@@ -213,7 +213,7 @@ def main():
     print(f"=> {r['orto_ps']:.2e} o-Ps per positrone moderato")
     print(f"Fascio Ps- all'incrocio: sigma = {r['sigma_fascio_mm']:.2f} mm (waist laser {w*1e3:.2f} mm)")
 
-    print("\n2) PRECISIONE SU g (scala 1/sqrt(N), confronto con o-Ps dopo fotodistacco)")
+    print("\n2) INCERTEZZA STATISTICA SU g (scala 1/sqrt(N), confronto con o-Ps dopo fotodistacco)")
     print("   ATTENZIONE: valida solo se il target 5e7 Ps/s del paper e' definito allo stesso")
     print("   punto della catena e alla stessa velocita' del fascio.")
     print("-" * 78)
@@ -231,21 +231,14 @@ def main():
               f"{r['th_emiss']:10.1f}{r['th_rinc']:10.1f}")
     print("   (la sensibilita' dell'interferometro scala come T^2 ~ 1/v^2: energie alte la riducono)")
 
-    print("\n4) ANGOLO DI INCROCIO FASCIO-LASER")
-    print("-" * 78)
-    for ang in [90, 45, 20, 10, 5]:
-        q = dict(PARAMETRI, angolo_incrocio_deg=ang)
-        r = bilancio(1.0, q)
-        print(f"  {ang:3d} gradi: P_fotodistacco = {r['p_pd']:.2f}")
-
-    print("\n5) DISTANZA GRIGLIA -> LASER")
+    print("\n4) DISTANZA GRIGLIA -> LASER")
     print("-" * 78)
     for d in [1, 2, 3, 5, 10, 20]:
         q = dict(PARAMETRI, drift_mm=d)
         r = bilancio(1.0, q)
         print(f"  {d:3d} mm: sopravvivenza Ps- = {r['sopravvivenza']:.2f}")
 
-    print("\n6) CATENA ESTESA FINO ALL'INTERFEROMETRO (parametri quasi tutti IPOTESI)")
+    print("\n5) CATENA ESTESA FINO ALL'INTERFEROMETRO (parametri quasi tutti IPOTESI)")
     print("-" * 78)
     r = bilancio(1.0)
     print(f"  accettanza {p['accettanza_mrad']} mrad su divergenza totale "
