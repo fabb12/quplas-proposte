@@ -8,7 +8,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
 /* VOICE: spiegazione paziente ma rigorosa, un'idea per sezione
-   IDEA: sette domande in fila (perché, quanto è difficile, come si produce, come si misura, quanti dati, a cosa serve, e l'antigravità), ognuna con la sua animazione
+   IDEA: nove sezioni in fila (perché, quanto è difficile, come si produce, come si misura, quanti dati, a cosa serve, e l'antigravità), ognuna con la sua animazione
    COLOUR and TYPE: come index.html: alluminio, nero, arancio #ff4f00 per Ps; Geist */
 :root{color-scheme:light dark;--bg:light-dark(#e9eaec,#141517);--panel:light-dark(#f7f7f8,#1c1e21);--ink:light-dark(#121314,#ececee);--muted:light-dark(#585c63,#9da2aa);--line:light-dark(#c8cace,#34373c);--acc:#ff4f00;--el:light-dark(#1f5fbf,#6ea8ff);--track:light-dark(#dcdee1,#2a2d31)}
 *{box-sizing:border-box;min-width:0}
@@ -62,7 +62,7 @@ a.back{color:var(--ink)}
 <body>
 <header class="band" style="padding-bottom:0"><div class="wrap">
 <h1>Capire QUPLAS: perché pesare l'antimateria è così difficile</h1>
-<p class="lede">L'obiettivo finale è misurare, per la prima volta, come cade un atomo di positronio (un elettrone e la sua antiparticella, il positrone). Sette domande in ordine, ognuna con un'animazione che puoi manovrare.</p>
+<p class="lede">L'obiettivo finale è misurare, per la prima volta, come cade un atomo di positronio (un elettrone e la sua antiparticella, il positrone). Nove sezioni, ognuna con un'animazione o un calcolatore che puoi manovrare. I numeri vengono dagli articoli della collaborazione (sezione 9).</p>
 <nav aria-label="Indice"><ol>
 <li><a href="#d1"><span class="num">1</span><span>Che cosa vogliamo sapere?</span></a></li>
 <li><a href="#d2"><span class="num">2</span><span>Perché è così difficile?</span></a></li>
@@ -71,6 +71,8 @@ a.back{color:var(--ink)}
 <li><a href="#d5"><span class="num">5</span><span>Perché servono tanti atomi?</span></a></li>
 <li><a href="#d6"><span class="num">6</span><span>A che cosa serve alla fine?</span></a></li>
 <li><a href="#d7"><span class="num">7</span><span>Si può studiare l'antigravità?</span></a></li>
+<li><a href="#d8"><span class="num">8</span><span>Il progetto reale: interferometro a laser</span></a></li>
+<li><a href="#d9"><span class="num">9</span><span>Le fonti: articoli e cosa dicono</span></a></li>
 </ol></nav>
 <p class="note" style="margin-top:14px"><a class="back" href="index.html">← Le tre proposte per il fascio</a> · <a class="back" href="interferenza.html">Simulazione QUPLAS-0 (Como 2019)</a></p>
 </div></header>
@@ -132,6 +134,7 @@ a.back{color:var(--ink)}
 <li>Il Ps neutro entra nell'interferometro.</li>
 </ol>
 <p><span class="k">Il collo di bottiglia.</span> Ogni passaggio perde particelle. Con le efficienze dell'articolo, un positrone moderato diventa circa 0,001 Ps. È questo il motivo per cui le tre proposte della pagina principale parlano di flusso.</p>
+<div class="box"><span class="k">Numeri del progetto</span> (Vinelli 2023, Sacerdoti 2025): un LINAC superconduttore da 10 MeV e 2,5 mA darebbe almeno 10¹⁶ elettroni/s e circa 10¹⁰ e⁺/s; ne risulterebbero circa 0,5×10⁸ Ps/s all'ingresso dell'interferometro. Il Ps⁻ è accelerato a 300 eV; dopo il fotodistacco (laser a 1560 nm, cavità Fabry-Perot da circa 200 kW) il Ps ha circa 200 eV. In alternativa si studia un laser pulsato a 3600 nm, che disturba meno il fascio.</div>
 </div>
 <div class="panel">
 <div class="btns"><button id="a3p" aria-pressed="true">Pausa</button><button id="a3t">Segui 1 positrone</button></div>
@@ -155,6 +158,7 @@ a.back{color:var(--ink)}
 <p><span class="k">La gravità sposta le frange.</span> Durante il volo il Ps cade, e l'intero disegno di frange si sposta in giù. Misurare lo spostamento <i>rispetto al periodo</i> è molto più facile che vedere una caduta assoluta: si confronta la posizione delle frange con e senza gravità (o con il fascio in verticale, o a tempi di volo diversi).</p>
 <div class="box">Spostamento ≈ g·T² dove T = L/v è il tempo tra due reticoli. Fase = 2π·g·T²/d, con d il passo dei reticoli.</div>
 <p>Per questo contano così tanto la <b>velocità</b>, la <b>distanza</b> e il <b>passo</b>: rendono la caduta più grande rispetto alla frangia. Con valori realistici la frazione resta minuscola: lo vedi nelle cifre qui accanto.</p>
+<div class="box"><span class="k">Che cosa è stato fatto davvero.</span> Il Talbot-Lau è la tecnica di <b>QUPLAS-0</b>, con <i>positroni</i> (non Ps): due reticoli di nitruro di silicio con passi d₁ = 1,2 µm e d₂ = 1 µm, distanti L₁ = 11,8 cm, energia nominale 14 keV (λ ≈ 10,3 pm), frange di 6 µm a 58 cm dal secondo reticolo, rivelate con emulsioni nucleari. È anche la proposta storica per la gravità (Sala et al. 2016). Il <b>progetto attuale</b> per il Ps cambia strategia: vedi la sezione 8.</div>
 </div>
 <div class="panel">
 <canvas id="c4" height="300" role="img" aria-label="Positronio attraverso tre reticoli, e frange sul rivelatore spostate dalla gravità"></canvas>
@@ -169,7 +173,7 @@ a.back{color:var(--ink)}
 <div><b id="r4f">–</b><span>periodi di frangia (frazione)</span></div>
 <div><b id="r4k">–</b><span>ingrandimento nel disegno</span></div>
 </div>
-<p class="note">Velocità, distanze e passi sono valori illustrativi per capire le dipendenze, non il progetto di QUPLAS.</p>
+<p class="note">Velocità, distanze e passi qui sono valori illustrativi (non quelli di QUPLAS-0 né del progetto per il Ps). Il progetto attuale per la gravità non usa reticoli: sezione 8.</p>
 </div>
 </section>
 
@@ -180,7 +184,7 @@ a.back{color:var(--ink)}
 <p>Ogni Ps arriva come <b>un solo punto</b>, in un posto casuale: la probabilità segue le frange, ma un singolo punto non dice nulla. Solo accumulando molti eventi la posizione delle frange emerge dal rumore statistico.</p>
 <p>L'incertezza sulla fase delle frange scende come l'inverso della radice del numero di eventi:</p>
 <div class="box">σ<sub>φ</sub> ≈ √2 / (C·√N) &nbsp; (C = contrasto delle frange, N = eventi)</div>
-<p>Per dimezzare l'errore servono quattro volte più dati. La fase da misurare con la gravità è piccolissima (vedi sezione 4), quindi N diventa enorme: il calcolo della pagina principale dice che per misurare g al 10% in 11 mesi servirebbero circa 5×10⁷ Ps al secondo. Qui la fase è ingrandita, così vedi il meccanismo in pochi secondi.</p>
+<p>Per dimezzare l'errore servono quattro volte più dati. La fase da misurare con la gravità è piccolissima (vedi sezione 4), quindi N diventa enorme: il progetto (Vinelli 2023) stima che servano circa 5×10⁷ Ps al secondo per misurare g al 10% in circa 11 mesi: il calcolo è nella sezione 8. Qui la fase è ingrandita, così vedi il meccanismo in pochi secondi.</p>
 </div>
 <div class="panel">
 <div class="btns"><button id="a5p" aria-pressed="true">Pausa</button><button id="a5r">Ricomincia</button></div>
@@ -216,10 +220,10 @@ a.back{color:var(--ink)}
 <div class="panel">
 <h3 style="margin-top:0">Dove siamo nel percorso</h3>
 <div class="tl">
-<div><b>2019 · QUPLAS-0</b>Prima interferenza di singoli positroni (carichi) a Como, con prova quantistica dal contrasto in funzione dell'energia.</div>
+<div><b>2019 · QUPLAS-0</b>Prima interferenza di positroni in regime di singola particella, a Como (L-NESS, Politecnico di Milano). Talbot-Lau + emulsioni nucleari; la prova quantistica è la dipendenza del contrasto dall'energia.</div>
 <div class="now"><b>Ora · il fascio di Ps</b>Convertire e⁺ → Ps⁻ → Ps con la cavità laser. Il flusso è il problema: vedi le tre proposte.</div>
-<div><b>Poi · interferometria di Ps</b>Passare il Ps neutro nell'interferometro e verificare le frange.</div>
-<div><b>Obiettivo · g<sub>Ps</sub></b>Misurare lo spostamento gravitazionale delle frange con incertezza utile.</div>
+<div><b>Poi · interferometria di Ps</b>Interferometro Mach-Zehnder a grande trasferimento d'impulso, con 23 impulsi laser (sezione 8).</div>
+<div><b>Obiettivo · g<sub>Ps</sub></b>Misurare la fase gravitazionale con incertezza del 10%: circa 11 mesi di dati con 5×10⁷ Ps/s (stima del progetto).</div>
 </div>
 <h3>Glossario</h3>
 <dl>
@@ -255,7 +259,7 @@ a.back{color:var(--ink)}
 <li><b>Falsi segnali.</b> Forze non gravitazionali (campi residui, gradienti sul Ps polarizzabile) spostano le frange come farebbe un g diverso: vanno misurate e sottratte.</li>
 </ul>
 <h3>Perché l'antigravità è considerata improbabile</h3>
-<p>Da decenni ci sono argomenti teorici indiretti (conservazione dell'energia, effetti di coppie virtuali, esperimenti sui kaoni neutri): ognuno poggia su ipotesi, quindi non sostituisce la misura diretta. Una misura diretta è arrivata nel 2023 al CERN: l'esperimento ALPHA-g ha osservato atomi di antidrogeno cadere verso il basso, con accelerazione compatibile con g entro le incertezze (i valori esatti vanno controllati sul lavoro originale). Per l'antimateria leptonica restano quasi solo tentativi storici, limitati dai campi parassiti.</p>
+<p>Da decenni ci sono argomenti teorici indiretti (conservazione dell'energia, effetti di coppie virtuali, esperimenti sui kaoni neutri): ognuno poggia su ipotesi, quindi non sostituisce la misura diretta. Una misura diretta è arrivata nel 2023 al CERN: la collaborazione ALPHA ha mostrato che l'antidrogeno si comporta in modo compatibile con l'attrazione gravitazionale verso la Terra (così la riassume Sacerdoti et al. 2025; un risultato precedente di ALPHA aveva solo escluso rapporti massa gravitazionale/inerziale oltre circa 75, secondo Vinelli et al. 2023). I valori esatti vanno letti nel lavoro originale. Per l'antimateria leptonica restano quasi solo tentativi storici, limitati dai campi parassiti.</p>
 </div>
 <div class="panel">
 <canvas id="c7" height="360" role="img" aria-label="Caduta di materia, positrone e positronio secondo il valore di ε, e intervallo di compatibilità della misura"></canvas>
@@ -267,6 +271,73 @@ a.back{color:var(--ink)}
 </div>
 <p class="cap" id="t7"></p>
 <p class="note">In alto: accelerazioni per ε scelto. Il positrone «da solo» è tratteggiato perché non si può misurare isolato. In basso: valore atteso con banda ±2σ; i cerchi vuoti sono le tre ipotesi, in azzurro quelle compatibili con la misura.</p>
+</div>
+</section>
+
+
+<!-- 8 -->
+<section class="q" id="d8">
+<div><span class="num">8</span>
+<h2>Il progetto reale: un interferometro a laser</h2>
+<p>L'articolo di progetto (Vinelli et al., <i>Class. Quantum Grav.</i> 40, 205024, 2023) propone per il positronio un interferometro <b>Mach-Zehnder a grande trasferimento d'impulso (LMT)</b>. Al posto di reticoli materiali, i «divisori» sono impulsi laser che cambiano lo stato del Ps e gli trasferiscono impulso.</p>
+<p><span class="k">Come funziona.</span> Il Ps arriva nello stato 2³S₁, che vive 1,14 µs (contro 142 ns del fondamentale). Una prima sequenza di impulsi a 1312 nm lo divide in due bracci che acquistano 10ħk di impulso di differenza. Gli impulsi successivi fanno da specchi, e una sequenza finale ricombina i bracci. In tutto sono <b>23 impulsi</b>.</p>
+<div class="box">ΔΦ = k<sub>eff</sub> · g · T² &nbsp; con k<sub>eff</sub> = 10·k = 10·2π/λ, e T = metà del tempo di volo nell'interferometro.</div>
+<p><span class="k">Parametri.</span> Lunghezza 5 m, velocità circa 6×10⁶ m/s (Ps da circa 200 eV), T ≈ 410 ns. La fase attesa è minuscola (nell'ordine di 10⁻⁴ rad), ma l'interferometro la trasforma in una variazione del numero di atomi in uno dei due bracci di uscita.</p>
+<p><span class="k">Idee utili.</span> (i) Dopo l'interferometro si ionizzano gli atomi in n = 3 con un laser a 1560 nm e le particelle cariche si spazzano via con un campo elettrico, quindi il rivelatore conta solo gli atomi n = 2 e <b>non serve risoluzione spaziale</b>. (ii) Il fascio è diviso in due e colpito dagli impulsi da direzioni opposte: il rumore di fase del laser si cancella e il segnale raddoppia. (iii) Una maschera sul rivelatore sceglie gli atomi con angolo inferiore a circa 100 µrad: perde atomi, ma tiene il contrasto.</p>
+<p><span class="k">Risultato dell'articolo.</span> Con 0,5×10⁸ Ps/s e divergenza σ<sub>θ</sub> = 10 mrad, Δg/g = 10% in circa <b>11 mesi</b> di dati. Un'interferometria con riflessione di Bragg alla stessa lunghezza richiederebbe tempi più lunghi, secondo il confronto dello stesso lavoro.</p>
+</div>
+<div class="panel">
+<canvas id="c8" height="250" role="img" aria-label="Diagramma spazio-tempo di un interferometro Mach-Zehnder per il positronio, con i due bracci e le porte di uscita"></canvas>
+<div class="btns" style="margin-top:8px"><button id="m8" aria-pressed="true">Ingrandisci la fase gravitazionale</button></div>
+<div class="ctl"><label for="s8g">g del positronio rispetto a g <output id="o8g"></output></label><input id="s8g" type="range" min="-1" max="2" step="0.25" value="1"></div>
+<div class="ctl"><label for="s8n">Impulso trasferito (multiplo di ħk) <output id="o8n"></output></label><input id="s8n" type="range" min="1" max="10" step="1" value="10"></div>
+<div class="ctl"><label for="s8v">Velocità del Ps <output id="o8v"></output></label><input id="s8v" type="range" min="2" max="10" step="0.5" value="6"></div>
+<div class="ctl"><label for="s8l">Lunghezza dell'interferometro <output id="o8l"></output></label><input id="s8l" type="range" min="1" max="8" step="0.5" value="5"></div>
+<div class="cmp">
+<div><b id="r8t">–</b><span>T (metà del volo)</span></div>
+<div><b id="r8s">–</b><span>separazione massima dei bracci</span></div>
+<div><b id="r8p">–</b><span>fase gravitazionale ΔΦ reale</span></div>
+<div><b id="r8k">–</b><span>ingrandimento nel disegno</span></div>
+</div>
+<h3>Quanto dura la misura?</h3>
+<div class="btns" id="b8s" role="group" aria-label="Divergenza del fascio"></div>
+<div class="ctl"><label for="s8f">Flusso di Ps all'ingresso <output id="o8f"></output></label><input id="s8f" type="range" min="60" max="90" step="1" value="77"></div>
+<div class="ctl"><label for="s8d">Precisione richiesta Δg/g <output id="o8d"></output></label><input id="s8d" type="range" min="1" max="50" step="1" value="10"></div>
+<div class="cmp">
+<div><b id="r8e">–</b><span>atomi che passano la maschera ε</span></div>
+<div><b id="r8c">–</b><span>contrasto C</span></div>
+<div><b id="r8m">–</b><span>tempo di acquisizione</span></div>
+</div>
+<p class="note">Formule: ΔΦ = k<sub>eff</sub>gT², t = (1/εΦ<sub>Ps</sub>)·[√2/(2·k<sub>eff</sub>T²·Δg·C)]² (eq. 6 di Vinelli 2023, con k<sub>eff</sub> = 10k). ε e C per ogni σ<sub>θ</sub> sono quelli della tabella 1 dell'articolo; con i valori di default il calcolo dà circa 12 mesi contro gli 11 dell'articolo (arrotondamenti di T, ε e C). La separazione dei bracci è ħk·N/m·T con la massa del Ps: un ordine di grandezza dal modello a impulso, non un valore di progetto.</p>
+</div>
+</section>
+
+<!-- 9 -->
+<section class="q" id="d9">
+<div><span class="num">9</span>
+<h2>Le fonti: articoli e cosa dicono</h2>
+<p>Questa guida si basa sulla pagina del progetto (<a class="back" href="https://www.positron.fisi.polimi.it/">positron.fisi.polimi.it</a>, laboratorio di Como, Politecnico di Milano e INFN) e sugli articoli che elenca. QUPLAS (QUantum interferometry and gravity with Positrons and LASers) è una collaborazione tra Politecnico di Milano, Università di Milano, LENS-Firenze, Brescia, Modena, Napoli e altri, con portavoce M. Giammarchi.</p>
+<p><span class="k">Due fasi.</span> <b>QUPLAS-0</b>: interferenza di positroni (Talbot-Lau, emulsioni). <b>Gravità del Ps</b>: fascio di Ps neutro e interferometro a laser. L'esperimento di interferenza dei positroni è stato tra i finalisti dei «Breakthrough of the Year 2019» di Physics World.</p>
+<p class="note">Stato della lettura: «completo» = letto il testo; «parziale» = letti abstract, introduzione e le parti con i numeri citati qui. Quattro fonti non si sono potute scaricare dal mio ambiente (Science Advances 2019 e Symmetry 2021 sono bloccati o non su archivi aperti; le presentazioni a convegno sono su Google Sites o server non raggiungibili): per queste non cito nessun dato.</p>
+</div>
+<div class="panel" style="overflow-x:auto">
+<table id="srcT">
+<tr><th>Fonte</th><th>Che cosa porta</th><th>Letto</th></tr>
+<tr><td>Vinelli et al., CQG 40, 205024 (2023), arXiv:2303.11798</td><td>Interferometro Mach-Zehnder LMT per il Ps: 23 impulsi, 5 m, 6×10⁶ m/s, k<sub>eff</sub> = 10k, tempi di misura. Fonte di quasi tutti i numeri della sezione 8.</td><td>completo</td></tr>
+<tr><td>Sacerdoti et al., NIM A 1071, 170068 (2025)</td><td>Simulazione Monte Carlo del fascio di Ps⁻ e del fotodistacco: 300 eV → 200 eV, cavità da ~200 kW, confronto 1560 nm / 3600 nm, 10 K e 300 K.</td><td>parziale</td></tr>
+<tr><td>Ariga et al., NIM A 951, 163019 (2020)</td><td>L'apparato QUPLAS-0: linea di positroni 1–20 keV, Talbot-Lau (d₁ = 1,2 µm, d₂ = 1 µm, L₁ = 11,8 cm, 14 keV), schermo mu-metal, emulsioni.</td><td>parziale</td></tr>
+<tr><td>Sala, tesi di dottorato, Univ. Milano (2018)</td><td>Teoria del Talbot-Lau asimmetrico, allineamento, misure preliminari; contrasto atteso &gt; 90% a 14 keV con minimo vicino a 11 keV.</td><td>parziale</td></tr>
+<tr><td>Sala et al., arXiv:1505.01639 (J. Phys. B 48, 195002, 2015)</td><td>Interferometria di materia verso l'antimateria: positroni, Ps, antiprotoni; Talbot-Lau con reticoli materiali.</td><td>parziale</td></tr>
+<tr><td>Sala, Giammarchi, Olivares, arXiv:1601.06539 (PRA 94, 033625, 2016)</td><td>Talbot-Lau asimmetrico come sensore inerziale; spostamento delle frange ∝ aT²; possibile misura di g su antimateria neutra.</td><td>parziale</td></tr>
+<tr><td>Aghion et al., arXiv:1605.03944 (JINST 11 P06017, 2016)</td><td>Emulsioni sensibili ai positroni tra 10 e 20 keV.</td><td>parziale</td></tr>
+<tr><td>Aghion et al., arXiv:1802.04074 (JINST 13 P05013, 2018)</td><td>Emulsioni risolvono frange di 6, 7 e 20 µm con positroni da 10-20 keV.</td><td>parziale</td></tr>
+<tr><td>Anzi et al., JINST 15 P03027 (2020)</td><td>Emulsioni senza strato protettivo sensibili a positroni da 0,2-17 keV; efficienza crescente e satura oltre ~15 keV.</td><td>parziale</td></tr>
+<tr><td>Vinelli et al., JINST 15 P11030 (2020)</td><td>Monitor di fascio con MCP in modalità a singola particella; efficienza tra 50 eV e 17 keV, risoluzione di decine di µm.</td><td>parziale</td></tr>
+<tr><td>Castelli et al., J. Plasma Phys. 89, 935890603 (2023)</td><td>Perdita e ripresa di coerenza tra un fascio di positroni a singola particella e un campo a microonde.</td><td>parziale</td></tr>
+<tr><td>Sala et al., Sci. Adv. 5, eaav7610 (2019)</td><td>Prima dimostrazione di interferenza di onde di antimateria (positroni).</td><td>non scaricabile</td></tr>
+<tr><td>Pasino et al., Symmetry 13, 1232 (2021)</td><td>Metodo interferometrico per misure di massa di particelle.</td><td>non scaricabile</td></tr>
+<tr><td>Presentazioni (Berna 2016, Messina 2016, Milano 2017, Indiana, Vienna, Orlando e Creta 2018)</td><td>Panoramiche del progetto.</td><td>non scaricabili</td></tr>
+</table>
 </div>
 </section>
 
@@ -470,6 +541,51 @@ mk('c7',(o,cx,dt)=>{const{w,h}=o;const eps=+$('s7e').value,sg=$('s7s').value/100
  hyp.forEach(([v,n])=>{const ok=Math.abs(v-x)<=2*sg;cx.lineWidth=2;cx.strokeStyle=ok?C.el:C.muted;cx.fillStyle=ok?C.el:C.panel;cx.beginPath();cx.arc(X(v),Y,7,0,7);ok?cx.fill():cx.stroke()});
  cx.strokeStyle=C.acc;cx.lineWidth=2.5;cx.beginPath();cx.moveTo(X(x),Y-22);cx.lineTo(X(x),Y+22);cx.stroke();
  txt(cx,'antigravità',X(0),Y-30,11,C.muted);txt(cx,'ε=0',X(.5),Y-30,11,C.muted);txt(cx,'normale',X(1),Y-30,11,C.muted)})}
+
+/* ---------- 8: Mach-Zehnder LMT ---------- */
+{const HBAR=1.0546e-34,MPS=2*9.109e-31,LAM=1312e-9,K=2*Math.PI/LAM;
+ const TAB=[[0.1,.14,.6],[1,.003,.4],[3,.0003,.4],[5,.0001,.4],[7,.00006,.4],[10,.00003,.4]];let ti=5;
+ const fmtT=t=>{const d=t/86400;return d<1?IT(t/3600,1)+' ore':d<60?IT(d,1)+' giorni':d<730?IT(d/30.44,1)+' mesi':IT(d/365.25,1)+' anni'};
+ const bb=$('b8s');TAB.forEach((r,i)=>{const b=document.createElement('button');b.textContent='σθ = '+r[0]+' mrad';b.onclick=()=>{ti=i;[...bb.children].forEach((c,k)=>c.setAttribute('aria-pressed',k===i));rd()};b.setAttribute('aria-pressed',i===ti);bb.appendChild(b)});
+ const rd=()=>{const g=+$('s8g').value,N=+$('s8n').value,v=$('s8v').value*1e6,L=+$('s8l').value,keff=N*K;const T=L/(2*v);
+  const vr=N*HBAR*K/MPS,sep=vr*T,ph=keff*g*G*T*T;
+  $('o8g').textContent=IT(g,2)+'×';$('o8n').textContent=N+' ħk';$('o8v').textContent=IT(v/1e6,1)+'×10⁶ m/s';$('o8l').textContent=IT(L,1)+' m';
+  $('r8t').textContent=IT(T*1e9,0)+' ns';$('r8s').textContent=IT(sep*1e3,2)+' mm';$('r8p').textContent=SCI(Math.abs(ph))+' rad';
+  const mag=$('m8').getAttribute('aria-pressed')==='true';const Kg=mag&&ph!==0?1/Math.abs(ph):1;$('r8k').textContent=mag?(g===0?'–':'×'+SCI(Kg)):'nessuno';
+  const phi=Math.pow(10,$('s8f').value/10),dg=$('s8d').value/100,[sg,eps,C]=TAB[ti];
+  $('o8f').textContent=SCI(phi)+' Ps/s';$('o8d').textContent=$('s8d').value+'%';
+  const num=Math.SQRT2/(2*keff*T*T*dg*G*C),tt=num*num/(eps*phi);
+  $('r8e').textContent=eps>=.01?IT(eps*100,0)+'%':IT(eps*100,4)+'%';$('r8c').textContent=IT(C*100,0)+'%';$('r8m').textContent=fmtT(tt);return{ph,Kg,N,Cd:C}};
+ ['s8g','s8n','s8v','s8l','s8f','s8d'].forEach(i=>$(i).oninput=rd);$('m8').onclick=()=>{$('m8').setAttribute('aria-pressed',$('m8').getAttribute('aria-pressed')!=='true');rd()};rd();
+ let ph0=0;
+ mk('c8',(o,cx,dt)=>{const{w,h}=o;ph0=(ph0+dt*(reduce?0:.28))%1.25;const{ph,Kg,N,Cd}=rd();
+  const x0=34,x1=w-132,mid=h*.5,A=h*.3;const tau=Math.min(1,ph0);
+  // asse tempo
+    txt(cx,'0',x0,h-20,12);txt(cx,'T',(x0+x1)/2,h-20,12);txt(cx,'2T',x1,h-20,12);
+  cx.strokeStyle=C.line;cx.beginPath();cx.moveTo(x0,h-34);cx.lineTo(x1,h-34);cx.stroke();
+  txt(cx,'tempo di volo →',(x0+x1)/2,h-6,12);
+  // separazione disegnata (fissa nel disegno)
+  const sepD=A*Math.min(1,.35+N*.065);
+  const sepAt=u=>u<=.5?sepD*u*2:sepD*(1-u)*2;           // 0..1 -> separazione
+  const drift=u=>0;                                      // caduta comune non disegnata
+  const X=u=>x0+u*(x1-x0);
+  // impulsi laser
+  [[0,'divisore'],[.5,'specchi'],[1,'divisore']].forEach(([u,l])=>{cx.strokeStyle=C.acc;cx.lineWidth=2;cx.setLineDash([3,3]);cx.beginPath();cx.moveTo(X(u),mid-A-10);cx.lineTo(X(u),mid+A*.4);cx.stroke();cx.setLineDash([]);txt(cx,l,X(u),mid-A-16,12,C.acc)});
+  // bracci
+  const arm=(sg,col)=>{cx.strokeStyle=col;cx.lineWidth=2.5;cx.beginPath();for(let i=0;i<=60;i++){const u=i/60;const y=mid-sg*sepAt(u);i?cx.lineTo(X(u),y):cx.moveTo(X(u),y)}cx.stroke()};
+  arm(0,C.ink);arm(1,C.el);
+  txt(cx,'braccio 1 (+10ħk)',X(.25),mid-sepD*.5-12,12,C.el);txt(cx,'braccio 2',X(.25),mid+18,12,C.ink);
+  // pacchetto d'onda
+  const u=Math.min(1,tau),s=sepAt(u);
+  if(u<.02){dot(cx,X(0),mid,6,C.acc)}else if(u<1){cx.globalAlpha=.9;dot(cx,X(u),mid,6,C.ink);dot(cx,X(u),mid-s,6,C.el);cx.globalAlpha=1}
+  // porte di uscita: probabilità n=2 nelle due uscite
+  const Cc=Cd,phi=ph*Kg,p1=.5*(1+Cc*Math.cos(phi)),p2=1-p1;
+  const bx=x1+20,bh=h*.55;
+  txt(cx,'uscite n=2',bx+31,mid-A-16,12,C.ink);
+  cx.fillStyle=C.el;cx.fillRect(bx,mid-A*.9-0,22,bh*.5*p1*2*.8);txt(cx,IT(p1*100,2)+'%',bx+11,mid-A*.9+bh*.5*p1*2*.8+14,11);
+  cx.fillStyle=C.ink;cx.fillRect(bx+40,mid-A*.9-0,22,bh*.5*p2*2*.8);txt(cx,IT(p2*100,2)+'%',bx+51,mid-A*.9+bh*.5*p2*2*.8+14,11);
+  txt(cx,'fase: '+IT(phi,3)+' rad',bx+31,h-50,11,C.muted);
+  txt(cx,Kg>1?'(ingr. ×'+SCI(Kg)+')':'(reale)',bx+31,h-36,11,C.muted)})}
 
 requestAnimationFrame(loop);
 })();
