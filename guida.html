@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>QUPLAS: capire l'esperimento</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* VOICE: spiegazione paziente ma rigorosa, un'idea per sezione
+   IDEA: sei domande in fila (perché, quanto è difficile, come si produce, come si misura, quanti dati, a cosa serve), ognuna con la sua animazione
+   COLOUR and TYPE: come index.html: alluminio, nero, arancio #ff4f00 per Ps; Geist */
+:root{color-scheme:light dark;--bg:light-dark(#e9eaec,#141517);--panel:light-dark(#f7f7f8,#1c1e21);--ink:light-dark(#121314,#ececee);--muted:light-dark(#585c63,#9da2aa);--line:light-dark(#c8cace,#34373c);--acc:#ff4f00;--el:light-dark(#1f5fbf,#6ea8ff);--track:light-dark(#dcdee1,#2a2d31)}
+*{box-sizing:border-box;min-width:0}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 Geist,system-ui,sans-serif;overflow-x:clip}
+.band{padding:clamp(24px,4vw,56px) max(5vw,16px)}
+.wrap{max-width:1100px;margin:0 auto}
+h1{font-size:clamp(30px,4.4vw,48px);line-height:1.05;font-weight:600;margin:0 0 12px;text-wrap:balance;letter-spacing:-.01em}
+h2{font-size:clamp(22px,2.6vw,30px);line-height:1.15;font-weight:600;margin:6px 0 12px;text-wrap:balance}
+h3{font-size:17px;margin:18px 0 6px}
+p{margin:0 0 12px;max-width:68ch}
+.lede{color:var(--muted);font-size:18px}
+.note{font-size:13px;color:var(--muted)}
+.k{font-weight:600}
+.num{display:inline-grid;place-items:center;width:30px;height:30px;border-radius:50%;background:var(--ink);color:var(--bg);font-weight:600;font-size:15px;flex:none}
+nav ol{list-style:none;margin:20px 0 0;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:4px 24px}
+@media(max-width:760px){nav ol{grid-template-columns:minmax(0,1fr)}}
+nav a{display:flex;gap:10px;align-items:center;color:var(--ink);text-decoration:none;min-height:44px}
+nav a:hover span:last-child{text-decoration:underline}
+section.q{padding-top:clamp(28px,4vw,48px);border-top:1px solid var(--line);margin-top:clamp(28px,4vw,48px);display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.25fr);gap:28px;align-items:start}
+@media(max-width:900px){section.q{grid-template-columns:minmax(0,1fr)}}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:clamp(14px,2.2vw,24px)}
+.box{border-left:3px solid var(--acc);padding:2px 0 2px 14px;margin:14px 0}
+canvas{display:block;width:100%;border-radius:6px}
+.btns{display:flex;flex-wrap:wrap;gap:6px;margin:2px 0 10px}
+button{font:inherit;font-size:14px;min-height:44px;padding:0 14px;border-radius:8px;border:1px solid var(--line);background:var(--bg);color:var(--ink);cursor:pointer}
+button[aria-pressed=true]{border-color:var(--acc);box-shadow:inset 0 0 0 1px var(--acc)}
+button:disabled{opacity:.5;cursor:default}
+button:focus-visible,a:focus-visible,input:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
+.ctl{padding:2px 0}
+.ctl label{display:flex;justify-content:space-between;gap:10px;font-size:14px}
+.ctl output{font-variant-numeric:tabular-nums;white-space:nowrap;font-weight:500}
+input[type=range]{width:100%;height:40px;margin:0;accent-color:var(--acc);background:transparent}
+.cmp{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px;margin:8px 0}
+.cmp div{border:1px solid var(--line);border-radius:8px;padding:10px 12px}
+.cmp b{display:block;font-size:22px;font-variant-numeric:tabular-nums;white-space:nowrap}
+.cmp span{font-size:13px;color:var(--muted)}
+.cap{min-height:4.8em;margin:10px 0 0}
+table{border-collapse:collapse;width:100%;font-size:15px;margin:8px 0}
+th,td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-weight:600}
+.tl{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;margin:10px 0}
+.tl div{border:1px solid var(--line);border-radius:8px;padding:12px}
+.tl div.now{border-color:var(--acc);box-shadow:inset 0 0 0 1px var(--acc)}
+.tl b{display:block;margin-bottom:4px}
+dl{margin:0}dt{font-weight:600;margin-top:10px}dd{margin:0;color:var(--muted);max-width:68ch}
+a.back{color:var(--ink)}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+<header class="band" style="padding-bottom:0"><div class="wrap">
+<h1>Capire QUPLAS: perché pesare l'antimateria è così difficile</h1>
+<p class="lede">L'obiettivo finale è misurare, per la prima volta, come cade un atomo di positronio (un elettrone e la sua antiparticella, il positrone). Sei domande in ordine, ognuna con un'animazione che puoi manovrare.</p>
+<nav aria-label="Indice"><ol>
+<li><a href="#d1"><span class="num">1</span><span>Che cosa vogliamo sapere?</span></a></li>
+<li><a href="#d2"><span class="num">2</span><span>Perché è così difficile?</span></a></li>
+<li><a href="#d3"><span class="num">3</span><span>Come si produce un fascio neutro?</span></a></li>
+<li><a href="#d4"><span class="num">4</span><span>Come si misura la caduta?</span></a></li>
+<li><a href="#d5"><span class="num">5</span><span>Perché servono tanti atomi?</span></a></li>
+<li><a href="#d6"><span class="num">6</span><span>A che cosa serve alla fine?</span></a></li>
+</ol></nav>
+<p class="note" style="margin-top:14px"><a class="back" href="index.html">← Le tre proposte per il fascio</a> · <a class="back" href="interferenza.html">Simulazione QUPLAS-0 (Como 2019)</a></p>
+</div></header>
+
+<main class="band" style="padding-top:0"><div class="wrap">
+
+<!-- 1 -->
+<section class="q" id="d1">
+<div><span class="num">1</span>
+<h2>Che cosa vogliamo sapere?</h2>
+<p><span class="k">Il principio.</span> La relatività generale si fonda sul <i>principio di equivalenza</i>: nello stesso campo gravitazionale tutti i corpi cadono con la stessa accelerazione, qualunque sia la loro composizione. È stato verificato con grande precisione sulla materia ordinaria.</p>
+<p><span class="k">Il buco.</span> Sull'antimateria le misure dirette sono pochissime. Non c'è motivo teorico forte per aspettarsi una differenza, ma nemmeno una prova diretta che non ci sia. Se l'antimateria cadesse in modo diverso, servirebbe una fisica nuova.</p>
+<p><span class="k">Perché il positronio.</span> È un atomo fatto solo di leptoni (elettrone + positrone), senza quark. Gli esperimenti con antidrogeno testano un'antimateria fatta di quark; il positronio ne testa un'altra, di tipo diverso. Sono prove complementari.</p>
+<div class="box"><span class="k">Domanda dell'esperimento:</span> quanto vale g<sub>Ps</sub>, l'accelerazione di caduta del positronio, rispetto a g = 9,81 m/s²?</div>
+</div>
+<div class="panel">
+<div class="btns" id="h1btns" role="group" aria-label="Ipotesi">
+<button data-r="1" aria-pressed="true">Cade come la materia (g)</button>
+<button data-r="0.5">Cade più piano (g/2)</button>
+<button data-r="-1">Antigravità (−g)</button>
+</div>
+<canvas id="c1" height="260" role="img" aria-label="Due palline cadono: una di materia e una di antimateria, secondo l'ipotesi scelta"></canvas>
+<p class="cap" id="t1"></p>
+<p class="note">Schema concettuale: la distanza verticale è proporzionale a ½·g·t². Non si misura con una pallina, ma il confronto è lo stesso.</p>
+</div>
+</section>
+
+<!-- 2 -->
+<section class="q" id="d2">
+<div><span class="num">2</span>
+<h2>Perché è così difficile?</h2>
+<p><span class="k">La gravità è debolissima.</span> In un microsecondo un atomo cade di circa 5 picometri, cioè un ventesimo del diametro di un atomo. Nessun rivelatore vede una deviazione così piccola direttamente.</p>
+<p><span class="k">Le cariche sono un disastro.</span> Il peso di un positrone vale circa 9×10⁻³⁰ N. Basta un campo elettrico parassita di circa 56 pV/m (picovolt al metro) per eguagliarlo, e nessuna camera sotto vuoto è così pulita. Un positrone carico viene spostato da campi che non si vedono e non si possono schermare del tutto.</p>
+<p><span class="k">Soluzione.</span> Usare una particella <b>neutra</b>: il positronio (Ps) non ha carica totale e ignora i campi uniformi. Il prezzo è che bisogna fabbricarlo e che è instabile (si annichila in 142 ns per l'orto-Ps, 479 ps per lo ione Ps⁻).</p>
+</div>
+<div class="panel">
+<canvas id="c2" height="250" role="img" aria-label="Un positrone carico e un positronio neutro volano in presenza di un campo elettrico parassita"></canvas>
+<div class="ctl"><label for="s2t">Tempo di volo <output id="o2t"></output></label><input id="s2t" type="range" min="0.1" max="2" step="0.1" value="1"></div>
+<div class="ctl"><label for="s2e">Campo elettrico parassita <output id="o2e"></output></label><input id="s2e" type="range" min="0" max="200" step="5" value="100"></div>
+<div class="cmp">
+<div><b id="r2g">–</b><span>caduta per gravità</span></div>
+<div><b id="r2a">–</b><span>del diametro di un atomo (≈100 pm)</span></div>
+<div><b id="r2e">–</b><span>spostamento di un e⁺ per il campo</span></div>
+<div><b id="r2x">–</b><span>campo / gravità, sul positrone</span></div>
+</div>
+<p class="note">Nel disegno la caduta per gravità vale sempre 12 pixel; il positrone carico è spostato in proporzione (ridotto al bordo se esce). Valori: g = 9,81 m/s², ½·g·t² e ½·(eE/m)·t².</p>
+</div>
+</section>
+
+<!-- 3 -->
+<section class="q" id="d3">
+<div><span class="num">3</span>
+<h2>Come si produce un fascio di Ps?</h2>
+<p>Il Ps neutro non si può accelerare né guidare con campi elettrici. L'idea di QUPLAS è passare da una forma <b>carica</b> e poi neutralizzarla:</p>
+<ol style="max-width:62ch;padding-left:20px">
+<li>Un fascio di <b>positroni (e⁺)</b> colpisce un convertitore di tungsteno e sodio.</li>
+<li>Alcuni positroni escono come <b>Ps⁻</b> (un positrone con due elettroni): è carico, quindi si può accelerare e guidare.</li>
+<li>Una <b>cavità laser</b> da circa 200 kW strappa l'elettrone in più (fotodistacco) e lascia <b>Ps neutro</b>.</li>
+<li>Il Ps neutro entra nell'interferometro.</li>
+</ol>
+<p><span class="k">Il collo di bottiglia.</span> Ogni passaggio perde particelle. Con le efficienze dell'articolo, un positrone moderato diventa circa 0,001 Ps. È questo il motivo per cui le tre proposte della pagina principale parlano di flusso.</p>
+</div>
+<div class="panel">
+<div class="btns"><button id="a3p" aria-pressed="true">Pausa</button><button id="a3t">Segui 1 positrone</button></div>
+<canvas id="c3" height="240" role="img" aria-label="Animazione della linea di fascio: e+, Ps−, Ps"></canvas>
+<p class="cap" id="t3">Premi «Segui 1 positrone» per accompagnare una particella lungo la linea, oppure aspetta: le altre mostrano le perdite.</p>
+<div class="cmp">
+<div><b id="n3e">0</b><span>e⁺ emessi</span></div>
+<div><b id="n3c">0</b><span>convertiti in Ps⁻</span></div>
+<div><b id="n3p">0</b><span>Ps neutri</span></div>
+<div><b id="n3d">0</b><span>rivelati</span></div>
+</div>
+<p class="note">Rese illustrative (55%, 80%, 65%), non quelle dell'articolo: servono a mostrare le perdite.</p>
+</div>
+</section>
+
+<!-- 4 -->
+<section class="q" id="d4">
+<div><span class="num">4</span>
+<h2>Come si misura una caduta di picometri?</h2>
+<p><span class="k">Con un interferometro di Talbot-Lau.</span> Il Ps attraversa tre reticoli con fenditure periodiche. Come onda di de Broglie passa da più fenditure insieme e, sul rivelatore, produce <b>frange</b> con un passo preciso, uguale a quello dei reticoli.</p>
+<p><span class="k">La gravità sposta le frange.</span> Durante il volo il Ps cade, e l'intero disegno di frange si sposta in giù. Misurare lo spostamento <i>rispetto al periodo</i> è molto più facile che vedere una caduta assoluta: si confronta la posizione delle frange con e senza gravità (o con il fascio in verticale, o a tempi di volo diversi).</p>
+<div class="box">Spostamento ≈ g·T² dove T = L/v è il tempo tra due reticoli. Fase = 2π·g·T²/d, con d il passo dei reticoli.</div>
+<p>Per questo contano così tanto la <b>velocità</b>, la <b>distanza</b> e il <b>passo</b>: rendono la caduta più grande rispetto alla frangia. Con valori realistici la frazione resta minuscola: lo vedi nelle cifre qui accanto.</p>
+</div>
+<div class="panel">
+<canvas id="c4" height="300" role="img" aria-label="Positronio attraverso tre reticoli, e frange sul rivelatore spostate dalla gravità"></canvas>
+<div class="btns" style="margin-top:8px"><button id="m4" aria-pressed="true">Ingrandisci lo spostamento per vederlo</button></div>
+<div class="ctl"><label for="s4g">g del positronio rispetto a g <output id="o4g"></output></label><input id="s4g" type="range" min="-1" max="2" step="0.25" value="1"></div>
+<div class="ctl"><label for="s4v">Velocità del Ps <output id="o4v"></output></label><input id="s4v" type="range" min="50" max="1000" step="10" value="200"></div>
+<div class="ctl"><label for="s4l">Distanza tra reticoli <output id="o4l"></output></label><input id="s4l" type="range" min="2" max="40" step="1" value="10"></div>
+<div class="ctl"><label for="s4d">Passo dei reticoli d <output id="o4d"></output></label><input id="s4d" type="range" min="0.2" max="8" step="0.1" value="1"></div>
+<div class="cmp">
+<div><b id="r4t">–</b><span>tempo T tra due reticoli</span></div>
+<div><b id="r4s">–</b><span>spostamento reale g·T²</span></div>
+<div><b id="r4f">–</b><span>periodi di frangia (frazione)</span></div>
+<div><b id="r4k">–</b><span>ingrandimento nel disegno</span></div>
+</div>
+<p class="note">Velocità, distanze e passi sono valori illustrativi per capire le dipendenze, non il progetto di QUPLAS.</p>
+</div>
+</section>
+
+<!-- 5 -->
+<section class="q" id="d5">
+<div><span class="num">5</span>
+<h2>Perché servono tanti atomi?</h2>
+<p>Ogni Ps arriva come <b>un solo punto</b>, in un posto casuale: la probabilità segue le frange, ma un singolo punto non dice nulla. Solo accumulando molti eventi la posizione delle frange emerge dal rumore statistico.</p>
+<p>L'incertezza sulla fase delle frange scende come l'inverso della radice del numero di eventi:</p>
+<div class="box">σ<sub>φ</sub> ≈ √2 / (C·√N) &nbsp; (C = contrasto delle frange, N = eventi)</div>
+<p>Per dimezzare l'errore servono quattro volte più dati. La fase da misurare con la gravità è piccolissima (vedi sezione 4), quindi N diventa enorme: il calcolo della pagina principale dice che per misurare g al 10% in 11 mesi servirebbero circa 5×10⁷ Ps al secondo. Qui la fase è ingrandita, così vedi il meccanismo in pochi secondi.</p>
+</div>
+<div class="panel">
+<div class="btns"><button id="a5p" aria-pressed="true">Pausa</button><button id="a5r">Ricomincia</button></div>
+<canvas id="c5" height="280" role="img" aria-label="Istogramma delle posizioni di arrivo con stima della fase delle frange e incertezza"></canvas>
+<div class="ctl"><label for="s5f">Fase vera (spostamento dovuto alla gravità) <output id="o5f"></output></label><input id="s5f" type="range" min="0" max="1.5" step="0.05" value="0.6"></div>
+<div class="ctl"><label for="s5c">Contrasto delle frange C <output id="o5c"></output></label><input id="s5c" type="range" min="0.1" max="1" step="0.05" value="0.8"></div>
+<div class="ctl"><label for="s5s">Eventi al secondo (animazione) <output id="o5s"></output></label><input id="s5s" type="range" min="1" max="400" step="1" value="40"></div>
+<div class="cmp">
+<div><b id="r5n">0</b><span>Ps rivelati</span></div>
+<div><b id="r5e">–</b><span>fase stimata</span></div>
+<div><b id="r5s">–</b><span>incertezza σ<sub>φ</sub></span></div>
+<div><b id="r5g">–</b><span>g stimato / g</span></div>
+</div>
+<p class="note">La linea tratteggiata è la fase vera. La banda arancio è la fase stimata ± σ. Quando la banda è molto più stretta della fase, la misura è significativa. Con contrasto basso, o poca statistica, la banda copre anche lo zero: non si distingue «cade come g» da «non cade».</p>
+</div>
+</section>
+
+<!-- 6 -->
+<section class="q" id="d6">
+<div><span class="num">6</span>
+<h2>A che cosa serve alla fine?</h2>
+<p>Il risultato è un numero: g<sub>Ps</sub>/g, con la sua incertezza. Che cosa possiamo concludere dipende da dove cade.</p>
+<table>
+<tr><th>Risultato</th><th>Significato</th></tr>
+<tr><td>g<sub>Ps</sub> ≈ g (entro l'errore)</td><td>Il principio di equivalenza regge anche per questa antimateria leptonica. Un test in più, con un sistema che nessun altro esperimento usa.</td></tr>
+<tr><td>g<sub>Ps</sub> ≠ g</td><td>Violazione del principio di equivalenza: fisica oltre la relatività generale e il Modello Standard.</td></tr>
+<tr><td>g<sub>Ps</sub> ≈ −g</td><td>Antigravità. Molto improbabile (altri argomenti e misure la sfavoriscono), ma è ciò che la misura distinguerebbe senza ambiguità.</td></tr>
+<tr><td>Incertezza grande</td><td>Non si conclude: ecco perché le pagine su flusso ed efficienza contano.</td></tr>
+</table>
+<p>Ricadute oltre il singolo numero: una <b>sorgente di Ps continua e neutra</b> e un interferometro per atomi instabili sono strumenti nuovi. Servono anche a misure di precisione sul positronio e a studiare l'interferenza di particelle composte matter/antimatter.</p>
+</div>
+<div class="panel">
+<h3 style="margin-top:0">Dove siamo nel percorso</h3>
+<div class="tl">
+<div><b>2019 · QUPLAS-0</b>Prima interferenza di singoli positroni (carichi) a Como, con prova quantistica dal contrasto in funzione dell'energia.</div>
+<div class="now"><b>Ora · il fascio di Ps</b>Convertire e⁺ → Ps⁻ → Ps con la cavità laser. Il flusso è il problema: vedi le tre proposte.</div>
+<div><b>Poi · interferometria di Ps</b>Passare il Ps neutro nell'interferometro e verificare le frange.</div>
+<div><b>Obiettivo · g<sub>Ps</sub></b>Misurare lo spostamento gravitazionale delle frange con incertezza utile.</div>
+</div>
+<h3>Glossario</h3>
+<dl>
+<dt>Positrone (e⁺)</dt><dd>Antiparticella dell'elettrone, stessa massa e carica opposta.</dd>
+<dt>Positronio (Ps)</dt><dd>Atomo di un elettrone e un positrone. Instabile: si annichila in fotoni.</dd>
+<dt>Ps⁻</dt><dd>Ione negativo: un positrone e due elettroni. Vive 479 ps.</dd>
+<dt>Fotodistacco</dt><dd>Un fotone del laser strappa l'elettrone in più dal Ps⁻.</dd>
+<dt>Talbot-Lau</dt><dd>Interferometro con reticoli che funziona anche con fasci poco coerenti e produce frange con il passo dei reticoli.</dd>
+<dt>Principio di equivalenza</dt><dd>Tutti i corpi cadono con la stessa accelerazione nello stesso campo gravitazionale.</dd>
+</dl>
+</div>
+</section>
+
+</div></main>
+
+<script>
+(()=>{
+const $=id=>document.getElementById(id);
+const IT=(x,d=1)=>x.toLocaleString('it-IT',{maximumFractionDigits:d,minimumFractionDigits:d});
+const SCI=x=>{if(x===0)return'0';const e=Math.floor(Math.log10(Math.abs(x)));const m=x/10**e;return IT(m,1)+'×10'+String(e).replace(/-/g,'⁻').replace(/\d/g,c=>'⁰¹²³⁴⁵⁶⁷⁸⁹'[c])};
+// colori letti dal tema
+const probe={};for(const k of['ink','muted','acc','el','line','panel','bg']){const d=document.createElement('i');d.style.cssText='position:absolute;visibility:hidden;color:var(--'+k+')';document.body.appendChild(d);probe[k]=d}
+const C={};const readC=()=>{for(const k in probe)C[k]=getComputedStyle(probe[k]).color};readC();
+matchMedia('(prefers-color-scheme: dark)').addEventListener('change',readC);
+const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+const FONT='Geist,system-ui,sans-serif';
+const G=9.81,ME=9.109e-31,QE=1.602e-19;
+
+// canvas helper: dimensione, dpr, visibilità
+const cvs=[];
+function mk(id,draw){const cv=$(id),o={cv,cx:cv.getContext('2d'),w:0,h:0,vis:true,draw};
+ const fit=()=>{const r=cv.getBoundingClientRect(),d=Math.min(devicePixelRatio||1,2);o.w=r.width;o.h=r.height;cv.width=r.width*d;cv.height=r.height*d;o.dpr=d};
+ fit();new ResizeObserver(fit).observe(cv);
+ new IntersectionObserver(e=>{o.vis=e[0].isIntersecting}).observe(cv);cvs.push(o);return o}
+let last=0,frameN=0;
+function loop(ts){if(!last)last=ts;const dt=Math.min(.05,(ts-last)/1000);last=ts;if(frameN++%60===0)readC();
+ for(const o of cvs){if(!o.vis)continue;o.cx.setTransform(o.dpr,0,0,o.dpr,0,0);o.cx.clearRect(0,0,o.w,o.h);o.draw(o,o.cx,dt)}requestAnimationFrame(loop)}
+const txt=(cx,s,x,y,size=13,col=C.muted,al='center')=>{cx.fillStyle=col;cx.font=size+'px '+FONT;cx.textAlign=al;cx.fillText(s,x,y)};
+const dot=(cx,x,y,r,col)=>{cx.fillStyle=col;cx.beginPath();cx.arc(x,y,r,0,7);cx.fill()};
+
+/* ---------- 1: caduta ---------- */
+{let r=1,t=0;const hold=1.2;
+const T1={'1':'<b>Principio di equivalenza:</b> materia e antimateria cadono insieme. È ciò che si aspetta la relatività generale e che nessuna misura diretta ha mai contraddetto.','0.5':'<b>Antimateria più «leggera» nel peso:</b> cadrebbe più lentamente. Sarebbe una violazione del principio di equivalenza.','-1':'<b>Antigravità:</b> l\'antimateria sarebbe respinta. Ipotesi molto sfavorita, ma una misura diretta la esclude senza ambiguità.'};
+const set=v=>{r=v;t=0;$('t1').innerHTML=T1[v];[...$('h1btns').children].forEach(b=>b.setAttribute('aria-pressed',b.dataset.r==v))};
+$('h1btns').onclick=e=>{const b=e.target.closest('button');if(b)set(b.dataset.r)};set('1');
+mk('c1',(o,cx,dt)=>{const{w,h}=o;t+=dt*(reduce?0:1);const dur=2.2,cyc=dur+hold*2;const tt=t%cyc;const p=Math.min(1,Math.max(0,(tt-.4)/dur));const top=36,bot=h-34,span=bot-top;
+ const xs=[w*.3,w*.7],cols=[C.ink,C.acc],names=['Materia','Antimateria (Ps)'],rr=[1,Number(r)];
+ cx.strokeStyle=C.line;cx.lineWidth=1.5;cx.beginPath();cx.moveTo(18,bot+8);cx.lineTo(w-18,bot+8);cx.stroke();txt(cx,'suolo',w-34,bot+24,12);
+ xs.forEach((x,i)=>{
+  let y;if(rr[i]>0)y=top+Math.min(span,rr[i]*p*p*span);else y=(top+span*.5)-p*p*span*.5;
+  cx.strokeStyle=C.line;cx.setLineDash([3,5]);cx.beginPath();cx.moveTo(x,top);cx.lineTo(x,bot);cx.stroke();cx.setLineDash([]);
+  if(i===1&&rr[i]<0)dot(cx,x,top+span*.5,8,C.line);
+  dot(cx,x,y,i?9:9,cols[i]);if(i)dot(cx,x,y,3,C.bg);
+  txt(cx,names[i],x,22,14,C.ink);
+  if(rr[i]<0&&p>0)txt(cx,'↑',x+22,y+5,20,C.acc)});
+ txt(cx,rr[1]===1?'cadono insieme':rr[1]>0?'l\'antimateria è in ritardo':'l\'antimateria sale',w/2,h-8,13,C.ink)})}
+
+/* ---------- 2: gravità vs campo ---------- */
+{const rd=()=>{const t=$('s2t').value*1e-6,E=$('s2e').value*1e-12;
+ const yg=.5*G*t*t,ye=.5*(QE*E/ME)*t*t;
+ $('o2t').textContent=IT($('s2t').value,1)+' µs';$('o2e').textContent=$('s2e').value+' pV/m';
+ $('r2g').textContent=IT(yg*1e12,1)+' pm';$('r2a').textContent=IT(yg*1e12,0)+'%';
+ $('r2e').textContent=ye>=1e-9?IT(ye*1e9,1)+' nm':IT(ye*1e12,1)+' pm';
+ $('r2x').textContent=E>0?'×'+IT(ye/yg,1):'0';return ye/yg};
+['s2t','s2e'].forEach(i=>$(i).oninput=rd);rd();let ph=0;
+mk('c2',(o,cx,dt)=>{const{w,h}=o;ph=(ph+dt*(reduce?0:.35))%1.6;const q=rd(),x0=60,x1=w-30;
+ [[h*.28,'Positrone carico (e⁺)',C.ink,q],[h*.72,'Positronio neutro (Ps)',C.acc,0]].forEach(([y,name,col,ratio])=>{
+  txt(cx,name,x0,y-52,14,C.ink,'left');
+  cx.strokeStyle=C.line;cx.setLineDash([3,5]);cx.beginPath();cx.moveTo(x0,y);cx.lineTo(x1,y);cx.stroke();cx.setLineDash([]);
+  const p=Math.min(1,ph),cap=h*.17;
+  const off=u=>{let d=(12+ (ratio?ratio*12:0))*u*u;if(ratio)d=Math.min(cap,12*ratio*u*u+12*u*u);else d=12*u*u;return d};
+  cx.strokeStyle=col;cx.globalAlpha=.4;cx.lineWidth=2;cx.beginPath();for(let k=0;k<=40;k++){const u=k/40,X=x0+(x1-x0)*u,Y=y+off(u);k?cx.lineTo(X,Y):cx.moveTo(X,Y)}cx.stroke();cx.globalAlpha=1;
+  dot(cx,x0+(x1-x0)*p,y+off(p),7,col);
+  if(ratio&&12*ratio*1+12>cap)txt(cx,'fuori scala →',x1-6,y+cap+14,12,C.acc,'right')});
+ txt(cx,'il Ps neutro devia solo per la gravità',w-6,h*.72-52,12,C.muted,'right')})}
+
+/* ---------- 3: catena ---------- */
+{const ST=[
+ {l:.07,t:'<b>Sorgente.</b> I positroni, rallentati, formano un fascio a bassa energia diretto al convertitore.'},
+ {l:.27,t:'<b>Convertitore W + Na.</b> Un positrone può catturare due elettroni e diventare Ps⁻, uno ione negativo che si può accelerare e guidare. Molti positroni non si convertono: prima grande perdita.'},
+ {l:.50,t:'<b>Cavità laser.</b> Il Ps⁻ vive 479 ps: il laser strappa l\'elettrone in più e lascia Ps neutro. L\'elettrone esce di lato.'},
+ {l:.72,t:'<b>Interferometro.</b> Il Ps è neutro, insensibile ai campi elettrici sparsi, e attraversa i reticoli come un\'onda.'},
+ {l:.93,t:'<b>Rivelatore.</b> Ogni Ps lascia un punto. Se la gravità lo sposta, le frange si spostano.'}];
+const S={play:true,parts:[],fx:[],dets:[],acc:0,tr:null,e:0,c:0,p:0,d:0};
+const spawn=t=>{const p={x:.07,y:0,k:'e',tr:t,f:1,wc:t||Math.random()<.55,ws:t||Math.random()<.8,wd:t||Math.random()<.65,yt:.15+Math.random()*.7,dc:0,dl:0};S.e++;S.parts.push(p);if(t)S.tr=p};
+const cap=h=>$('t3').innerHTML=h;
+const kill=(p,w)=>{p.k='x';p.why=w;if(w==='a'){S.fx.push({t:'g',x:p.x,d:-1,l:1},{t:'g',x:p.x,d:1,l:1})}};
+function trCap(){const t=S.tr;if(!t)return;if(t.k==='x'){cap(t.why==='c'?'<b>Non convertito:</b> il positrone seguito si è annichilato nel convertitore.':t.why==='a'?'<b>Decaduto:</b> il Ps⁻ è annichilato prima di raggiungere il laser.':'<b>Perso:</b> il Ps⁻ non è stato neutralizzato.');return}
+ let i=0;ST.forEach((s,j)=>{if(t.x>=s.l-.07)i=j});if(t.k==='p'&&i<3)i=3;cap('<span class="note">Seguito: '+({e:'positrone',m:'ione Ps⁻',p:'positronio neutro'})[t.k]+'</span><br>'+ST[i].t)}
+const done=ok=>{if(ok)cap('<b>Arrivato al rivelatore.</b> Un singolo Ps. Per misurare la gravità ne servono moltissimi (sezione 5).');S.tr=null;$('a3t').disabled=false};
+$('a3p').onclick=()=>{S.play=!S.play;$('a3p').textContent=S.play?'Pausa':'Avvia';$('a3p').setAttribute('aria-pressed',S.play)};
+$('a3t').onclick=()=>{if(!S.play)$('a3p').click();spawn(true);$('a3t').disabled=true;trCap()};
+if(reduce){S.play=false;$('a3p').textContent='Avvia';$('a3p').setAttribute('aria-pressed',false)}
+mk('c3',(o,cx,dt)=>{const{w,h}=o,ay=h*.5,X=n=>n*w;
+ if(S.play){S.acc+=dt*3.2;while(S.acc>=1){S.acc--;spawn(false)}
+ for(let i=S.parts.length-1;i>=0;i--){const p=S.parts[i];if(!p.y)p.y=ay;
+  if(p.k==='x'){p.f-=dt*1.6;if(p.f<=0){if(S.tr===p)done();S.parts.splice(i,1)}continue}
+  p.x+=(p.k==='e'?.16:p.k==='m'?.12:.15)*dt*(p.tr?.8:1);
+  if(p.k==='e'&&!p.dc&&p.x>=.27){p.dc=1;if(p.wc){p.k='m';S.c++;S.fx.push({t:'f',x:.27,y:p.y,l:1})}else{kill(p,'c');S.fx.push({t:'f',x:.27,y:p.y,l:1});continue}}
+  if(p.k==='m'&&!p.ws&&p.x>=.385){kill(p,'a');continue}
+  if(p.k==='m'&&!p.dl&&p.x>=.5){p.dl=1;if(p.wd){p.k='p';S.p++;S.fx.push({t:'e',x:.5,y:p.y,d:Math.random()<.5?-1:1,l:1})}else{kill(p,'l');continue}}
+  if(p.k==='p'&&p.x>.78){const t=Math.min(1,(p.x-.78)/.15);p.y=ay+(p.yt-.5)*h*.7*t}
+  if(p.x>=.93){S.d++;S.dets.push({y:p.y,l:1});if(S.dets.length>50)S.dets.shift();if(S.tr===p)done(true);S.parts.splice(i,1)}}
+ for(let i=S.fx.length-1;i>=0;i--){const f=S.fx[i];f.l-=dt*(f.t==='f'?2.2:1.1);if(f.t==='e'){f.y+=f.d*dt*70}if(f.l<=0)S.fx.splice(i,1)}
+ for(let i=S.dets.length-1;i>=0;i--){S.dets[i].l-=dt*.35;if(S.dets[i].l<=0)S.dets.splice(i,1)}
+ $('n3e').textContent=S.e;$('n3c').textContent=S.c;$('n3p').textContent=S.p;$('n3d').textContent=S.d;if(S.tr)trCap()}
+ cx.strokeStyle=C.line;cx.lineWidth=1.5;cx.setLineDash([4,6]);cx.beginPath();cx.moveTo(X(.07),ay);cx.lineTo(X(.93),ay);cx.stroke();cx.setLineDash([]);
+ dot(cx,X(.07),ay,16,C.ink);txt(cx,'e⁺',X(.07),ay+5,15,C.bg);
+ cx.fillStyle=C.muted;cx.fillRect(X(.27)-4,ay-h*.2,8,h*.4);
+ cx.globalAlpha=.25;cx.fillStyle=C.acc;cx.fillRect(X(.5)-13,h*.08,26,h*.66);cx.globalAlpha=1;
+ cx.strokeStyle=C.ink;cx.lineWidth=5;cx.beginPath();cx.moveTo(X(.5)-26,h*.06);cx.quadraticCurveTo(X(.5),h*.01,X(.5)+26,h*.06);cx.moveTo(X(.5)-26,h*.76);cx.quadraticCurveTo(X(.5),h*.81,X(.5)+26,h*.76);cx.stroke();
+ cx.lineWidth=3;[.66,.72,.78].forEach(g=>{for(let k=0;k<9;k++){const s=h*.16+k*(h*.62/9);cx.beginPath();cx.moveTo(X(g),s);cx.lineTo(X(g),s+h*.62/9*.56);cx.stroke()}});
+ cx.fillStyle=C.ink;cx.fillRect(X(.93)+10,h*.1,8,h*.68);S.dets.forEach(d=>{cx.globalAlpha=d.l;dot(cx,X(.93)+14,d.y,2.6,C.acc)});cx.globalAlpha=1;
+ [['Sorgente',.07],['W + Na',.27],['Cavità laser',.5],['Interferometro',.72]].forEach(([s,n])=>txt(cx,s,X(n),h-8,13));txt(cx,'Rivelatore',X(.93)-4,h-8,13);
+ txt(cx,'e⁺',X(.17),ay-50,13);txt(cx,'Ps⁻',X(.385),ay-50,13);txt(cx,'Ps',X(.62),ay-50,13);
+ S.parts.forEach(p=>{const px=X(p.x),y=p.y||ay,b=p.tr?1.5:1;cx.save();cx.globalAlpha=p.k==='x'?Math.max(0,p.f)*.6:1;
+  if(p.k==='e')dot(cx,px,y,4*b,C.ink);
+  else if(p.k==='m'){cx.strokeStyle=C.ink;cx.lineWidth=2;dot(cx,px,y,6*b,C.el);cx.beginPath();cx.arc(px,y,6*b,0,7);cx.stroke()}
+  else if(p.k==='p'){dot(cx,px,y,5*b,C.acc);if(p.x>.66){cx.strokeStyle=C.acc;cx.globalAlpha=.4;cx.lineWidth=1;for(let k=1;k<3;k++){cx.beginPath();cx.arc(px,y,5*b+k*5,0,7);cx.stroke()}}}
+  else dot(cx,px,y,4*b,C.muted);
+  if(p.tr&&p.k!=='x'){cx.globalAlpha=1;cx.strokeStyle=C.ink;cx.lineWidth=1;cx.setLineDash([2,3]);cx.beginPath();cx.arc(px,y,12,0,7);cx.stroke()}cx.restore()});
+ S.fx.forEach(f=>{cx.save();const a=Math.max(0,f.l);cx.globalAlpha=a;
+  if(f.t==='f')dot(cx,X(f.x),f.y,24*(1.2-a*.5),C.acc);
+  else if(f.t==='e'){dot(cx,X(f.x)+(1-a)*18,f.y,3,C.el);txt(cx,'e⁻',X(f.x)+(1-a)*18+8,f.y+4,12,C.el,'left')}
+  else{cx.strokeStyle=C.acc;cx.lineWidth=1.5;cx.beginPath();const bx=X(f.x),by=ay;for(let k=0;k<=14;k++){const q=bx+f.d*(k*2.2+(1-a)*50),r=by-k*1.1-(1-a)*30+Math.sin(k*1.4)*2.2;k?cx.lineTo(q,r):cx.moveTo(q,r)}cx.stroke()}cx.restore()})})}
+
+/* ---------- 4: Talbot-Lau e fase ---------- */
+{const rd=()=>{const g=+$('s4g').value,v=$('s4v').value*1e3,L=$('s4l').value*1e-2,d=$('s4d').value*1e-6;
+ const T=L/v,sh=g*G*T*T,fr=sh/d;
+ $('o4g').textContent=IT(g,2)+'×';$('o4v').textContent=IT(v/1e3,0)+' km/s';$('o4l').textContent=IT(L*100,0)+' cm';$('o4d').textContent=IT(d*1e6,1)+' µm';
+ $('r4t').textContent=IT(T*1e6,2)+' µs';$('r4s').textContent=(Math.abs(sh)<1e-9?IT(sh*1e12,1)+' pm':IT(sh*1e9,2)+' nm');
+ $('r4f').textContent=SCI(Math.abs(fr));
+ const mag=$('m4').getAttribute('aria-pressed')==='true';const K=mag&&g!==0?.25/Math.abs(fr):1;
+ $('r4k').textContent=mag?(g===0?'–':'×'+SCI(K)):'nessuno';return{fr,K,g}};
+['s4g','s4v','s4l','s4d'].forEach(i=>$(i).oninput=rd);
+$('m4').onclick=()=>{$('m4').setAttribute('aria-pressed',$('m4').getAttribute('aria-pressed')!=='true');rd()};rd();let ph=0;
+mk('c4',(o,cx,dt)=>{const{w,h}=o;ph=(ph+dt*(reduce?0:.45))%1.3;const{fr,K,g}=rd();
+ const ay=h*.5,bx0=14,gx=[w*.2,w*.35,w*.5],detX=w*.64,fx0=w*.72;
+ const vis=fr*K;                       // spostamento in periodi, ingrandito
+ const per=h*.22;                      // periodo visivo delle frange
+ cx.strokeStyle=C.line;cx.lineWidth=1.5;cx.setLineDash([4,6]);cx.beginPath();cx.moveTo(bx0,ay);cx.lineTo(detX,ay);cx.stroke();cx.setLineDash([]);
+ txt(cx,'Ps',bx0+4,ay-14,13,C.acc,'left');
+ gx.forEach((x,i)=>{cx.strokeStyle=C.ink;cx.lineWidth=3;for(let k=0;k<11;k++){const s=h*.1+k*(h*.78/11);cx.beginPath();cx.moveTo(x,s);cx.lineTo(x,s+h*.78/11*.55);cx.stroke()}
+  txt(cx,(w<520?'R':'reticolo ')+(i+1),x,h-8,12)});
+ cx.fillStyle=C.ink;cx.fillRect(detX,h*.08,7,h*.82);txt(cx,w<520?'riv.':'rivelatore',detX+4,h-8,12);
+ // Ps in volo: cade (ingrandito) dopo il primo reticolo
+ const p=Math.min(1,ph),px=bx0+(detX-bx0)*p;const fall=p<.2?0:((p-.2)/.8)**2*vis*per;
+ if(p<=1){dot(cx,px,ay+fall,6,C.acc);if(p>.2){cx.strokeStyle=C.acc;cx.globalAlpha=.4;cx.lineWidth=1;for(let k=1;k<3;k++){cx.beginPath();cx.arc(px,ay+fall,6+k*5,0,7);cx.stroke()}cx.globalAlpha=1}}
+ // profilo frange: riferimento (senza gravità) e misurato
+ const x0=fx0,wF=w-fx0-14,top=h*.08,bot=h*.9;
+ txt(cx,w<520?'frange':'frange sul rivelatore',w-14,top,12,C.ink,'right');
+ cx.strokeStyle=C.line;cx.lineWidth=1;cx.beginPath();cx.moveTo(x0,top+8);cx.lineTo(x0,bot);cx.stroke();
+ const prof=(ph0,col,lw,dash)=>{cx.strokeStyle=col;cx.lineWidth=lw;cx.setLineDash(dash);cx.beginPath();for(let y=top+8;y<=bot;y+=2){const u=(y-(top+8)-ph0*per)/per;const a=.5+.5*Math.cos(2*Math.PI*u);const X=x0+4+a*wF*.9;y===top+8?cx.moveTo(X,y):cx.lineTo(X,y)}cx.stroke();cx.setLineDash([])};
+ prof(0,C.muted,1.5,[4,4]);prof(vis,C.acc,2.5,[]);
+ txt(cx,'- - senza gravità',x0,bot+14,11,C.muted,'left');
+ if(g!==0){const yy=top+24+(per*.5);const ya=yy,yb=yy+vis*per;cx.strokeStyle=C.ink;cx.lineWidth=2;cx.beginPath();cx.moveTo(x0-10,ya);cx.lineTo(x0-10,yb);cx.stroke();txt(cx,'Δ',x0-16,(ya+yb)/2+4,12,C.ink,'right')}
+ })}
+
+/* ---------- 5: statistica ---------- */
+{const NB=36;const S5={n:0,bins:new Uint32Array(NB),sc:0,ss:0,acc:0,play:true};let rc=1;
+const reset=()=>{S5.n=0;S5.bins.fill(0);S5.sc=0;S5.ss=0;S5.acc=0};
+const rd=()=>{$('o5f').textContent=IT($('s5f').value,2)+' rad';$('o5c').textContent=IT($('s5c').value,2);$('o5s').textContent=$('s5s').value+' /s'};
+['s5f','s5c'].forEach(i=>$(i).oninput=()=>{rd();reset()});$('s5s').oninput=rd;rd();
+$('a5p').onclick=()=>{S5.play=!S5.play;$('a5p').textContent=S5.play?'Pausa':'Avvia';$('a5p').setAttribute('aria-pressed',S5.play)};$('a5r').onclick=reset;
+if(reduce){S5.play=false;$('a5p').textContent='Avvia';$('a5p').setAttribute('aria-pressed',false)}
+const sample=(phi,c)=>{for(;;){const th=Math.random()*2*Math.PI;if(Math.random()*(1+c)<=1+c*Math.cos(th-phi))return th}};
+mk('c5',(o,cx,dt)=>{const{w,h}=o;const phi=+$('s5f').value,c=+$('s5c').value;
+ if(S5.play){S5.acc+=dt*$('s5s').value;let k=Math.floor(S5.acc);S5.acc-=k;if(S5.n>2e5)k=0;while(k--){const th=sample(phi,c);S5.bins[Math.min(NB-1,Math.floor(th/(2*Math.PI)*NB))]++;S5.sc+=Math.cos(th);S5.ss+=Math.sin(th);S5.n++}}
+ const N=S5.n,est=N?Math.atan2(S5.ss,S5.sc):0,sig=N?Math.SQRT2/(c*Math.sqrt(N)):Math.PI;
+ $('r5n').textContent=N.toLocaleString('it-IT');$('r5e').textContent=N?IT(est,2)+' rad':'–';$('r5s').textContent=N?IT(sig,2)+' rad':'–';
+ $('r5g').textContent=N&&phi>0?IT(est/phi,2)+' ± '+IT(sig/phi,2):'–';
+ const L=46,R=w-14,T=34,B=h-40,pw=R-L,ph=B-T;let mx=1;for(const v of S5.bins)mx=Math.max(mx,v);
+ cx.strokeStyle=C.line;cx.lineWidth=1;cx.beginPath();cx.moveTo(L,T);cx.lineTo(L,B);cx.lineTo(R,B);cx.stroke();
+ txt(cx,'posizione di arrivo, ripiegata su un periodo di frange',L+pw/2,h-6,12);
+ txt(cx,'0',L,B+16,11);txt(cx,'π',L+pw/2,B+16,11);txt(cx,'2π',R,B+16,11);
+ const bw=pw/NB;cx.fillStyle=C.el;for(let i=0;i<NB;i++){const v=S5.bins[i]/mx*(ph-6);cx.globalAlpha=.8;cx.fillRect(L+i*bw+1,B-v,bw-2,v)}cx.globalAlpha=1;
+ // curva vera scalata al massimo atteso
+ cx.strokeStyle=C.muted;cx.lineWidth=1.5;cx.setLineDash([4,4]);cx.beginPath();for(let i=0;i<=120;i++){const th=i/120*2*Math.PI,d=(1+c*Math.cos(th-phi))/(1+c);const X=L+i/120*pw,Y=B-d*(ph-6)*.9;i?cx.lineTo(X,Y):cx.moveTo(X,Y)}cx.stroke();cx.setLineDash([]);
+ // stima ± sigma sul asse della fase (picco = fase)
+ const xp=a=>L+(((a%(2*Math.PI))+2*Math.PI)%(2*Math.PI))/(2*Math.PI)*pw;
+ if(N){cx.fillStyle=C.acc;cx.globalAlpha=.22;const a=xp(est-sig),b=xp(est+sig);if(a<b)cx.fillRect(a,T,b-a,ph);else{cx.fillRect(a,T,R-a,ph);cx.fillRect(L,T,b-L,ph)}cx.globalAlpha=1;
+  cx.strokeStyle=C.acc;cx.lineWidth=2.5;cx.beginPath();cx.moveTo(xp(est),T);cx.lineTo(xp(est),B);cx.stroke()}
+ cx.strokeStyle=C.ink;cx.lineWidth=1;cx.setLineDash([2,3]);cx.beginPath();cx.moveTo(xp(phi),T);cx.lineTo(xp(phi),B);cx.stroke();cx.setLineDash([]);
+ txt(cx,'fase vera',xp(phi),T-6,11,C.ink);if(N)txt(cx,'stima',xp(est),T-18,11,C.acc)})}
+
+requestAnimationFrame(loop);
+})();
+</script>
+</body>
+</html>
