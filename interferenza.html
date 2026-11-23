@@ -1,0 +1,2113 @@
+<!DOCTYPE html>
+<html lang="it" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Interferenza di singoli positroni – Esperimento QUPLAS-0 (Como, 2019)</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg-night: #070b14;
+      --panel-bg: #0b1120;
+      --cyan-neon: #00e5ff;
+      --magenta-neon: #ff2a85;
+    }
+
+    body {
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      background-color: var(--bg-night);
+      color: #f8fafc;
+      overflow-x: hidden;
+    }
+
+    .font-mono-tech {
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    .glow-cyan {
+      text-shadow: 0 0 16px rgba(0, 229, 255, 0.5);
+    }
+
+    .glow-magenta {
+      text-shadow: 0 0 16px rgba(255, 42, 133, 0.55);
+    }
+
+    .lab-panel {
+      background: linear-gradient(180deg, rgba(13, 20, 38, 0.94) 0%, rgba(8, 13, 25, 0.98) 100%);
+      border: 1px solid rgba(0, 229, 255, 0.18);
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.65), inset 0 1px 0 rgba(255, 255, 255, 0.04);
+    }
+
+    .canvas-grid-bg {
+      background-color: #050912;
+      background-image:
+        radial-gradient(circle at 18% 50%, rgba(255, 42, 133, 0.05) 0%, transparent 48%),
+        radial-gradient(circle at 75% 50%, rgba(0, 229, 255, 0.05) 0%, transparent 52%),
+        linear-gradient(rgba(0, 229, 255, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 229, 255, 0.03) 1px, transparent 1px);
+      background-size: 100% 100%, 100% 100%, 24px 24px, 24px 24px;
+    }
+
+    /* Evidenziazione attiva durante il Tour Guidato */
+    .tour-highlight {
+      outline: 2px solid #00e5ff;
+      outline-offset: 3px;
+      box-shadow: 0 0 30px rgba(0, 229, 255, 0.35);
+      transition: all 0.25s ease;
+    }
+
+    /* Custom Range Sliders ad alto contrasto */
+    input[type="range"] {
+      -webkit-appearance: none;
+      appearance: none;
+      background: transparent;
+      cursor: pointer;
+    }
+
+    input[type="range"]::-webkit-slider-runnable-track {
+      height: 6px;
+      border-radius: 999px;
+      background: #172036;
+      border: 1px solid rgba(0, 229, 255, 0.28);
+    }
+
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: #00e5ff;
+      margin-top: -7px;
+      box-shadow: 0 0 12px rgba(0, 229, 255, 0.85);
+      border: 2px solid #070b14;
+      transition: transform 0.15s ease;
+    }
+
+    input[type="range"]::-webkit-slider-thumb:hover {
+      transform: scale(1.15);
+    }
+
+    input[type="range"].slider-magenta::-webkit-slider-thumb {
+      background: #ff2a85;
+      box-shadow: 0 0 12px rgba(255, 42, 133, 0.85);
+    }
+
+    input[type="range"]::-moz-range-track {
+      height: 6px;
+      border-radius: 999px;
+      background: #172036;
+      border: 1px solid rgba(0, 229, 255, 0.28);
+    }
+
+    input[type="range"]::-moz-range-thumb {
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: #00e5ff;
+      border: 2px solid #070b14;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col p-2.5 sm:p-4 md:p-6">
+
+  <div class="max-w-7xl w-full mx-auto flex flex-col gap-4 sm:gap-5">
+
+    <!-- 1. HEADER ISTITUZIONALE & TOUR GUIDATO -->
+    <header class="lab-panel rounded-2xl p-4 sm:px-6 sm:py-5 flex flex-col md:flex-row md:items-center justify-between gap-4">
+      <div>
+        <div class="flex flex-wrap items-center gap-2 mb-1">
+          <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-pink-500/15 text-[#ff2a85] border border-pink-500/35">
+            <span class="w-1.5 h-1.5 rounded-full bg-[#ff2a85] animate-pulse"></span>
+            Esperimento QUPLAS-0
+          </span>
+          <span class="text-xs sm:text-sm font-medium text-[#ff2a85] glow-magenta">
+            Como, 2019 – Prima osservazione al mondo (Laboratorio L-NESS, Politecnico di Milano)
+          </span>
+        </div>
+        <h1 class="text-2xl sm:text-3xl font-extrabold tracking-tight text-[#00e5ff] glow-cyan">
+          Interferenza di singoli positroni
+        </h1>
+      </div>
+
+      <div class="flex items-center gap-2.5 self-start md:self-center">
+        <a href="#systemSection" class="min-h-[44px] px-4 py-2.5 rounded-xl font-semibold text-sm bg-slate-800 hover:bg-slate-700 text-pink-200 border border-pink-500/40 transition flex items-center gap-2">
+          <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M6.3 2.841A1.5 1.5 0 004 4.11V15.89a1.5 1.5 0 002.3 1.269l9.344-5.89a1.5 1.5 0 000-2.538L6.3 2.84z"/></svg>
+          <span>Animazione del sistema</span>
+        </a>
+        <button id="btnStartTour" type="button" class="min-h-[44px] px-4 py-2.5 rounded-xl font-semibold text-sm bg-gradient-to-r from-cyan-400 to-sky-400 hover:from-cyan-300 hover:to-sky-300 text-slate-950 shadow-lg shadow-cyan-500/25 transition flex items-center gap-2 cursor-pointer">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/></svg>
+          <span>Tour Guidato (4 Passi)</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- BANNER INTERATTIVO DEL TOUR GUIDATO (Visibile quando il tour è attivo) -->
+    <section id="tourBanner" class="hidden bg-slate-900/95 border-2 border-[#00e5ff] rounded-2xl p-4 sm:p-5 shadow-2xl shadow-cyan-500/20">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-slate-800">
+        <div class="flex items-center gap-2.5">
+          <span id="tourStepBadge" class="px-3 py-1 rounded-full text-xs font-bold font-mono-tech bg-[#00e5ff] text-slate-950">
+            PASSO 1 DI 4
+          </span>
+          <h2 id="tourStepTitle" class="text-base sm:text-lg font-bold text-white">
+            La sorgente di singoli positroni
+          </h2>
+        </div>
+        <button id="btnCloseTour" type="button" class="self-end sm:self-auto px-3 py-1.5 rounded-lg text-xs font-medium bg-slate-800 hover:bg-slate-700 text-slate-300 transition cursor-pointer">
+          Chiudi Tour ✕
+        </button>
+      </div>
+      <p id="tourStepDesc" class="text-sm sm:text-base text-slate-200 leading-relaxed mt-3">
+        Descrizione passo...
+      </p>
+      <div class="flex flex-wrap items-center justify-between gap-3 mt-4 pt-3 border-t border-slate-800/80">
+        <div class="flex items-center gap-1.5" id="tourDots">
+          <span class="w-2.5 h-2.5 rounded-full bg-[#00e5ff]"></span>
+          <span class="w-2.5 h-2.5 rounded-full bg-slate-700"></span>
+          <span class="w-2.5 h-2.5 rounded-full bg-slate-700"></span>
+          <span class="w-2.5 h-2.5 rounded-full bg-slate-700"></span>
+        </div>
+        <div class="flex items-center gap-2">
+          <button id="btnTourPrev" type="button" class="min-h-[40px] px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold bg-slate-800 hover:bg-slate-700 text-slate-200 disabled:opacity-40 transition cursor-pointer">
+            ← Precedente
+          </button>
+          <button id="btnTourAction" type="button" class="min-h-[40px] px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold bg-pink-600/25 hover:bg-pink-600/40 text-pink-200 border border-pink-500/40 transition cursor-pointer">
+            Prova ora
+          </button>
+          <button id="btnTourNext" type="button" class="min-h-[40px] px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold bg-[#00e5ff] hover:bg-cyan-300 text-slate-950 transition cursor-pointer">
+            Avanti →
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2. AREA PRINCIPALE DI SIMULAZIONE (2 PANNELLI AFFIANCATI + BARRA ISPEZIONE) -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-5">
+
+      <!-- PANNELLO SINISTRO: Vista Laterale Propagazione nel Talbot-Lau -->
+      <section id="panelLeft" class="lg:col-span-6 lab-panel rounded-2xl p-3.5 sm:p-4 flex flex-col justify-between gap-3">
+        <div class="flex flex-wrap items-center justify-between gap-2">
+          <div>
+            <h2 class="text-sm sm:text-base font-bold text-[#00e5ff] flex items-center gap-2">
+              <span class="w-2 h-2 rounded-full bg-[#00e5ff]"></span>
+              Vista Laterale: Propagazione nel Talbot-Lau
+            </h2>
+            <p class="text-xs text-slate-400">Clicca su un elemento dello schema per ispezionarlo</p>
+          </div>
+          <span id="regimePillLeft" class="px-2.5 py-1 rounded-lg text-xs font-semibold bg-cyan-500/15 text-[#00e5ff] border border-cyan-500/35">
+            Onda di de Broglie attiva
+          </span>
+        </div>
+
+        <!-- Canvas Vista Laterale -->
+        <div id="leftCanvasWrap" class="relative w-full h-[300px] sm:h-[340px] rounded-xl overflow-hidden border border-cyan-500/20 canvas-grid-bg">
+          <canvas id="leftCanvas" class="block w-full h-full"></canvas>
+        </div>
+
+        <!-- Indicatore di Stato Live durante il volo (4 Fasi) -->
+        <div class="bg-slate-950/90 border border-slate-800 rounded-xl px-3.5 py-2.5 flex items-center justify-between gap-2">
+          <div class="flex items-center gap-2.5 min-w-0">
+            <span id="flightPhaseDot" class="w-2.5 h-2.5 rounded-full bg-[#ff2a85] shrink-0 animate-pulse"></span>
+            <span id="flightPhaseText" class="text-xs sm:text-sm font-medium text-slate-200 truncate">
+              1. Emissione singolo positrone dalla sorgente
+            </span>
+          </div>
+          <span id="flightSpeedBadge" class="text-[11px] font-mono-tech text-slate-400 shrink-0">
+            Flusso continuo
+          </span>
+        </div>
+      </section>
+
+      <!-- PANNELLO DESTRO: Rivelatore visto di fronte & Conteggi Live -->
+      <section id="panelRight" class="lg:col-span-6 lab-panel rounded-2xl p-3.5 sm:p-4 flex flex-col justify-between gap-3">
+        <div class="flex flex-wrap items-center justify-between gap-2">
+          <div>
+            <h2 class="text-sm sm:text-base font-bold text-[#ff2a85] flex items-center gap-2">
+              <span class="w-2 h-2 rounded-full bg-[#ff2a85]"></span>
+              Rivelatore visto di fronte &amp; Conteggi Live
+            </h2>
+            <p class="text-xs text-slate-400">Accumulo di singoli eventi localizzati uno dopo l'altro</p>
+          </div>
+
+          <!-- Contatore Grande Ben Leggibile -->
+          <div class="px-3 py-1 rounded-xl bg-pink-950/50 border border-pink-500/40 flex items-center gap-2">
+            <span class="text-xs text-pink-200 font-medium">Positroni rivelati:</span>
+            <span id="counterDisplay" class="font-mono-tech text-base sm:text-lg font-extrabold text-[#ff2a85] glow-magenta">0</span>
+          </div>
+        </div>
+
+        <!-- Canvas Rivelatore Frontale + Istogramma Conteggi -->
+        <div id="rightCanvasWrap" class="relative w-full h-[300px] sm:h-[340px] rounded-xl overflow-hidden border border-pink-500/20 canvas-grid-bg">
+          <canvas id="rightCanvas" class="block w-full h-full"></canvas>
+        </div>
+
+        <!-- Barra Avanzamento verso il dato storico della foto (3.062 positroni) -->
+        <div class="bg-slate-950/90 border border-slate-800 rounded-xl px-3.5 py-2.5 flex flex-col gap-1.5">
+          <div class="flex justify-between items-center text-xs">
+            <span class="text-slate-300 font-medium">Confronto con lo schermo di Como 2019</span>
+            <span id="milestoneLabel" class="font-mono-tech text-[#ff2a85] font-semibold">0 / 3.062 positroni (0%)</span>
+          </div>
+          <div class="w-full h-2 rounded-full bg-slate-800 overflow-hidden">
+            <div id="milestoneBar" class="h-full rounded-full bg-gradient-to-r from-[#00e5ff] to-[#ff2a85] transition-all duration-150" style="width: 0%"></div>
+          </div>
+        </div>
+      </section>
+
+    </div>
+
+    <!-- BARRA DI ISPEZIONE COMPONENTI DELL'APPARATO (Interattiva al clic sul canvas o sui pulsanti) -->
+    <section aria-label="Ispezione componenti interferometro" class="lab-panel rounded-2xl p-4 sm:px-5 sm:py-4">
+      <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-3">
+        <div class="flex flex-wrap items-center gap-2">
+          <span class="text-xs font-semibold uppercase tracking-wider text-slate-400 mr-1">Ispeziona apparato:</span>
+          <button type="button" data-part="source" class="part-btn min-h-[38px] px-3 py-1.5 rounded-xl text-xs font-semibold bg-pink-500/20 text-[#ff2a85] border border-pink-500/50 transition cursor-pointer">
+            1. Sorgente e⁺
+          </button>
+          <button type="button" data-part="grating1" class="part-btn min-h-[38px] px-3 py-1.5 rounded-xl text-xs font-semibold bg-slate-800/90 text-slate-300 border border-slate-700 hover:border-cyan-500/40 transition cursor-pointer">
+            2. Reticolo 1
+          </button>
+          <button type="button" data-part="grating2" class="part-btn min-h-[38px] px-3 py-1.5 rounded-xl text-xs font-semibold bg-slate-800/90 text-slate-300 border border-slate-700 hover:border-cyan-500/40 transition cursor-pointer">
+            3. Reticolo 2
+          </button>
+          <button type="button" data-part="detector" class="part-btn min-h-[38px] px-3 py-1.5 rounded-xl text-xs font-semibold bg-slate-800/90 text-slate-300 border border-slate-700 hover:border-cyan-500/40 transition cursor-pointer">
+            4. Rivelatore
+          </button>
+        </div>
+
+        <div id="partExplanationBox" class="lg:max-w-2xl bg-slate-950/80 border border-slate-800 rounded-xl px-4 py-2.5 text-xs sm:text-sm text-slate-200 leading-relaxed">
+          <strong class="text-[#ff2a85]">Sorgente di positroni (e⁺):</strong> Emette antiparticelle dell'elettrone (carica positiva) con un flusso così debole che nell'interferometro viaggia <em>un solo positrone alla volta</em>.
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. PANNELLO DI CONTROLLO INTERATTIVO & CONFRONTO FISICO -->
+    <section id="controlsSection" aria-label="Controlli sperimentali e parametri fisici" class="lab-panel rounded-2xl p-4 sm:p-5 flex flex-col gap-5">
+
+      <!-- Riga Superiore: Selettore Regime Fisico + Spiegazione Dinamica -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-4 items-center pb-4 border-b border-slate-800">
+        <div class="lg:col-span-5 grid grid-cols-2 p-1.5 rounded-xl bg-slate-950 border border-slate-800 gap-1.5" role="group" aria-label="Scelta regime fisico">
+          <button id="btnModeQuantum" type="button" class="min-h-[44px] px-3 py-2 rounded-lg text-xs sm:text-sm font-bold bg-cyan-500/20 text-[#00e5ff] border border-[#00e5ff]/60 shadow-inner transition cursor-pointer">
+            Regime Quantistico<br><span class="text-[11px] font-normal opacity-90">(Onda + Particella)</span>
+          </button>
+          <button id="btnModeClassical" type="button" class="min-h-[44px] px-3 py-2 rounded-lg text-xs sm:text-sm font-semibold text-slate-400 hover:text-slate-200 border border-transparent transition cursor-pointer">
+            Regime Classico<br><span class="text-[11px] font-normal opacity-80">(Solo Particella)</span>
+          </button>
+        </div>
+
+        <div id="regimeExplanation" class="lg:col-span-7 bg-cyan-950/25 border border-cyan-500/30 rounded-xl p-3.5 text-xs sm:text-sm text-slate-200 leading-relaxed">
+          <span class="font-bold text-[#00e5ff]">Regime Quantistico attivo:</span> Ogni singolo positrone si propaga come un'onda di de Broglie che attraversa <em>contemporaneamente più fenditure</em> dei reticoli, interferendo con se stessa prima di collassare in un singolo punto sul rivelatore.
+        </div>
+      </div>
+
+      <!-- Riga Centrale: Pulsanti d'Azione Principali -->
+      <div class="flex flex-wrap items-center gap-2.5 sm:gap-3">
+        <button id="btnSingleSlow" type="button" class="flex-1 sm:flex-none min-h-[46px] px-4 py-2.5 rounded-xl font-bold text-xs sm:text-sm bg-[#ff2a85] hover:bg-pink-500 text-white shadow-lg shadow-pink-600/30 transition flex items-center justify-center gap-2 cursor-pointer">
+          <svg class="w-4 h-4 shrink-0" fill="currentColor" viewBox="0 0 20 20"><path d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z"/></svg>
+          <span>Spara 1 Positrone (Rallentatore)</span>
+        </button>
+
+        <button id="btnPlayPause" type="button" class="flex-1 sm:flex-none min-h-[46px] px-4 py-2.5 rounded-xl font-bold text-xs sm:text-sm bg-[#00e5ff] hover:bg-cyan-300 text-slate-950 shadow-lg shadow-cyan-500/25 transition flex items-center justify-center gap-2 cursor-pointer">
+          <svg id="iconPause" class="w-4 h-4 shrink-0" fill="currentColor" viewBox="0 0 20 20"><path d="M5 4h3v12H5V4zm7 0h3v12h-3V4z"/></svg>
+          <svg id="iconPlay" class="w-4 h-4 shrink-0 hidden" fill="currentColor" viewBox="0 0 20 20"><path d="M6.3 2.841A1.5 1.5 0 004 4.11V15.89a1.5 1.5 0 002.3 1.269l9.344-5.89a1.5 1.5 0 000-2.538L6.3 2.84z"/></svg>
+          <span id="textPlayPause">Flusso Continuo: Pausa</span>
+        </button>
+
+        <button id="btnLoad3062" type="button" class="flex-1 sm:flex-none min-h-[46px] px-4 py-2.5 rounded-xl font-semibold text-xs sm:text-sm bg-slate-800 hover:bg-slate-700 text-pink-300 border border-pink-500/40 transition flex items-center justify-center gap-2 cursor-pointer">
+          <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+          <span>Carica 3.062 Positroni (Dato Como 2019)</span>
+        </button>
+
+        <button id="btnReset" type="button" class="min-h-[46px] px-4 py-2.5 rounded-xl font-semibold text-xs sm:text-sm bg-slate-900 hover:bg-slate-800 text-slate-300 border border-slate-700 transition flex items-center justify-center gap-1.5 cursor-pointer">
+          <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
+          <span>Azzera</span>
+        </button>
+      </div>
+
+      <!-- Riga Inferiore: Sliders Fisici + Mini-Grafico Live Contrasto vs Energia -->
+      <div id="physicsControlsBox" class="grid grid-cols-1 lg:grid-cols-12 gap-4 items-stretch bg-slate-950/75 p-4 rounded-xl border border-slate-800">
+
+        <!-- Slider 1: Velocità di emissione -->
+        <div class="lg:col-span-4 flex flex-col justify-between gap-2 p-3 rounded-xl bg-slate-900/70 border border-slate-800/80">
+          <div class="flex justify-between items-center">
+            <label for="sliderRate" class="text-xs sm:text-sm font-semibold text-slate-200">Velocità di emissione</label>
+            <span id="labelRate" class="font-mono-tech text-xs sm:text-sm font-bold text-[#00e5ff]">140 /s</span>
+          </div>
+          <input id="sliderRate" type="range" min="1" max="500" value="140" class="w-full my-1" />
+          <div class="flex justify-between text-[11px] text-slate-400">
+            <span>Lenta (1/s)</span>
+            <span>Molto veloce (500/s)</span>
+          </div>
+        </div>
+
+        <!-- Slider 2: Energia cinetica positroni (keV) -->
+        <div class="lg:col-span-4 flex flex-col justify-between gap-2 p-3 rounded-xl bg-slate-900/70 border border-slate-800/80">
+          <div class="flex justify-between items-center">
+            <label for="sliderEnergy" class="text-xs sm:text-sm font-semibold text-slate-200">Energia cinetica (keV)</label>
+            <span id="labelEnergy" class="font-mono-tech text-xs sm:text-sm font-bold text-[#ff2a85]">14.0 keV</span>
+          </div>
+          <input id="sliderEnergy" type="range" min="4" max="20" step="0.5" value="14" class="w-full my-1 slider-magenta" />
+          <div class="flex justify-between items-center text-[11px] font-mono-tech">
+            <span class="text-cyan-300">λ de Broglie: <strong id="labelLambda">10.4 pm</strong></span>
+            <span class="text-emerald-400">Contrasto: <strong id="labelContrast">92%</strong></span>
+          </div>
+        </div>
+
+        <!-- Mini-Grafico Live: Contrasto (%) vs Energia (keV) -->
+        <div class="lg:col-span-4 flex flex-col justify-between gap-1.5 p-3 rounded-xl bg-slate-900/70 border border-slate-800/80">
+          <div class="flex justify-between items-center text-[11px]">
+            <span class="font-semibold text-slate-200">Curva di Risonanza: Contrasto vs Energia</span>
+            <span class="text-cyan-400 font-mono-tech">Picco ~14 keV</span>
+          </div>
+          <div id="contrastCanvasWrap" class="w-full h-[64px] rounded-lg overflow-hidden bg-slate-950 border border-slate-800">
+            <canvas id="contrastCanvas" class="block w-full h-full"></canvas>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 3b. ANIMAZIONE DEL FUNZIONAMENTO DEL SISTEMA QUPLAS (linea di fascio completa) -->
+    <section id="systemSection" aria-label="Animazione del funzionamento del sistema QUPLAS" class="lab-panel rounded-2xl p-4 sm:p-5 flex flex-col gap-4">
+      <div class="flex flex-col md:flex-row md:items-start justify-between gap-3">
+        <div>
+          <h2 class="text-base sm:text-lg font-bold text-[#00e5ff] flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-[#00e5ff]"></span>
+            Come funziona il sistema: dal positrone al positronio
+          </h2>
+          <p class="text-xs sm:text-sm text-slate-400 mt-1 max-w-3xl">
+            Animazione della linea di fascio del progetto QUPLAS: i positroni (e⁺) diventano ioni negativi di positronio (Ps⁻) in un convertitore di tungsteno e sodio, perdono l'elettrone in più grazie a un laser e proseguono come positronio neutro (Ps) verso l'interferometro. Uno schema illustrativo: tempi, distanze e rese non sono in scala.
+          </p>
+        </div>
+        <div class="flex flex-wrap items-center gap-2 shrink-0">
+          <button id="sysPlay" type="button" class="min-h-[42px] px-4 py-2 rounded-xl font-bold text-xs sm:text-sm bg-[#00e5ff] hover:bg-cyan-300 text-slate-950 transition cursor-pointer">
+            Pausa
+          </button>
+          <button id="sysTrace" type="button" class="min-h-[42px] px-4 py-2 rounded-xl font-bold text-xs sm:text-sm bg-[#ff2a85] hover:bg-pink-500 text-white transition cursor-pointer">
+            Segui 1 positrone
+          </button>
+        </div>
+      </div>
+
+      <div id="sysCanvasWrap" class="relative w-full h-[260px] sm:h-[300px] rounded-xl overflow-hidden border border-cyan-500/20 canvas-grid-bg">
+        <canvas id="sysCanvas" class="block w-full h-full" role="img" aria-label="Animazione della linea di fascio: sorgente di positroni, convertitore, cavità laser, interferometro, rivelatore"></canvas>
+      </div>
+
+      <!-- Didascalia live del positrone seguito -->
+      <div class="bg-slate-950/90 border border-slate-800 rounded-xl px-3.5 py-2.5 flex items-start gap-2.5">
+        <span id="sysDot" class="w-2.5 h-2.5 mt-1.5 rounded-full bg-slate-500 shrink-0"></span>
+        <p id="sysCaption" class="text-xs sm:text-sm text-slate-200 leading-relaxed">
+          Premi <strong>Segui 1 positrone</strong> per accompagnare un singolo positrone lungo tutta la linea, oppure clicca su una tappa qui sotto.
+        </p>
+      </div>
+
+      <!-- Tappe cliccabili -->
+      <div id="sysStages" class="grid grid-cols-2 md:grid-cols-5 gap-2"></div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-3 items-stretch">
+        <div class="lg:col-span-4 p-3 rounded-xl bg-slate-900/70 border border-slate-800/80 flex flex-col gap-2">
+          <div class="flex justify-between items-center">
+            <label for="sysSpeed" class="text-xs sm:text-sm font-semibold text-slate-200">Velocità dell'animazione</label>
+            <span id="sysSpeedLabel" class="font-mono-tech text-xs sm:text-sm font-bold text-[#00e5ff]">1,0×</span>
+          </div>
+          <input id="sysSpeed" type="range" min="0.25" max="2.5" step="0.25" value="1" class="w-full" />
+        </div>
+
+        <div class="lg:col-span-8 grid grid-cols-2 sm:grid-cols-4 gap-2">
+          <div class="p-3 rounded-xl bg-slate-900/70 border border-slate-800/80">
+            <div class="text-[11px] text-slate-400">Positroni emessi</div>
+            <div id="sysCntEmit" class="font-mono-tech text-lg font-extrabold text-[#ff2a85]">0</div>
+          </div>
+          <div class="p-3 rounded-xl bg-slate-900/70 border border-slate-800/80">
+            <div class="text-[11px] text-slate-400">Convertiti in Ps⁻</div>
+            <div id="sysCntConv" class="font-mono-tech text-lg font-extrabold text-[#00e5ff]">0</div>
+          </div>
+          <div class="p-3 rounded-xl bg-slate-900/70 border border-slate-800/80">
+            <div class="text-[11px] text-slate-400">Ps neutri prodotti</div>
+            <div id="sysCntPs" class="font-mono-tech text-lg font-extrabold text-amber-300">0</div>
+          </div>
+          <div class="p-3 rounded-xl bg-slate-900/70 border border-slate-800/80">
+            <div class="text-[11px] text-slate-400">Rivelati</div>
+            <div id="sysCntDet" class="font-mono-tech text-lg font-extrabold text-emerald-400">0</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Legenda particelle -->
+      <div class="flex flex-wrap gap-x-5 gap-y-1.5 text-[11px] sm:text-xs text-slate-300">
+        <span class="inline-flex items-center gap-1.5"><span class="w-3 h-3 rounded-full bg-[#ff2a85]"></span>positrone e⁺</span>
+        <span class="inline-flex items-center gap-1.5"><span class="w-3.5 h-3.5 rounded-full border-2 border-[#00e5ff] bg-[#ff2a85]/60"></span>Ps⁻ (carica negativa, vita media 479 ps)</span>
+        <span class="inline-flex items-center gap-1.5"><span class="w-3 h-3 rounded-full bg-amber-300"></span>Ps neutro</span>
+        <span class="inline-flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-sky-400"></span>elettrone staccato dal laser</span>
+        <span class="inline-flex items-center gap-1.5"><span class="w-3 h-3 rounded-full bg-slate-400/60"></span>particella persa (annichilazione / non convertita)</span>
+      </div>
+    </section>
+
+    <!-- 4. SEZIONE CONFRONTO RAPIDO IN BASSO -->
+    <section aria-label="Approfondimento scientifico" class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-5 pb-4">
+      <article class="lab-panel rounded-2xl p-4 sm:p-5 border-l-4 border-l-[#00e5ff]">
+        <h3 class="text-base sm:text-lg font-bold text-[#00e5ff] mb-2">
+          Perché è quantistico?
+        </h3>
+        <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
+          Nel 2019 a Como i ricercatori del laboratorio L-NESS hanno inviato i positroni <strong>uno alla volta</strong> nell'interferometro di Talbot-Lau. Un singolo positrone colpisce il rivelatore come una particella puntiforme, ma dopo migliaia di eventi emerge una figura di interferenza ondulatoria. La prova decisiva dell'origine quantistica (e non di una semplice ombra geometrica classica) è la <strong>dipendenza del contrasto delle frange dall'energia dei positroni</strong>, che modifica la loro lunghezza d'onda di de Broglie (<span class="font-mono-tech text-cyan-300">λ = h/p</span>).
+        </p>
+      </article>
+
+      <article class="lab-panel rounded-2xl p-4 sm:p-5 border-l-4 border-l-[#ff2a85]">
+        <h3 class="text-base sm:text-lg font-bold text-[#ff2a85] mb-2">
+          Dal 2019 all'esperimento QUPLAS sulla gravità
+        </h3>
+        <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
+          Dimostrata l'interferenza quantistica dei positroni carichi (<strong>QUPLAS-0</strong>), il passo successivo del progetto QUPLAS consiste nel misurare per la prima volta <strong>come la gravità agisce sull'antimateria</strong>. Poiché i positroni singoli risentono dei campi elettrici e magnetici, i ricercatori li convertono in ioni negativi <span class="font-mono-tech text-pink-300">Ps⁻</span> su un bersaglio di tungsteno e sodio e li neutralizzano con una cavità laser da ~200 kW, ottenendo un fascio neutro di <strong>positronio</strong> pronto per l'interferometria gravitazionale.
+        </p>
+      </article>
+    </section>
+
+  </div>
+
+  <script>
+    /**
+     * Simulazione Interattiva QUPLAS-0 – "Interferenza di singoli positroni" (Como, 2019)
+     * Laboratorio L-NESS, Dipartimento di Fisica – Politecnico di Milano & INFN
+     */
+    (function () {
+      'use strict';
+
+      // --- Riferimenti agli elementi del DOM ---
+      const panelLeft = document.getElementById('panelLeft');
+      const panelRight = document.getElementById('panelRight');
+      const physicsControlsBox = document.getElementById('physicsControlsBox');
+
+      const leftCanvasWrap = document.getElementById('leftCanvasWrap');
+      const leftCanvas = document.getElementById('leftCanvas');
+      const lCtx = leftCanvas.getContext('2d');
+
+      const rightCanvasWrap = document.getElementById('rightCanvasWrap');
+      const rightCanvas = document.getElementById('rightCanvas');
+      const rCtx = rightCanvas.getContext('2d');
+
+      const contrastCanvasWrap = document.getElementById('contrastCanvasWrap');
+      const contrastCanvas = document.getElementById('contrastCanvas');
+      const cCtx = contrastCanvas.getContext('2d');
+
+      const flightPhaseDot = document.getElementById('flightPhaseDot');
+      const flightPhaseText = document.getElementById('flightPhaseText');
+      const flightSpeedBadge = document.getElementById('flightSpeedBadge');
+      const regimePillLeft = document.getElementById('regimePillLeft');
+
+      const counterDisplay = document.getElementById('counterDisplay');
+      const milestoneLabel = document.getElementById('milestoneLabel');
+      const milestoneBar = document.getElementById('milestoneBar');
+
+      const partBtns = document.querySelectorAll('.part-btn');
+      const partExplanationBox = document.getElementById('partExplanationBox');
+
+      const btnModeQuantum = document.getElementById('btnModeQuantum');
+      const btnModeClassical = document.getElementById('btnModeClassical');
+      const regimeExplanation = document.getElementById('regimeExplanation');
+
+      const btnSingleSlow = document.getElementById('btnSingleSlow');
+      const btnPlayPause = document.getElementById('btnPlayPause');
+      const iconPause = document.getElementById('iconPause');
+      const iconPlay = document.getElementById('iconPlay');
+      const textPlayPause = document.getElementById('textPlayPause');
+      const btnLoad3062 = document.getElementById('btnLoad3062');
+      const btnReset = document.getElementById('btnReset');
+
+      const sliderRate = document.getElementById('sliderRate');
+      const labelRate = document.getElementById('labelRate');
+      const sliderEnergy = document.getElementById('sliderEnergy');
+      const labelEnergy = document.getElementById('labelEnergy');
+      const labelLambda = document.getElementById('labelLambda');
+      const labelContrast = document.getElementById('labelContrast');
+
+      // Tour Guidato DOM
+      const btnStartTour = document.getElementById('btnStartTour');
+      const tourBanner = document.getElementById('tourBanner');
+      const btnCloseTour = document.getElementById('btnCloseTour');
+      const tourStepBadge = document.getElementById('tourStepBadge');
+      const tourStepTitle = document.getElementById('tourStepTitle');
+      const tourStepDesc = document.getElementById('tourStepDesc');
+      const tourDots = document.getElementById('tourDots');
+      const btnTourPrev = document.getElementById('btnTourPrev');
+      const btnTourAction = document.getElementById('btnTourAction');
+      const btnTourNext = document.getElementById('btnTourNext');
+
+      // --- Descrizioni Didattiche delle Parti dell'Apparato ---
+      const PART_INFO = {
+        source: {
+          title: 'Sorgente di positroni (e⁺)',
+          color: 'text-[#ff2a85]',
+          text: 'Emette antiparticelle dell\'elettrone (carica positiva) con un flusso così debole che nell\'interferometro viaggia <em>un solo positrone alla volta</em>: le particelle non possono urtarsi o interagire tra loro.'
+        },
+        grating1: {
+          title: 'Reticolo 1 (Primo reticolo di diffrazione)',
+          color: 'text-[#00e5ff]',
+          text: 'Una membrana microscopica con fenditure periodiche micrometriche. In regime quantistico, l\'onda associata al singolo positrone attraversa contemporaneamente più fenditure e si diffrange.'
+        },
+        grating2: {
+          title: 'Reticolo 2 (Interferometro di Talbot-Lau)',
+          color: 'text-[#00e5ff]',
+          text: 'Il secondo reticolo ricombina i fronti d\'onda diffranti generando un pattern periodico di interferenza costruttiva e distruttiva (effetto Talbot-Lau) lungo il cammino verso il rivelatore.'
+        },
+        detector: {
+          title: 'Rivelatore ad alta risoluzione',
+          color: 'text-[#ff2a85]',
+          text: 'Registra l\'impatto di ogni singolo positrone come un punto preciso. Un singolo evento appare casuale, ma accumulandone migliaia emergono le bande luminose dell\'interferenza.'
+        }
+      };
+
+      // --- Configurazione dei 4 Passi del Tour Guidato ---
+      const TOUR_STEPS = [
+        {
+          title: '1. Un solo positrone per volta dalla sorgente',
+          desc: 'L\'esperimento inizia da una sorgente di antimateria che rilascia singoli positroni (e⁺) ben distanziati nel tempo. Premi "Prova ora" per lanciare un singolo positrone al rallentatore e osservarne il volo.',
+          highlight: 'panelLeft',
+          part: 'source',
+          actionLabel: 'Spara 1 Positrone al rallentatore',
+          onEnter: () => {
+            selectPart('source');
+          },
+          onAction: () => {
+            triggerSingleSlowPositron();
+          }
+        },
+        {
+          title: '2. Dualismo onda-particella nei reticoli Talbot-Lau',
+          desc: 'Nel regime quantistico, il singolo positrone viaggia come un\'onda che attraversa simultaneamente più fenditure dei due reticoli, creando il "tappeto di Talbot". Prova a confrontarlo con il Regime Classico (solo pallina).',
+          highlight: 'panelLeft',
+          part: 'grating1',
+          actionLabel: 'Spara 1 Positrone (Quantistico)',
+          onEnter: () => {
+            setRegime('quantum');
+            selectPart('grating1');
+          },
+          onAction: () => {
+            setRegime('quantum');
+            triggerSingleSlowPositron();
+          }
+        },
+        {
+          title: '3. Accumulo dei 3.062 positroni sul rivelatore',
+          desc: 'All\'impatto ogni positrone lascia un singolo puntino. Ma accumulandone migliaia uno dopo l\'altro — fino ai 3.062 mostrati nello schermo di Como 2019 — l\'istogramma rosa a destra rivela le frange di interferenza.',
+          highlight: 'panelRight',
+          part: 'detector',
+          actionLabel: 'Carica subito 3.062 positroni',
+          onEnter: () => {
+            setRegime('quantum');
+            selectPart('detector');
+          },
+          onAction: () => {
+            loadHistorical3062();
+          }
+        },
+        {
+          title: '4. La prova decisiva: Contrasto vs Energia',
+          desc: 'Per dimostrare che le frange non sono semplici ombre classiche (effetto Moiré), i fisici hanno variato l\'energia dei positroni: il contrasto raggiunge un massimo netto intorno alla risonanza di 14 keV. Muovi lo slider dell\'energia per verificarlo!',
+          highlight: 'physicsControlsBox',
+          part: 'grating2',
+          actionLabel: 'Sposta energia a 6 keV (fuori risonanza)',
+          onEnter: () => {
+            if (state.totalDetected < 1000) loadHistorical3062();
+          },
+          onAction: () => {
+            const nextE = state.energyKeV > 10 ? 6.0 : 14.0;
+            sliderEnergy.value = nextE;
+            updateEnergy(nextE);
+          }
+        }
+      ];
+
+      // --- Stato Centrale della Simulazione ---
+      const NUM_BINS = 56;
+      const MAX_STORED_DOTS = 18000;
+      const TARGET_COMO_2019 = 3062;
+
+      const state = {
+        isPlaying: true,
+        regime: 'quantum', // 'quantum' | 'classical'
+        emissionRate: 140, // positroni / secondo
+        energyKeV: 14.0, // energia cinetica (keV)
+        selectedPart: 'source',
+        hoveredPart: null,
+        tourIndex: -1, // -1 = tour chiuso
+
+        totalDetected: 0,
+        bins: new Uint32Array(NUM_BINS),
+        dotX: new Float32Array(MAX_STORED_DOTS),
+        dotY: new Float32Array(MAX_STORED_DOTS),
+        dotFlash: new Float32Array(MAX_STORED_DOTS),
+        storedCount: 0,
+
+        packets: [], // Pacchetti d'onda / particelle in volo nel pannello sinistro
+        emitAccumulator: 0,
+        lastTimestamp: 0,
+        impactFlash: 0,
+        impactY: 0.5
+      };
+
+      // Buffer offscreen per il rivelatore frontale (rendering istantaneo a 60fps anche con 18.000 punti)
+      const detBuffer = document.createElement('canvas');
+      const detBufCtx = detBuffer.getContext('2d');
+      let detBufferDirty = true;
+
+      // Geometria calcolata al resize per entrambi i canvas
+      const geoLeft = {
+        w: 0, h: 0, dpr: 1,
+        srcX: 0, srcY: 0,
+        g1X: 0, g2X: 0, detX: 0,
+        topY: 0, botY: 0
+      };
+
+      const geoRight = {
+        w: 0, h: 0, dpr: 1,
+        plateX: 0, plateY: 0, plateW: 0, plateH: 0,
+        histX: 0, histW: 0
+      };
+
+      // --- Calcoli Fisici (de Broglie & Risonanza Talbot-Lau) ---
+      function getPhysics() {
+        // Lunghezza d'onda di de Broglie (non relativistica approssimata in picometri): lambda = 38.78 / sqrt(E_keV)
+        const lambdaPm = 38.78 / Math.sqrt(state.energyKeV);
+
+        // Numero di frange visibili sul rivelatore (~8 frange a 14 keV come nella schermata originale)
+        const fringeCycles = 8.0 * Math.sqrt(state.energyKeV / 14.0);
+
+        // Visibilità / Contrasto delle frange: picco di risonanza Talbot-Lau attorno a 14 keV
+        const detuning = (state.energyKeV - 14.0) / 5.2;
+        const visibility = state.regime === 'quantum'
+          ? Math.max(0.14, 0.92 * Math.exp(-0.5 * detuning * detuning))
+          : 0.0;
+
+        return { lambdaPm, fringeCycles, visibility };
+      }
+
+      /**
+       * Campiona la coordinata verticale normalizzata y in [0.03, 0.97] sul rivelatore
+       * in base alla distribuzione quantistica Talbot-Lau o balistica classica.
+       */
+      function sampleImpactY() {
+        if (state.regime === 'classical') {
+          // Regime classico: distribuzione continua uniforme / geometrica senza frange d'interferenza
+          return 0.04 + Math.random() * 0.92;
+        }
+
+        const { fringeCycles, visibility } = getPhysics();
+
+        // Rejection sampling sulla densità di probabilità quantistica |psi(y)|^2
+        for (let attempt = 0; attempt < 45; attempt++) {
+          const y = 0.03 + Math.random() * 0.94;
+          const centered = (y - 0.5) / 0.47;
+          const envelope = Math.exp(-0.32 * Math.pow(centered, 4));
+          const phase = 2 * Math.PI * fringeCycles * (y - 0.5);
+          const wave = Math.pow(0.5 * (1 + Math.cos(phase)), 1.4);
+          const prob = envelope * ((1 - visibility) + visibility * wave);
+
+          if (Math.random() <= prob) {
+            return y;
+          }
+        }
+        return 0.5;
+      }
+
+      /**
+       * Registra l'arrivo di un singolo positrone sul rivelatore e aggiorna l'istogramma.
+       */
+      function registerPositronDetection(yNorm, withFlash) {
+        const xNorm = 0.025 + Math.random() * 0.95;
+
+        const binIdx = Math.min(NUM_BINS - 1, Math.max(0, Math.floor(yNorm * NUM_BINS)));
+        state.bins[binIdx]++;
+        state.totalDetected++;
+
+        if (state.storedCount < MAX_STORED_DOTS) {
+          const idx = state.storedCount++;
+          state.dotX[idx] = xNorm;
+          state.dotY[idx] = yNorm;
+          state.dotFlash[idx] = withFlash ? 1.0 : 0.0;
+
+          if (!withFlash && detBuffer.width > 0 && detBuffer.height > 0) {
+            paintDotToBuffer(xNorm, yNorm);
+          }
+        } else {
+          const idx = state.totalDetected % MAX_STORED_DOTS;
+          state.dotX[idx] = xNorm;
+          state.dotY[idx] = yNorm;
+          state.dotFlash[idx] = withFlash ? 1.0 : 0.0;
+          detBufferDirty = true;
+        }
+
+        if (withFlash) {
+          state.impactFlash = 1.0;
+          state.impactY = yNorm;
+        }
+
+        updateCounterUI();
+      }
+
+      function paintDotToBuffer(xNorm, yNorm) {
+        const px = xNorm * detBuffer.width;
+        const py = yNorm * detBuffer.height;
+        const r = Math.max(1.15, 1.35 * geoRight.dpr);
+
+        detBufCtx.fillStyle = 'rgba(224, 242, 254, 0.9)';
+        detBufCtx.beginPath();
+        detBufCtx.arc(px, py, r, 0, Math.PI * 2);
+        detBufCtx.fill();
+      }
+
+      function rebuildDetectorBuffer() {
+        const w = Math.max(1, Math.floor(geoRight.plateW * geoRight.dpr));
+        const h = Math.max(1, Math.floor(geoRight.plateH * geoRight.dpr));
+        detBuffer.width = w;
+        detBuffer.height = h;
+        detBufCtx.clearRect(0, 0, w, h);
+
+        for (let i = 0; i < state.storedCount; i++) {
+          if (state.dotFlash[i] <= 0) {
+            paintDotToBuffer(state.dotX[i], state.dotY[i]);
+          }
+        }
+        detBufferDirty = false;
+      }
+
+      function updateCounterUI() {
+        counterDisplay.textContent = state.totalDetected.toLocaleString('it-IT');
+        const pct = Math.min(100, Math.round((state.totalDetected / TARGET_COMO_2019) * 100));
+        milestoneLabel.textContent = `${state.totalDetected.toLocaleString('it-IT')} / 3.062 positroni (${pct}%)`;
+        milestoneBar.style.width = `${pct}%`;
+      }
+
+      /**
+       * Lancia un pacchetto d'onda (o particella classica) dalla sorgente.
+       */
+      function spawnPositronPacket(isSlowMo) {
+        const yTarget = sampleImpactY();
+
+        if (!isSlowMo && state.packets.length > 10) {
+          registerPositronDetection(yTarget, true);
+          return;
+        }
+
+        // Per il regime classico, scegliamo una delle fenditure centrali del reticolo
+        const slitChoices = [-0.24, -0.08, 0.08, 0.24];
+        const chosenSlit = slitChoices[Math.floor(Math.random() * slitChoices.length)];
+
+        state.packets.push({
+          progress: 0, // 0 = sorgente, 1 = rivelatore
+          speed: isSlowMo ? 0.21 : 1.15, // slow-mo impiega ~4.7 secondi per mostrare bene le 4 fasi
+          yTarget: yTarget,
+          slitOffset: chosenSlit,
+          isSlowMo: isSlowMo
+        });
+      }
+
+      function resetAll() {
+        state.totalDetected = 0;
+        state.storedCount = 0;
+        state.bins.fill(0);
+        state.packets = [];
+        state.emitAccumulator = 0;
+        state.impactFlash = 0;
+        rebuildDetectorBuffer();
+        updateCounterUI();
+        updateFlightPhaseUI(null);
+      }
+
+      function loadHistorical3062() {
+        resetAll();
+        for (let i = 0; i < TARGET_COMO_2019; i++) {
+          registerPositronDetection(sampleImpactY(), false);
+        }
+        rebuildDetectorBuffer();
+        updateCounterUI();
+      }
+
+      function triggerSingleSlowPositron() {
+        setPlayState(false);
+        // Rimuovi eventuali altri slow-mo per focus assoluto sul singolo evento
+        state.packets = state.packets.filter((p) => !p.isSlowMo);
+        spawnPositronPacket(true);
+      }
+
+      // --- Aggiornamento Indicatore Live delle 4 Fasi di Volo ---
+      function updateFlightPhaseUI(activePacket) {
+        if (!activePacket) {
+          if (state.isPlaying) {
+            flightPhaseDot.className = 'w-2.5 h-2.5 rounded-full bg-[#00e5ff] shrink-0 animate-pulse';
+            flightPhaseText.textContent = state.regime === 'quantum'
+              ? 'Flusso continuo attivo: pacchetti d\'onda singoli attraversano i reticoli in sequenza'
+              : 'Flusso continuo attivo: particelle classiche attraversano singole fenditure';
+            flightSpeedBadge.textContent = `${state.emissionRate} e⁺/s`;
+          } else {
+            flightPhaseDot.className = 'w-2.5 h-2.5 rounded-full bg-slate-500 shrink-0';
+            flightPhaseText.textContent = 'In pausa – Premi "Spara 1 Positrone (Rallentatore)" per osservare le 4 fasi';
+            flightSpeedBadge.textContent = 'In pausa';
+          }
+          return;
+        }
+
+        const p = activePacket.progress;
+        flightSpeedBadge.textContent = activePacket.isSlowMo ? 'RALLENTATORE' : 'Volo rapido';
+
+        if (p < 0.28) {
+          flightPhaseDot.className = 'w-2.5 h-2.5 rounded-full bg-[#ff2a85] shrink-0 animate-ping';
+          flightPhaseText.textContent = '1. Emissione singolo positrone dalla sorgente';
+        } else if (p < 0.56) {
+          flightPhaseDot.className = 'w-2.5 h-2.5 rounded-full bg-[#00e5ff] shrink-0 animate-ping';
+          flightPhaseText.textContent = state.regime === 'quantum'
+            ? '2. Attraversamento simultaneo di più fenditure come onda'
+            : '2. Passaggio balistico attraverso una singola fenditura';
+        } else if (p < 0.96) {
+          flightPhaseDot.className = 'w-2.5 h-2.5 rounded-full bg-[#00e5ff] shrink-0 animate-ping';
+          flightPhaseText.textContent = state.regime === 'quantum'
+            ? '3. Interferenza costruttiva/distruttiva (tappeto di Talbot)'
+            : '3. Traiettoria rettilinea senza interferenza ondulatoria';
+        } else {
+          flightPhaseDot.className = 'w-2.5 h-2.5 rounded-full bg-[#ff2a85] shrink-0';
+          flightPhaseText.textContent = '4. Rivelazione come singolo punto localizzato';
+        }
+      }
+
+      // --- Resize High-DPI (Retina) ---
+      function resizeAllCanvases() {
+        // 1. Canvas Sinistro
+        const lRect = leftCanvasWrap.getBoundingClientRect();
+        const dpr = Math.min(window.devicePixelRatio || 1, 2);
+        geoLeft.w = lRect.width;
+        geoLeft.h = lRect.height;
+        geoLeft.dpr = dpr;
+        leftCanvas.width = Math.floor(lRect.width * dpr);
+        leftCanvas.height = Math.floor(lRect.height * dpr);
+
+        geoLeft.srcX = lRect.width * 0.11;
+        geoLeft.srcY = lRect.height * 0.48;
+        geoLeft.g1X = lRect.width * 0.37;
+        geoLeft.g2X = lRect.width * 0.58;
+        geoLeft.detX = lRect.width * 0.88;
+        geoLeft.topY = lRect.height * 0.14;
+        geoLeft.botY = lRect.height * 0.82;
+
+        // 2. Canvas Destro
+        const rRect = rightCanvasWrap.getBoundingClientRect();
+        geoRight.w = rRect.width;
+        geoRight.h = rRect.height;
+        geoRight.dpr = dpr;
+        rightCanvas.width = Math.floor(rRect.width * dpr);
+        rightCanvas.height = Math.floor(rRect.height * dpr);
+
+        geoRight.plateX = rRect.width * 0.05;
+        geoRight.plateY = rRect.height * 0.13;
+        geoRight.plateW = rRect.width * 0.56;
+        geoRight.plateH = rRect.height * 0.77;
+
+        geoRight.histX = geoRight.plateX + geoRight.plateW + rRect.width * 0.05;
+        geoRight.histW = rRect.width * 0.29;
+
+        rebuildDetectorBuffer();
+
+        // 3. Mini-grafico Contrasto vs Energia
+        const cRect = contrastCanvasWrap.getBoundingClientRect();
+        contrastCanvas.width = Math.floor(cRect.width * dpr);
+        contrastCanvas.height = Math.floor(cRect.height * dpr);
+        drawContrastChart();
+      }
+
+      // --- Rendering Pannello Sinistro: Vista Laterale Talbot-Lau ---
+      function renderLeftCanvas() {
+        const { w, h, dpr, srcX, srcY, g1X, g2X, detX, topY, botY } = geoLeft;
+        const midY = (topY + botY) * 0.5;
+        const halfH = (botY - topY) * 0.5;
+        const { fringeCycles, visibility } = getPhysics();
+
+        lCtx.save();
+        lCtx.scale(dpr, dpr);
+        lCtx.clearRect(0, 0, w, h);
+
+        // 1. Guide ottiche sottili di riferimento
+        lCtx.strokeStyle = 'rgba(148, 163, 184, 0.12)';
+        lCtx.lineWidth = 1;
+        lCtx.beginPath();
+        lCtx.moveTo(srcX, srcY);
+        lCtx.lineTo(detX, srcY);
+        lCtx.stroke();
+
+        // 2. Evidenziazione elemento selezionato o hovered
+        const highlightKey = state.hoveredPart || state.selectedPart;
+        const partCoords = {
+          source: { x: srcX, y: srcY, r: 26 },
+          grating1: { x: g1X, y: midY, r: 24 },
+          grating2: { x: g2X, y: midY, r: 24 },
+          detector: { x: detX, y: midY, r: 24 }
+        };
+
+        if (highlightKey && partCoords[highlightKey]) {
+          const pc = partCoords[highlightKey];
+          lCtx.save();
+          lCtx.strokeStyle = 'rgba(0, 229, 255, 0.55)';
+          lCtx.fillStyle = 'rgba(0, 229, 255, 0.08)';
+          lCtx.lineWidth = 1.5;
+          if (highlightKey === 'source') {
+            lCtx.beginPath();
+            lCtx.arc(pc.x, pc.y, pc.r, 0, Math.PI * 2);
+            lCtx.fill();
+            lCtx.stroke();
+          } else {
+            lCtx.fillRect(pc.x - 14, topY - 8, 28, botY - topY + 16);
+            lCtx.strokeRect(pc.x - 14, topY - 8, 28, botY - topY + 16);
+          }
+          lCtx.restore();
+        }
+
+        // 3. Disegno dei due Reticoli Microscopici (Reticolo 1 e Reticolo 2) con fenditure visibili
+        [g1X, g2X].forEach((gx, idx) => {
+          lCtx.save();
+          lCtx.strokeStyle = '#00e5ff';
+          lCtx.lineWidth = 3;
+          lCtx.shadowColor = 'rgba(0, 229, 255, 0.7)';
+          lCtx.shadowBlur = 10;
+
+          // Segmenti del reticolo (barre con fenditure periodiche)
+          const numSlits = 11;
+          const totalLen = botY - topY;
+          const step = totalLen / numSlits;
+          for (let s = 0; s < numSlits; s++) {
+            const segStart = topY + s * step;
+            const segEnd = segStart + step * 0.56;
+            lCtx.beginPath();
+            lCtx.moveTo(gx, segStart);
+            lCtx.lineTo(gx, segEnd);
+            lCtx.stroke();
+          }
+
+          // Etichetta superiore
+          lCtx.shadowBlur = 0;
+          lCtx.fillStyle = '#00e5ff';
+          lCtx.font = '600 11px Inter, sans-serif';
+          lCtx.textAlign = 'center';
+          lCtx.fillText(`Reticolo ${idx + 1}`, gx, topY - 12);
+          lCtx.restore();
+        });
+
+        // Etichetta "Interferometro di Talbot-Lau" sotto i due reticoli
+        lCtx.save();
+        lCtx.fillStyle = '#94a3b8';
+        lCtx.font = '500 11px Inter, sans-serif';
+        lCtx.textAlign = 'center';
+        lCtx.fillText('Interferometro di Talbot-Lau', (g1X + g2X) * 0.5, botY + 34);
+        lCtx.restore();
+
+        // 4. Piano del Rivelatore a destra
+        lCtx.save();
+        lCtx.strokeStyle = '#ff2a85';
+        lCtx.lineWidth = 3;
+        lCtx.shadowColor = 'rgba(255, 42, 133, 0.7)';
+        lCtx.shadowBlur = 10;
+        lCtx.beginPath();
+        lCtx.moveTo(detX, topY - 4);
+        lCtx.lineTo(detX, botY + 4);
+        lCtx.stroke();
+
+        lCtx.shadowBlur = 0;
+        lCtx.fillStyle = '#ff2a85';
+        lCtx.font = '600 11px Inter, sans-serif';
+        lCtx.textAlign = 'center';
+        lCtx.fillText('Rivelatore', detX, topY - 12);
+
+        // Bagliore impatto sul piano del rivelatore
+        if (state.impactFlash > 0.01) {
+          const hitY = topY + state.impactY * (botY - topY);
+          const fGrad = lCtx.createRadialGradient(detX, hitY, 1, detX, hitY, 22);
+          fGrad.addColorStop(0, `rgba(255, 255, 255, ${state.impactFlash})`);
+          fGrad.addColorStop(0.4, `rgba(255, 42, 133, ${state.impactFlash * 0.9})`);
+          fGrad.addColorStop(1, 'rgba(255, 42, 133, 0)');
+          lCtx.fillStyle = fGrad;
+          lCtx.beginPath();
+          lCtx.arc(detX, hitY, 22, 0, Math.PI * 2);
+          lCtx.fill();
+        }
+        lCtx.restore();
+
+        // 5. Propagazione dei Pacchetti d'Onda / Particelle nel Talbot-Lau
+        const pG1 = (g1X - srcX) / (detX - srcX);
+        const pG2 = (g2X - srcX) / (detX - srcX);
+
+        for (let i = 0; i < state.packets.length; i++) {
+          const pkt = state.packets[i];
+          const currX = srcX + pkt.progress * (detX - srcX);
+          const alpha = pkt.isSlowMo ? 0.98 : 0.75;
+
+          lCtx.save();
+
+          if (state.regime === 'classical') {
+            // --- REGIME CLASSICO: Pallina solida lungo traiettoria rettilinea ---
+            const slitY = srcY + pkt.slitOffset * halfH;
+            let py = srcY;
+            if (pkt.progress < pG1) {
+              const t = pkt.progress / pG1;
+              py = srcY + t * (slitY - srcY);
+            } else {
+              const t = (pkt.progress - pG1) / (1 - pG1);
+              const endY = topY + pkt.yTarget * (botY - topY);
+              py = slitY + t * (endY - slitY);
+            }
+
+            // Scia balistica lineare
+            lCtx.strokeStyle = `rgba(255, 42, 133, ${alpha * 0.35})`;
+            lCtx.lineWidth = 1.5;
+            lCtx.setLineDash([3, 3]);
+            lCtx.beginPath();
+            lCtx.moveTo(srcX, srcY);
+            lCtx.lineTo(currX, py);
+            lCtx.stroke();
+            lCtx.setLineDash([]);
+
+            // Particella sferica solida
+            const ballR = pkt.isSlowMo ? 7 : 5;
+            lCtx.fillStyle = '#ff2a85';
+            lCtx.shadowColor = '#ff2a85';
+            lCtx.shadowBlur = 10;
+            lCtx.beginPath();
+            lCtx.arc(currX, py, ballR, 0, Math.PI * 2);
+            lCtx.fill();
+
+            lCtx.fillStyle = '#ffffff';
+            lCtx.beginPath();
+            lCtx.arc(currX - 1.5, py - 1.5, ballR * 0.32, 0, Math.PI * 2);
+            lCtx.fill();
+          } else {
+            // --- REGIME QUANTISTICO: Pacchetto d'onda -> Diffrazione multi-fenditura -> Tappeto di Talbot ---
+            if (pkt.progress < pG1) {
+              // Fase 1: Pacchetto d'onda dalla sorgente al Reticolo 1
+              const r = pkt.isSlowMo ? 20 : 14;
+              const grad = lCtx.createRadialGradient(currX, srcY, 1, currX, srcY, r * 1.4);
+              grad.addColorStop(0, `rgba(255, 255, 255, ${alpha})`);
+              grad.addColorStop(0.45, `rgba(0, 229, 255, ${alpha * 0.85})`);
+              grad.addColorStop(1, 'rgba(0, 229, 255, 0)');
+
+              lCtx.fillStyle = grad;
+              lCtx.beginPath();
+              lCtx.ellipse(currX, srcY, r * 1.4, r * 0.85, 0, 0, Math.PI * 2);
+              lCtx.fill();
+
+              // Fronti d'onda oscillanti interni
+              lCtx.strokeStyle = `rgba(255, 255, 255, ${alpha * 0.85})`;
+              lCtx.lineWidth = 1.6;
+              for (let k = -2; k <= 2; k++) {
+                const wx = currX + k * 4.5;
+                if (wx > srcX && wx < g1X) {
+                  const wh = Math.cos((k / 2.6) * Math.PI * 0.5) * (r * 0.65);
+                  lCtx.beginPath();
+                  lCtx.moveTo(wx, srcY - wh);
+                  lCtx.lineTo(wx, srcY + wh);
+                  lCtx.stroke();
+                }
+              }
+            } else if (pkt.progress < pG2) {
+              // Fase 2: Attraversamento simultaneo di più fenditure del Reticolo 1 (onde cilindriche di Huygens)
+              const t = (pkt.progress - pG1) / (pG2 - pG1);
+              const waveRadius = Math.max(8, currX - g1X);
+              const slitOffsets = [-0.36, -0.18, 0, 0.18, 0.36];
+
+              lCtx.strokeStyle = `rgba(0, 229, 255, ${alpha * (0.75 - t * 0.2)})`;
+              lCtx.lineWidth = pkt.isSlowMo ? 2.1 : 1.5;
+              lCtx.shadowColor = 'rgba(0, 229, 255, 0.7)';
+              lCtx.shadowBlur = 8;
+
+              slitOffsets.forEach((off) => {
+                const sy = midY + off * halfH;
+                lCtx.beginPath();
+                lCtx.arc(g1X, sy, waveRadius, -0.62, 0.62);
+                lCtx.stroke();
+              });
+            } else {
+              // Fase 3: Tappeto di Talbot luminoso (frange di interferenza costruttiva/distruttiva verso il rivelatore)
+              const t = (pkt.progress - pG2) / (1 - pG2);
+              const numFringes = Math.max(6, Math.round(fringeCycles));
+              const trailLen = pkt.isSlowMo ? Math.min(currX - g2X, (detX - g2X) * 0.85) : 26;
+
+              for (let m = 0; m < numFringes; m++) {
+                const frac = (m + 0.5) / numFringes - 0.5;
+                const fy = midY + frac * 1.82 * halfH;
+                const env = Math.cos(frac * Math.PI * 0.65);
+                const intensity = alpha * (0.28 + 0.72 * visibility) * env;
+
+                // Scia luminosa del tappeto di Talbot
+                const carpetGrad = lCtx.createLinearGradient(currX - trailLen, fy, currX + 4, fy);
+                carpetGrad.addColorStop(0, 'rgba(0, 229, 255, 0)');
+                carpetGrad.addColorStop(0.55, `rgba(0, 229, 255, ${intensity * 0.55})`);
+                carpetGrad.addColorStop(0.88, `rgba(255, 42, 133, ${intensity * 0.9})`);
+                carpetGrad.addColorStop(1, `rgba(255, 255, 255, ${intensity})`);
+
+                lCtx.fillStyle = carpetGrad;
+                lCtx.beginPath();
+                lCtx.ellipse(currX - trailLen * 0.35, fy, trailLen * 0.65 + 6, pkt.isSlowMo ? 4.2 : 3.0, 0, 0, Math.PI * 2);
+                lCtx.fill();
+              }
+            }
+          }
+
+          lCtx.restore();
+        }
+
+        // 6. Sorgente di Positroni a sinistra
+        lCtx.save();
+        const pulse = 1 + 0.08 * Math.sin(performance.now() * 0.006);
+        const sGrad = lCtx.createRadialGradient(srcX, srcY, 2, srcX, srcY, 24 * pulse);
+        sGrad.addColorStop(0, '#ffffff');
+        sGrad.addColorStop(0.35, '#ff2a85');
+        sGrad.addColorStop(0.75, 'rgba(255, 42, 133, 0.25)');
+        sGrad.addColorStop(1, 'rgba(255, 42, 133, 0)');
+        lCtx.fillStyle = sGrad;
+        lCtx.beginPath();
+        lCtx.arc(srcX, srcY, 24 * pulse, 0, Math.PI * 2);
+        lCtx.fill();
+
+        lCtx.fillStyle = '#ff2a85';
+        lCtx.beginPath();
+        lCtx.arc(srcX, srcY, 8, 0, Math.PI * 2);
+        lCtx.fill();
+
+        lCtx.fillStyle = '#ffffff';
+        lCtx.font = '700 10px JetBrains Mono, monospace';
+        lCtx.textAlign = 'center';
+        lCtx.fillText('e⁺', srcX, srcY + 3.5);
+
+        lCtx.fillStyle = '#f8fafc';
+        lCtx.font = '600 11px Inter, sans-serif';
+        lCtx.fillText('Sorgente', srcX, srcY + 32);
+        lCtx.restore();
+
+        lCtx.restore();
+      }
+
+      // --- Rendering Pannello Destro: Rivelatore visto di fronte & Istogramma ---
+      function renderRightCanvas() {
+        const { w, h, dpr, plateX, plateY, plateW, plateH, histX, histW } = geoRight;
+
+        rCtx.save();
+        rCtx.scale(dpr, dpr);
+        rCtx.clearRect(0, 0, w, h);
+
+        // 1. Intestazioni pulite sopra il rivelatore e sopra l'istogramma
+        rCtx.fillStyle = '#00e5ff';
+        rCtx.font = '600 12px Inter, sans-serif';
+        rCtx.textAlign = 'left';
+        rCtx.fillText('rivelatore visto di fronte', plateX, plateY - 10);
+
+        rCtx.fillStyle = '#ff2a85';
+        rCtx.fillText('conteggi', histX, plateY - 10);
+
+        // 2. Lastra del Rivelatore Frontale
+        rCtx.fillStyle = '#03060d';
+        rCtx.fillRect(plateX, plateY, plateW, plateH);
+
+        if (detBufferDirty) {
+          rebuildDetectorBuffer();
+        }
+        rCtx.drawImage(detBuffer, plateX, plateY, plateW, plateH);
+
+        // Punti appena rivelati con flash luminoso
+        for (let i = 0; i < state.storedCount; i++) {
+          const f = state.dotFlash[i];
+          if (f > 0) {
+            const px = plateX + state.dotX[i] * plateW;
+            const py = plateY + state.dotY[i] * plateH;
+            const haloR = 3 + (1 - f) * 12;
+
+            const hGrad = rCtx.createRadialGradient(px, py, 0.5, px, py, haloR);
+            hGrad.addColorStop(0, `rgba(255, 255, 255, ${f})`);
+            hGrad.addColorStop(0.45, `rgba(255, 42, 133, ${f * 0.9})`);
+            hGrad.addColorStop(0.8, `rgba(0, 229, 255, ${f * 0.55})`);
+            hGrad.addColorStop(1, 'rgba(0, 229, 255, 0)');
+
+            rCtx.fillStyle = hGrad;
+            rCtx.beginPath();
+            rCtx.arc(px, py, haloR, 0, Math.PI * 2);
+            rCtx.fill();
+
+            rCtx.fillStyle = '#ffffff';
+            rCtx.beginPath();
+            rCtx.arc(px, py, 1.9, 0, Math.PI * 2);
+            rCtx.fill();
+          }
+        }
+
+        // Bordo lastra rivelatore
+        rCtx.strokeStyle = 'rgba(0, 229, 255, 0.55)';
+        rCtx.lineWidth = 1.5;
+        rCtx.strokeRect(plateX, plateY, plateW, plateH);
+
+        // Didascalia inferiore
+        rCtx.fillStyle = '#94a3b8';
+        rCtx.font = '500 11px Inter, sans-serif';
+        rCtx.textAlign = 'center';
+        rCtx.fillText('Ogni punto = 1 singolo positrone rivelato', plateX + plateW * 0.5, plateY + plateH + 20);
+
+        // 3. Istogramma Orizzontale "conteggi" (stile schermata L-NESS)
+        rCtx.strokeStyle = 'rgba(255, 42, 133, 0.45)';
+        rCtx.lineWidth = 1.5;
+        rCtx.beginPath();
+        rCtx.moveTo(histX, plateY);
+        rCtx.lineTo(histX, plateY + plateH);
+        rCtx.stroke();
+
+        let maxCount = 1;
+        for (let b = 0; b < NUM_BINS; b++) {
+          if (state.bins[b] > maxCount) maxCount = state.bins[b];
+        }
+
+        const binH = plateH / NUM_BINS;
+        const gap = Math.max(0.6, binH * 0.14);
+
+        for (let b = 0; b < NUM_BINS; b++) {
+          const val = state.bins[b];
+          if (val === 0) continue;
+
+          const barLen = (val / maxCount) * histW;
+          const by = plateY + b * binH + gap * 0.5;
+          const bh = Math.max(1.5, binH - gap);
+
+          const bGrad = rCtx.createLinearGradient(histX, 0, histX + barLen, 0);
+          bGrad.addColorStop(0, '#be185d');
+          bGrad.addColorStop(0.65, '#ff2a85');
+          bGrad.addColorStop(1, '#fb7185');
+
+          rCtx.fillStyle = bGrad;
+          rCtx.fillRect(histX + 1, by, barLen, bh);
+        }
+
+        rCtx.fillStyle = '#94a3b8';
+        rCtx.textAlign = 'center';
+        rCtx.fillText('Profilo frange', histX + histW * 0.5, plateY + plateH + 20);
+
+        rCtx.restore();
+      }
+
+      // --- Rendering Mini-Grafico Live: Contrasto (%) vs Energia (keV) ---
+      function drawContrastChart() {
+        const rect = contrastCanvasWrap.getBoundingClientRect();
+        const dpr = Math.min(window.devicePixelRatio || 1, 2);
+        const w = rect.width;
+        const h = rect.height;
+
+        cCtx.save();
+        cCtx.scale(dpr, dpr);
+        cCtx.clearRect(0, 0, w, h);
+
+        const padL = 24;
+        const padR = 12;
+        const padT = 8;
+        const padB = 16;
+        const plotW = w - padL - padR;
+        const plotH = h - padT - padB;
+
+        // Assi
+        cCtx.strokeStyle = 'rgba(148, 163, 184, 0.3)';
+        cCtx.lineWidth = 1;
+        cCtx.beginPath();
+        cCtx.moveTo(padL, padT);
+        cCtx.lineTo(padL, padT + plotH);
+        cCtx.lineTo(padL + plotW, padT + plotH);
+        cCtx.stroke();
+
+        // Etichette assi
+        cCtx.fillStyle = '#64748b';
+        cCtx.font = '500 9px JetBrains Mono, monospace';
+        cCtx.textAlign = 'left';
+        cCtx.fillText('4 keV', padL, h - 4);
+        cCtx.textAlign = 'center';
+        cCtx.fillText('14', padL + ((14 - 4) / 16) * plotW, h - 4);
+        cCtx.textAlign = 'right';
+        cCtx.fillText('20 keV', padL + plotW, h - 4);
+
+        // Curva di risonanza quantistica vs linea piatta classica
+        cCtx.beginPath();
+        for (let i = 0; i <= 60; i++) {
+          const e = 4 + (i / 60) * 16;
+          const detuning = (e - 14.0) / 5.2;
+          const vis = state.regime === 'quantum'
+            ? Math.max(0.14, 0.92 * Math.exp(-0.5 * detuning * detuning))
+            : 0.02;
+
+          const x = padL + (i / 60) * plotW;
+          const y = padT + plotH * (1 - vis);
+          if (i === 0) cCtx.moveTo(x, y);
+          else cCtx.lineTo(x, y);
+        }
+        cCtx.strokeStyle = state.regime === 'quantum' ? '#00e5ff' : '#64748b';
+        cCtx.lineWidth = 2;
+        cCtx.stroke();
+
+        // Cursore posizione energia attuale
+        const currX = padL + ((state.energyKeV - 4) / 16) * plotW;
+        const { visibility } = getPhysics();
+        const currY = padT + plotH * (1 - (state.regime === 'quantum' ? visibility : 0.02));
+
+        cCtx.strokeStyle = 'rgba(255, 42, 133, 0.45)';
+        cCtx.setLineDash([2, 2]);
+        cCtx.beginPath();
+        cCtx.moveTo(currX, padT);
+        cCtx.lineTo(currX, padT + plotH);
+        cCtx.stroke();
+        cCtx.setLineDash([]);
+
+        cCtx.fillStyle = '#ff2a85';
+        cCtx.shadowColor = '#ff2a85';
+        cCtx.shadowBlur = 8;
+        cCtx.beginPath();
+        cCtx.arc(currX, currY, 4.5, 0, Math.PI * 2);
+        cCtx.fill();
+
+        cCtx.restore();
+      }
+
+      // --- Loop Principale 60fps ---
+      function animate(timestamp) {
+        if (!state.lastTimestamp) state.lastTimestamp = timestamp;
+        const dt = Math.min(0.05, (timestamp - state.lastTimestamp) / 1000);
+        state.lastTimestamp = timestamp;
+
+        // 1. Emissione continua se in Play
+        if (state.isPlaying) {
+          state.emitAccumulator += state.emissionRate * dt;
+          const countToSpawn = Math.floor(state.emitAccumulator);
+          if (countToSpawn > 0) {
+            state.emitAccumulator -= countToSpawn;
+            const batch = Math.min(countToSpawn, 40);
+            for (let i = 0; i < batch; i++) {
+              if (i === 0 || state.emissionRate <= 25) {
+                spawnPositronPacket(false);
+              } else {
+                registerPositronDetection(sampleImpactY(), i < 3);
+              }
+            }
+          }
+        }
+
+        // 2. Aggiornamento pacchetti in volo
+        let prioritizedPacket = null;
+        for (let i = state.packets.length - 1; i >= 0; i--) {
+          const pkt = state.packets[i];
+          pkt.progress += pkt.speed * dt;
+
+          if (pkt.isSlowMo || !prioritizedPacket) {
+            prioritizedPacket = pkt;
+          }
+
+          if (pkt.progress >= 1.0) {
+            registerPositronDetection(pkt.yTarget, true);
+            state.packets.splice(i, 1);
+          }
+        }
+
+        updateFlightPhaseUI(prioritizedPacket);
+
+        // 3. Decadimento aloni sui nuovi punti nel rivelatore
+        for (let i = 0; i < state.storedCount; i++) {
+          if (state.dotFlash[i] > 0) {
+            state.dotFlash[i] -= dt * 2.4;
+            if (state.dotFlash[i] <= 0) {
+              state.dotFlash[i] = 0;
+              paintDotToBuffer(state.dotX[i], state.dotY[i]);
+            }
+          }
+        }
+
+        if (state.impactFlash > 0) {
+          state.impactFlash = Math.max(0, state.impactFlash - dt * 3.5);
+        }
+
+        // 4. Render di entrambi i pannelli
+        renderLeftCanvas();
+        renderRightCanvas();
+
+        requestAnimationFrame(animate);
+      }
+
+      // --- Interazioni & Controlli UI ---
+      function setPlayState(playing) {
+        state.isPlaying = playing;
+        if (playing) {
+          iconPause.classList.remove('hidden');
+          iconPlay.classList.add('hidden');
+          textPlayPause.textContent = 'Flusso Continuo: Pausa';
+          btnPlayPause.className = 'flex-1 sm:flex-none min-h-[46px] px-4 py-2.5 rounded-xl font-bold text-xs sm:text-sm bg-[#00e5ff] hover:bg-cyan-300 text-slate-950 shadow-lg shadow-cyan-500/25 transition flex items-center justify-center gap-2 cursor-pointer';
+        } else {
+          iconPause.classList.add('hidden');
+          iconPlay.classList.remove('hidden');
+          textPlayPause.textContent = 'Flusso Continuo: Avvia';
+          btnPlayPause.className = 'flex-1 sm:flex-none min-h-[46px] px-4 py-2.5 rounded-xl font-bold text-xs sm:text-sm bg-emerald-400 hover:bg-emerald-300 text-slate-950 shadow-lg shadow-emerald-500/25 transition flex items-center justify-center gap-2 cursor-pointer';
+        }
+        updateFlightPhaseUI(state.packets.find((p) => p.isSlowMo) || null);
+      }
+
+      function setRegime(newRegime) {
+        if (state.regime === newRegime) return;
+        state.regime = newRegime;
+
+        if (newRegime === 'quantum') {
+          btnModeQuantum.className = 'min-h-[44px] px-3 py-2 rounded-lg text-xs sm:text-sm font-bold bg-cyan-500/20 text-[#00e5ff] border border-[#00e5ff]/60 shadow-inner transition cursor-pointer';
+          btnModeClassical.className = 'min-h-[44px] px-3 py-2 rounded-lg text-xs sm:text-sm font-semibold text-slate-400 hover:text-slate-200 border border-transparent transition cursor-pointer';
+          regimePillLeft.textContent = 'Onda di de Broglie attiva';
+          regimePillLeft.className = 'px-2.5 py-1 rounded-lg text-xs font-semibold bg-cyan-500/15 text-[#00e5ff] border border-cyan-500/35';
+          regimeExplanation.className = 'lg:col-span-7 bg-cyan-950/25 border border-cyan-500/30 rounded-xl p-3.5 text-xs sm:text-sm text-slate-200 leading-relaxed';
+          regimeExplanation.innerHTML = '<span class="font-bold text-[#00e5ff]">Regime Quantistico attivo:</span> Ogni singolo positrone si propaga come un\'onda di de Broglie che attraversa <em>contemporaneamente più fenditure</em> dei reticoli, interferendo con se stessa prima di collassare in un singolo punto sul rivelatore.';
+        } else {
+          btnModeClassical.className = 'min-h-[44px] px-3 py-2 rounded-lg text-xs sm:text-sm font-bold bg-pink-500/20 text-[#ff2a85] border border-[#ff2a85]/60 shadow-inner transition cursor-pointer';
+          btnModeQuantum.className = 'min-h-[44px] px-3 py-2 rounded-lg text-xs sm:text-sm font-semibold text-slate-400 hover:text-slate-200 border border-transparent transition cursor-pointer';
+          regimePillLeft.textContent = 'Traiettoria balistica classica';
+          regimePillLeft.className = 'px-2.5 py-1 rounded-lg text-xs font-semibold bg-pink-500/15 text-[#ff2a85] border border-pink-500/35';
+          regimeExplanation.className = 'lg:col-span-7 bg-pink-950/25 border border-pink-500/30 rounded-xl p-3.5 text-xs sm:text-sm text-slate-200 leading-relaxed';
+          regimeExplanation.innerHTML = '<span class="font-bold text-[#ff2a85]">Regime Classico attivo:</span> Il positrone si comporta come una pallina solida che attraversa <em>una sola fenditura alla volta</em> lungo una traiettoria rettilinea: sul rivelatore compare una distribuzione uniforme priva di frange d\'interferenza.';
+        }
+
+        const { visibility } = getPhysics();
+        labelContrast.textContent = `${Math.round(visibility * 100)}%`;
+        drawContrastChart();
+
+        // Rigenera i conteggi correnti nel nuovo regime fisico per confronto diretto
+        const prevCount = state.totalDetected;
+        if (prevCount > 0) {
+          resetAll();
+          for (let i = 0; i < prevCount; i++) {
+            registerPositronDetection(sampleImpactY(), false);
+          }
+          rebuildDetectorBuffer();
+          updateCounterUI();
+        }
+      }
+
+      function updateEnergy(keV) {
+        state.energyKeV = keV;
+        labelEnergy.textContent = `${keV.toFixed(1)} keV`;
+        const { lambdaPm, visibility } = getPhysics();
+        labelLambda.textContent = `${lambdaPm.toFixed(1)} pm`;
+        labelContrast.textContent = `${Math.round(visibility * 100)}%`;
+        drawContrastChart();
+
+        const prevCount = state.totalDetected;
+        if (prevCount > 40) {
+          resetAll();
+          for (let i = 0; i < prevCount; i++) {
+            registerPositronDetection(sampleImpactY(), false);
+          }
+          rebuildDetectorBuffer();
+          updateCounterUI();
+        }
+      }
+
+      function selectPart(partKey) {
+        state.selectedPart = partKey;
+        const info = PART_INFO[partKey];
+        if (!info) return;
+
+        partBtns.forEach((btn) => {
+          const isMatch = btn.dataset.part === partKey;
+          if (isMatch) {
+            btn.className = 'part-btn min-h-[38px] px-3 py-1.5 rounded-xl text-xs font-semibold bg-cyan-500/20 text-[#00e5ff] border border-[#00e5ff]/60 transition cursor-pointer';
+          } else {
+            btn.className = 'part-btn min-h-[38px] px-3 py-1.5 rounded-xl text-xs font-semibold bg-slate-800/90 text-slate-300 border border-slate-700 hover:border-cyan-500/40 transition cursor-pointer';
+          }
+        });
+
+        partExplanationBox.innerHTML = `<strong class="${info.color}">${info.title}:</strong> ${info.text}`;
+      }
+
+      // Click & Hover direttamente sul Canvas Sinistro per selezionare Sorgente, Reticolo 1, Reticolo 2, Rivelatore
+      function getPartAtPosition(clientX, clientY) {
+        const rect = leftCanvas.getBoundingClientRect();
+        const x = clientX - rect.left;
+        const targets = [
+          { key: 'source', x: geoLeft.srcX, tol: 34 },
+          { key: 'grating1', x: geoLeft.g1X, tol: 28 },
+          { key: 'grating2', x: geoLeft.g2X, tol: 28 },
+          { key: 'detector', x: geoLeft.detX, tol: 30 }
+        ];
+        for (const t of targets) {
+          if (Math.abs(x - t.x) <= t.tol) return t.key;
+        }
+        return null;
+      }
+
+      leftCanvas.addEventListener('mousemove', (e) => {
+        const hit = getPartAtPosition(e.clientX, e.clientY);
+        state.hoveredPart = hit;
+        leftCanvas.style.cursor = hit ? 'pointer' : 'default';
+      });
+
+      leftCanvas.addEventListener('mouseleave', () => {
+        state.hoveredPart = null;
+        leftCanvas.style.cursor = 'default';
+      });
+
+      leftCanvas.addEventListener('click', (e) => {
+        const hit = getPartAtPosition(e.clientX, e.clientY);
+        if (hit) selectPart(hit);
+      });
+
+      partBtns.forEach((btn) => {
+        btn.addEventListener('click', () => selectPart(btn.dataset.part));
+      });
+
+      // --- Logica Tour Guidato (4 Passi) ---
+      function clearTourHighlights() {
+        [panelLeft, panelRight, physicsControlsBox].forEach((el) => el.classList.remove('tour-highlight'));
+      }
+
+      function renderTourStep(index) {
+        state.tourIndex = index;
+        const step = TOUR_STEPS[index];
+        tourBanner.classList.remove('hidden');
+
+        tourStepBadge.textContent = `PASSO ${index + 1} DI ${TOUR_STEPS.length}`;
+        tourStepTitle.textContent = step.title;
+        tourStepDesc.textContent = step.desc;
+        btnTourAction.textContent = step.actionLabel;
+
+        btnTourPrev.disabled = index === 0;
+        btnTourNext.textContent = index === TOUR_STEPS.length - 1 ? 'Fine Tour ✓' : 'Avanti →';
+
+        const dots = tourDots.querySelectorAll('span');
+        dots.forEach((d, idx) => {
+          d.className = idx === index
+            ? 'w-3 h-3 rounded-full bg-[#00e5ff] shadow shadow-cyan-400'
+            : 'w-2.5 h-2.5 rounded-full bg-slate-700';
+        });
+
+        clearTourHighlights();
+        const targetEl = document.getElementById(step.highlight);
+        if (targetEl) {
+          targetEl.classList.add('tour-highlight');
+          targetEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+
+        if (step.onEnter) step.onEnter();
+      }
+
+      function closeTour() {
+        state.tourIndex = -1;
+        tourBanner.classList.add('hidden');
+        clearTourHighlights();
+      }
+
+      btnStartTour.addEventListener('click', () => renderTourStep(0));
+      btnCloseTour.addEventListener('click', closeTour);
+      btnTourPrev.addEventListener('click', () => {
+        if (state.tourIndex > 0) renderTourStep(state.tourIndex - 1);
+      });
+      btnTourNext.addEventListener('click', () => {
+        if (state.tourIndex < TOUR_STEPS.length - 1) {
+          renderTourStep(state.tourIndex + 1);
+        } else {
+          closeTour();
+        }
+      });
+      btnTourAction.addEventListener('click', () => {
+        const step = TOUR_STEPS[state.tourIndex];
+        if (step && step.onAction) step.onAction();
+      });
+
+      // --- Listeners Controlli Principali ---
+      btnModeQuantum.addEventListener('click', () => setRegime('quantum'));
+      btnModeClassical.addEventListener('click', () => setRegime('classical'));
+
+      btnSingleSlow.addEventListener('click', triggerSingleSlowPositron);
+      btnPlayPause.addEventListener('click', () => setPlayState(!state.isPlaying));
+      btnLoad3062.addEventListener('click', loadHistorical3062);
+      btnReset.addEventListener('click', resetAll);
+
+      sliderRate.addEventListener('input', (e) => {
+        state.emissionRate = parseInt(e.target.value, 10);
+        labelRate.textContent = `${state.emissionRate} /s`;
+      });
+
+      sliderEnergy.addEventListener('input', (e) => {
+        updateEnergy(parseFloat(e.target.value));
+      });
+
+      // --- Inizializzazione & Avvio Loop ---
+      window.addEventListener('resize', resizeAllCanvases);
+      window.onload = function () {
+        resizeAllCanvases();
+        selectPart('source');
+        requestAnimationFrame(animate);
+      };
+    })();
+  </script>
+
+  <script>
+    /**
+     * Animazione del sistema QUPLAS completo:
+     * e⁺ -> convertitore W+Na -> Ps⁻ -> cavità laser (fotodistacco) -> Ps -> interferometro -> rivelatore.
+     * Schema didattico: le probabilità sono indicative e servono a mostrare anche le perdite.
+     */
+    (function () {
+      'use strict';
+
+      const wrap = document.getElementById('sysCanvasWrap');
+      const canvas = document.getElementById('sysCanvas');
+      const ctx = canvas.getContext('2d');
+      const btnPlay = document.getElementById('sysPlay');
+      const btnTrace = document.getElementById('sysTrace');
+      const sliderSpeed = document.getElementById('sysSpeed');
+      const labelSpeed = document.getElementById('sysSpeedLabel');
+      const caption = document.getElementById('sysCaption');
+      const dot = document.getElementById('sysDot');
+      const stagesBox = document.getElementById('sysStages');
+      const cEmit = document.getElementById('sysCntEmit');
+      const cConv = document.getElementById('sysCntConv');
+      const cPs = document.getElementById('sysCntPs');
+      const cDet = document.getElementById('sysCntDet');
+
+      // Tappe del sistema (x normalizzata lungo la linea di fascio)
+      const STAGES = [
+        { key: 'source', label: '1. Sorgente e⁺', x: 0.07, color: '#ff2a85',
+          text: '<strong class="text-[#ff2a85]">Sorgente di positroni.</strong> Produce positroni (antielettroni) che vengono rallentati e portati in un fascio a bassa energia, diretto verso il convertitore.' },
+        { key: 'conv', label: '2. Convertitore W + Na', x: 0.27, color: '#00e5ff',
+          text: '<strong class="text-[#00e5ff]">Convertitore di tungsteno e sodio.</strong> Un positrone che esce dal bersaglio può catturare due elettroni e diventare uno ione negativo di positronio, Ps⁻. Molti positroni non si convertono: sono la prima grande perdita.' },
+        { key: 'cav', label: '3. Cavità laser', x: 0.50, color: '#ffb020',
+          text: '<strong class="text-[#ffb020]">Cavità laser (~200 kW).</strong> Il Ps⁻ vive solo 479 ps: la luce intensa strappa l\'elettrone in più (fotodistacco) e lascia un positronio neutro, Ps. L\'elettrone staccato esce di lato.' },
+        { key: 'inter', label: '4. Interferometro', x: 0.72, color: '#00e5ff',
+          text: '<strong class="text-[#00e5ff]">Interferometro di Talbot-Lau.</strong> Il Ps è neutro, quindi non sente i campi elettrici e magnetici sparsi. Passa attraverso i reticoli come un\'onda e produce frange di interferenza.' },
+        { key: 'det', label: '5. Rivelatore', x: 0.93, color: '#10b981',
+          text: '<strong class="text-emerald-400">Rivelatore.</strong> Ogni atomo di positronio arriva come un punto localizzato. Se la gravità agisce sull\'antimateria, le frange si spostano di una quantità che si può misurare.' }
+      ];
+
+      // Costruzione dei pulsanti delle tappe
+      STAGES.forEach((s, i) => {
+        const b = document.createElement('button');
+        b.type = 'button';
+        b.dataset.i = i;
+        b.className = 'min-h-[40px] px-2.5 py-2 rounded-xl text-[11px] sm:text-xs font-semibold bg-slate-800/90 text-slate-300 border border-slate-700 hover:border-cyan-500/40 transition cursor-pointer text-left';
+        b.textContent = s.label;
+        stagesBox.appendChild(b);
+      });
+
+      const S = {
+        playing: true,
+        speed: 1,
+        w: 0, h: 0, dpr: 1,
+        parts: [],
+        fx: [], // effetti: lampi, elettroni espulsi, fotoni gamma
+        acc: 0,
+        last: 0,
+        tracer: null,
+        focus: -1, // tappa evidenziata dall'utente
+        focusUntil: 0,
+        nEmit: 0, nConv: 0, nPs: 0, nDet: 0,
+        dets: [] // punti di impatto sul rivelatore { y, life }
+      };
+
+      // Probabilità didattiche
+      const P_CONVERT = 0.55;
+      const P_SURVIVE = 0.80;
+      const P_DETACH = 0.65;
+
+      function resize() {
+        const r = wrap.getBoundingClientRect();
+        const dpr = Math.min(window.devicePixelRatio || 1, 2);
+        S.w = r.width; S.h = r.height; S.dpr = dpr;
+        canvas.width = Math.floor(r.width * dpr);
+        canvas.height = Math.floor(r.height * dpr);
+      }
+
+      const axisY = () => S.h * 0.52;
+      const sx = (n) => n * S.w;
+
+      function spawn(isTracer) {
+        const p = {
+          x: STAGES[0].x,
+          y: axisY(),
+          vy: 0,
+          kind: 'ep', // 'ep' | 'psm' | 'ps' | 'dead'
+          fate: null,
+          tracer: !!isTracer,
+          fade: 1,
+          // esiti decisi alla nascita (per il tracer sono tutti positivi)
+          willConvert: isTracer ? true : Math.random() < P_CONVERT,
+          willSurvive: isTracer ? true : Math.random() < P_SURVIVE,
+          willDetach: isTracer ? true : Math.random() < P_DETACH,
+          yTarget: 0.12 + Math.random() * 0.76,
+          phase: Math.random() * 6.28,
+          doneConv: false, doneCav: false
+        };
+        S.nEmit++;
+        S.parts.push(p);
+        if (isTracer) {
+          if (S.tracer && S.tracer.kind !== 'dead') S.tracer.tracer = false;
+          S.tracer = p;
+        }
+        return p;
+      }
+
+      function addFlash(x, y, color, size) {
+        S.fx.push({ t: 'flash', x, y, color, size: size || 18, life: 1 });
+      }
+
+      function kill(p, why) {
+        p.kind = 'dead';
+        p.fate = why;
+        if (why === 'annih') {
+          // due fotoni gamma emessi in direzioni opposte
+          S.fx.push({ t: 'gamma', x: p.x, y: p.y, dir: -1, life: 1 });
+          S.fx.push({ t: 'gamma', x: p.x, y: p.y, dir: 1, life: 1 });
+        }
+      }
+
+      function setCaption(html, color) {
+        caption.innerHTML = html;
+        dot.style.background = color || '#64748b';
+      }
+
+      function tracerCaption() {
+        const t = S.tracer;
+        if (!t) return;
+        if (t.kind === 'dead') {
+          setCaption(t.fate === 'conv'
+            ? '<strong>Il positrone seguito non si è convertito:</strong> si è annichilato nel convertitore senza dare Ps⁻. Capita spesso, ed è il motivo per cui il flusso di Ps è molto più debole di quello dei positroni.'
+            : '<strong>Il positrone seguito è andato perso</strong> prima di arrivare al rivelatore.', '#94a3b8');
+          return;
+        }
+        let idx = 0;
+        for (let i = 0; i < STAGES.length; i++) if (t.x >= STAGES[i].x - 0.07) idx = i;
+        if (t.kind === 'ps' && idx < 3) idx = 3;
+        const s = STAGES[idx];
+        const label = t.kind === 'ep' ? 'positrone (e⁺)' : t.kind === 'psm' ? 'ione Ps⁻' : 'positronio neutro (Ps)';
+        setCaption(`<span class="font-mono-tech text-[11px] text-slate-400">Particella seguita: ${label}</span><br>${s.text}`, s.color);
+      }
+
+      function update(dt) {
+        const d = dt * S.speed;
+
+        if (S.playing) {
+          S.acc += d * 3.2; // ~3 positroni al secondo (didattico)
+          while (S.acc >= 1) { S.acc -= 1; spawn(false); }
+        }
+
+        const cX = STAGES[1].x, lX = STAGES[2].x;
+        const g1 = 0.66, g2 = 0.78, detX = STAGES[4].x;
+
+        for (let i = S.parts.length - 1; i >= 0; i--) {
+          const p = S.parts[i];
+
+          if (p.kind === 'dead') {
+            p.fade -= d * 1.6;
+            if (p.fade <= 0) { if (S.tracer === p) tracerDone(); S.parts.splice(i, 1); }
+            continue;
+          }
+
+          // velocità: i positroni sono più rapidi, il Ps⁻ è lento nella cavità (didattico)
+          const base = p.kind === 'ep' ? 0.16 : p.kind === 'psm' ? 0.12 : 0.15;
+          p.x += base * d * (p.tracer ? 0.8 : 1);
+
+          // Conversione nel convertitore
+          if (p.kind === 'ep' && !p.doneConv && p.x >= cX) {
+            p.doneConv = true;
+            if (p.willConvert) {
+              p.kind = 'psm';
+              S.nConv++;
+              addFlash(sx(cX), p.y, '#00e5ff', 22);
+            } else {
+              kill(p, 'conv');
+              addFlash(sx(cX), p.y, '#ff2a85', 14);
+              continue;
+            }
+          }
+
+          // Decadimento del Ps⁻ lungo il percorso verso la cavità
+          if (p.kind === 'psm' && !p.willSurvive && p.x >= (cX + lX) * 0.5) {
+            kill(p, 'annih');
+            continue;
+          }
+
+          // Fotodistacco nella cavità
+          if (p.kind === 'psm' && !p.doneCav && p.x >= lX) {
+            p.doneCav = true;
+            if (p.willDetach) {
+              p.kind = 'ps';
+              S.nPs++;
+              const dir = Math.random() < 0.5 ? -1 : 1;
+              S.fx.push({ t: 'electron', x: sx(lX), y: p.y, dir, life: 1 });
+              addFlash(sx(lX), p.y, '#ffb020', 26);
+            } else {
+              // Ps⁻ non neutralizzato: viene deviato dai campi e perso
+              kill(p, 'cav');
+              continue;
+            }
+          }
+
+          // Oltre la cavità: il Ps neutro va dritto verso i reticoli, con lieve deriva verso la posizione di arrivo
+          if (p.kind === 'ps' && p.x > g2) {
+            const t = Math.min(1, (p.x - g2) / (detX - g2));
+            p.y = axisY() + (p.yTarget - 0.52) * S.h * 0.8 * t;
+          }
+
+          if (p.x >= detX) {
+            S.nDet++;
+            S.dets.push({ y: p.y, life: 1 });
+            if (S.dets.length > 60) S.dets.shift();
+            addFlash(sx(detX), p.y, '#10b981', 18);
+            if (S.tracer === p) tracerDone(true);
+            S.parts.splice(i, 1);
+          }
+        }
+
+        // Effetti
+        for (let i = S.fx.length - 1; i >= 0; i--) {
+          const f = S.fx[i];
+          f.life -= d * (f.t === 'flash' ? 2.2 : 1.1);
+          if (f.t === 'electron') { f.y += f.dir * d * 70; f.x += d * 20; }
+          if (f.t === 'gamma') { f.x += f.dir * d * 60; f.y -= d * 30; }
+          if (f.life <= 0) S.fx.splice(i, 1);
+        }
+        for (let i = S.dets.length - 1; i >= 0; i--) {
+          S.dets[i].life -= d * 0.35;
+          if (S.dets[i].life <= 0) S.dets.splice(i, 1);
+        }
+
+        cEmit.textContent = S.nEmit.toLocaleString('it-IT');
+        cConv.textContent = S.nConv.toLocaleString('it-IT');
+        cPs.textContent = S.nPs.toLocaleString('it-IT');
+        cDet.textContent = S.nDet.toLocaleString('it-IT');
+
+        if (S.tracer && performance.now() > S.focusUntil) tracerCaption();
+      }
+
+      function tracerDone(ok) {
+        if (ok) {
+          setCaption('<strong class="text-emerald-400">Arrivato al rivelatore.</strong> Il positronio seguito ha lasciato un punto. Ripetendo la misura migliaia di volte emergono le frange di interferenza.', '#10b981');
+        }
+        S.tracer = null;
+        btnTrace.disabled = false;
+        btnTrace.classList.remove('opacity-50');
+      }
+
+      function draw() {
+        const { w, h, dpr } = S;
+        const ay = axisY();
+        ctx.save();
+        ctx.scale(dpr, dpr);
+        ctx.clearRect(0, 0, w, h);
+
+        const t = performance.now();
+
+        // Linea di fascio
+        ctx.strokeStyle = 'rgba(148,163,184,0.18)';
+        ctx.lineWidth = 1;
+        ctx.setLineDash([4, 6]);
+        ctx.beginPath(); ctx.moveTo(sx(0.07), ay); ctx.lineTo(sx(0.93), ay); ctx.stroke();
+        ctx.setLineDash([]);
+
+        // Zona evidenziata (tappa scelta dall'utente)
+        if (S.focus >= 0 && t < S.focusUntil) {
+          const s = STAGES[S.focus];
+          const a = 0.10 + 0.06 * Math.sin(t * 0.008);
+          ctx.fillStyle = hexA(s.color, a);
+          ctx.fillRect(sx(s.x) - 34, h * 0.08, 68, h * 0.84);
+          ctx.strokeStyle = hexA(s.color, 0.55);
+          ctx.lineWidth = 1.5;
+          ctx.strokeRect(sx(s.x) - 34, h * 0.08, 68, h * 0.84);
+        }
+
+        // 1. Sorgente
+        const pulse = 1 + 0.08 * Math.sin(t * 0.006);
+        const sg = ctx.createRadialGradient(sx(0.07), ay, 2, sx(0.07), ay, 26 * pulse);
+        sg.addColorStop(0, '#fff'); sg.addColorStop(0.35, '#ff2a85');
+        sg.addColorStop(0.75, 'rgba(255,42,133,0.25)'); sg.addColorStop(1, 'rgba(255,42,133,0)');
+        ctx.fillStyle = sg;
+        ctx.beginPath(); ctx.arc(sx(0.07), ay, 26 * pulse, 0, 6.283); ctx.fill();
+        ctx.fillStyle = '#ff2a85';
+        ctx.beginPath(); ctx.arc(sx(0.07), ay, 9, 0, 6.283); ctx.fill();
+        ctx.fillStyle = '#fff'; ctx.font = '700 10px JetBrains Mono, monospace'; ctx.textAlign = 'center';
+        ctx.fillText('e⁺', sx(0.07), ay + 3.5);
+
+        // 2. Convertitore (lastra spessa W + Na)
+        const cx = sx(STAGES[1].x);
+        ctx.fillStyle = '#334155';
+        ctx.fillRect(cx - 7, ay - h * 0.22, 8, h * 0.44);
+        ctx.fillStyle = '#00e5ff';
+        ctx.shadowColor = 'rgba(0,229,255,0.7)'; ctx.shadowBlur = 10;
+        ctx.fillRect(cx + 1, ay - h * 0.22, 3, h * 0.44);
+        ctx.shadowBlur = 0;
+
+        // 3. Cavità laser: due specchi curvi e fascio luminoso
+        const lx = sx(STAGES[2].x);
+        const lg = ctx.createLinearGradient(lx - 14, 0, lx + 14, 0);
+        lg.addColorStop(0, 'rgba(255,176,32,0)');
+        lg.addColorStop(0.5, `rgba(255,176,32,${0.35 + 0.15 * Math.sin(t * 0.01)})`);
+        lg.addColorStop(1, 'rgba(255,176,32,0)');
+        ctx.fillStyle = lg;
+        ctx.fillRect(lx - 14, h * 0.1, 28, h * 0.72);
+        ctx.strokeStyle = '#e2e8f0'; ctx.lineWidth = 5; ctx.lineCap = 'round';
+        ctx.beginPath(); ctx.moveTo(lx - 26, h * 0.08); ctx.quadraticCurveTo(lx, h * 0.03, lx + 26, h * 0.08); ctx.stroke();
+        ctx.beginPath(); ctx.moveTo(lx - 26, h * 0.82); ctx.quadraticCurveTo(lx, h * 0.87, lx + 26, h * 0.82); ctx.stroke();
+        ctx.lineCap = 'butt';
+
+        // 4. Reticoli dell'interferometro
+        [0.66, 0.78].forEach((gx) => {
+          const x = sx(gx);
+          ctx.strokeStyle = '#00e5ff'; ctx.lineWidth = 3;
+          ctx.shadowColor = 'rgba(0,229,255,0.7)'; ctx.shadowBlur = 8;
+          const n = 9, top = h * 0.18, bot = h * 0.86, step = (bot - top) / n;
+          for (let k = 0; k < n; k++) {
+            ctx.beginPath(); ctx.moveTo(x, top + k * step); ctx.lineTo(x, top + k * step + step * 0.56); ctx.stroke();
+          }
+          ctx.shadowBlur = 0;
+        });
+
+        // 5. Rivelatore + punti accumulati
+        const dx = sx(STAGES[4].x);
+        ctx.strokeStyle = '#10b981'; ctx.lineWidth = 4;
+        ctx.shadowColor = 'rgba(16,185,129,0.7)'; ctx.shadowBlur = 8;
+        ctx.beginPath(); ctx.moveTo(dx + 14, h * 0.12); ctx.lineTo(dx + 14, h * 0.9); ctx.stroke();
+        ctx.shadowBlur = 0;
+        S.dets.forEach((d) => {
+          ctx.fillStyle = `rgba(167,243,208,${d.life})`;
+          ctx.beginPath(); ctx.arc(dx + 14, d.y, 2.2, 0, 6.283); ctx.fill();
+        });
+
+        // Etichette
+        ctx.font = '600 11px Inter, sans-serif'; ctx.textAlign = 'center';
+        const lab = [
+          ['Sorgente', sx(0.07), '#f8fafc'], ['W + Na', cx, '#00e5ff'], ['Cavità laser', lx, '#ffb020'],
+          ['Interferometro', sx(0.72), '#00e5ff'], ['Rivelatore', dx + 8, '#10b981']
+        ];
+        lab.forEach(([txt, x, c]) => { ctx.fillStyle = c; ctx.fillText(txt, x, h - 8); });
+
+        // Etichette dei tipi di particella nelle zone
+        ctx.fillStyle = '#94a3b8'; ctx.font = '500 10px JetBrains Mono, monospace';
+        ctx.fillText('e⁺', (sx(0.07) + cx) * 0.5 + 6, ay - 56);
+        ctx.fillText('Ps⁻', (cx + lx) * 0.5, ay - 56);
+        ctx.fillText('Ps', (lx + sx(0.78)) * 0.5 + 20, ay - 56);
+
+        // Particelle
+        S.parts.forEach((p) => {
+          const x = sx(p.x);
+          const a = p.kind === 'dead' ? Math.max(0, p.fade) * 0.7 : 1;
+          const big = p.tracer ? 1.5 : 1;
+          ctx.save();
+          ctx.globalAlpha = a;
+          if (p.kind === 'ep') {
+            ctx.fillStyle = '#ff2a85'; ctx.shadowColor = '#ff2a85'; ctx.shadowBlur = 9;
+            ctx.beginPath(); ctx.arc(x, p.y, 4.5 * big, 0, 6.283); ctx.fill();
+          } else if (p.kind === 'psm') {
+            ctx.strokeStyle = '#00e5ff'; ctx.lineWidth = 2; ctx.shadowColor = '#00e5ff'; ctx.shadowBlur = 10;
+            ctx.fillStyle = 'rgba(255,42,133,0.6)';
+            ctx.beginPath(); ctx.arc(x, p.y, 6.5 * big, 0, 6.283); ctx.fill(); ctx.stroke();
+          } else if (p.kind === 'ps') {
+            ctx.fillStyle = '#fcd34d'; ctx.shadowColor = '#fcd34d'; ctx.shadowBlur = 10;
+            ctx.beginPath(); ctx.arc(x, p.y, 5 * big, 0, 6.283); ctx.fill();
+            // onda associata dopo i reticoli (frange)
+            if (p.x > 0.66) {
+              ctx.strokeStyle = 'rgba(252,211,77,0.35)'; ctx.lineWidth = 1;
+              for (let k = 1; k <= 2; k++) {
+                ctx.beginPath(); ctx.arc(x, p.y, 5 * big + k * 5 + (Math.sin(t * 0.01 + p.phase) + 1) * 1.5, 0, 6.283); ctx.stroke();
+              }
+            }
+          } else {
+            ctx.fillStyle = '#94a3b8';
+            ctx.beginPath(); ctx.arc(x, p.y, 4 * big, 0, 6.283); ctx.fill();
+          }
+          if (p.tracer && p.kind !== 'dead') {
+            ctx.shadowBlur = 0; ctx.globalAlpha = 0.9;
+            ctx.strokeStyle = '#fff'; ctx.lineWidth = 1; ctx.setLineDash([2, 3]);
+            ctx.beginPath(); ctx.arc(x, p.y, 12, 0, 6.283); ctx.stroke(); ctx.setLineDash([]);
+          }
+          ctx.restore();
+        });
+
+        // Effetti
+        S.fx.forEach((f) => {
+          ctx.save();
+          const a = Math.max(0, f.life);
+          if (f.t === 'flash') {
+            const r = f.size * (1.2 - a * 0.5);
+            const g = ctx.createRadialGradient(f.x, f.y, 1, f.x, f.y, r);
+            g.addColorStop(0, `rgba(255,255,255,${a})`);
+            g.addColorStop(0.5, hexA(f.color, a * 0.7));
+            g.addColorStop(1, hexA(f.color, 0));
+            ctx.fillStyle = g; ctx.beginPath(); ctx.arc(f.x, f.y, r, 0, 6.283); ctx.fill();
+          } else if (f.t === 'electron') {
+            ctx.fillStyle = `rgba(56,189,248,${a})`; ctx.shadowColor = '#38bdf8'; ctx.shadowBlur = 8;
+            ctx.beginPath(); ctx.arc(f.x, f.y, 3, 0, 6.283); ctx.fill();
+            ctx.fillStyle = `rgba(186,230,253,${a})`; ctx.font = '600 9px JetBrains Mono, monospace'; ctx.textAlign = 'left';
+            ctx.fillText('e⁻', f.x + 6, f.y + 3);
+          } else if (f.t === 'gamma') {
+            ctx.strokeStyle = `rgba(250,204,21,${a})`; ctx.lineWidth = 1.5;
+            ctx.beginPath();
+            for (let k = 0; k <= 14; k++) {
+              const px = f.x + f.dir * k * 2.2, py = f.y - k * 1.1 + Math.sin(k * 1.4) * 2.2;
+              if (k === 0) ctx.moveTo(px, py); else ctx.lineTo(px, py);
+            }
+            ctx.stroke();
+          }
+          ctx.restore();
+        });
+
+        ctx.restore();
+      }
+
+      function hexA(hex, a) {
+        const n = parseInt(hex.slice(1), 16);
+        return `rgba(${(n >> 16) & 255},${(n >> 8) & 255},${n & 255},${a})`;
+      }
+
+      function frame(ts) {
+        if (!S.last) S.last = ts;
+        const dt = Math.min(0.05, (ts - S.last) / 1000);
+        S.last = ts;
+        update(dt);
+        draw();
+        requestAnimationFrame(frame);
+      }
+
+      // Controlli
+      function setPlaying(p) {
+        S.playing = p;
+        btnPlay.textContent = p ? 'Pausa' : 'Avvia';
+        btnPlay.className = 'min-h-[42px] px-4 py-2 rounded-xl font-bold text-xs sm:text-sm transition cursor-pointer ' +
+          (p ? 'bg-[#00e5ff] hover:bg-cyan-300 text-slate-950' : 'bg-emerald-400 hover:bg-emerald-300 text-slate-950');
+      }
+      btnPlay.addEventListener('click', () => setPlaying(!S.playing));
+
+      btnTrace.addEventListener('click', () => {
+        S.focus = -1;
+        S.focusUntil = 0;
+        if (!S.playing) setPlaying(true);
+        spawn(true);
+        btnTrace.disabled = true;
+        btnTrace.classList.add('opacity-50');
+        tracerCaption();
+      });
+
+      sliderSpeed.addEventListener('input', (e) => {
+        S.speed = parseFloat(e.target.value);
+        labelSpeed.textContent = S.speed.toFixed(1).replace('.', ',') + '×';
+      });
+
+      stagesBox.addEventListener('click', (e) => {
+        const b = e.target.closest('button');
+        if (!b) return;
+        const i = +b.dataset.i;
+        S.focus = i;
+        S.focusUntil = performance.now() + 6000;
+        setCaption(STAGES[i].text, STAGES[i].color);
+        [...stagesBox.children].forEach((c, k) => {
+          c.className = 'min-h-[40px] px-2.5 py-2 rounded-xl text-[11px] sm:text-xs font-semibold transition cursor-pointer text-left border ' +
+            (k === i ? 'bg-cyan-500/20 text-[#00e5ff] border-[#00e5ff]/60' : 'bg-slate-800/90 text-slate-300 border-slate-700 hover:border-cyan-500/40');
+        });
+      });
+
+      window.addEventListener('resize', resize);
+      resize();
+      // Rispetta "riduci animazioni": parte in pausa
+      if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) setPlaying(false);
+      requestAnimationFrame(frame);
+    })();
+  </script>
+</body>
+</html>
