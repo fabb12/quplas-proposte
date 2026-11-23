@@ -118,6 +118,28 @@ ul.lim{padding-left:18px;color:var(--muted);font-size:15px}
 </div>
 </div></header>
 
+<section class="band" style="padding-top:0" id="anim"><div class="wrap">
+<div class="panel">
+<h2>Come funziona la linea di fascio</h2>
+<p class="note">Schema animato: i positroni (e⁺) diventano ioni Ps⁻ nel convertitore W + Na, il laser stacca l'elettrone in più e il Ps neutro arriva all'interferometro. Tempi, distanze e rese non sono in scala: le probabilità sono illustrative e servono a mostrare le perdite.</p>
+<div class="btns">
+<button id="aPlay" aria-pressed="true">Pausa</button>
+<button id="aTrace">Segui 1 positrone</button>
+</div>
+<div class="ill"><canvas id="aCv" role="img" aria-label="Animazione della linea di fascio: sorgente, convertitore, cavità laser, interferometro, rivelatore" style="display:block;width:100%;height:240px"></canvas></div>
+<p id="aCap" style="margin-top:10px;min-height:3.2em">Premi «Segui 1 positrone» per accompagnare una particella lungo tutta la linea, oppure scegli una tappa.</p>
+<div class="btns" id="aStages"></div>
+<div class="cmp" style="grid-template-columns:repeat(4,minmax(0,1fr))">
+<div><b id="aE">0</b><span>e⁺ emessi</span></div>
+<div><b id="aC">0</b><span>convertiti in Ps⁻</span></div>
+<div><b id="aP">0</b><span>Ps neutri</span></div>
+<div><b id="aD">0</b><span>rivelati</span></div>
+</div>
+<div class="ctl"><label for="aSp">Velocità dell'animazione <output id="aSpo">1,0×</output></label><input id="aSp" type="range" min="0.25" max="2.5" step="0.25" value="1"></div>
+</div>
+</div></section>
+
+
 <main class="band" style="padding-top:0"><div class="wrap">
 
 <section class="prop" id="p1">
@@ -314,6 +336,74 @@ $('copy').addEventListener('click',async()=>{
 let rw=0;const ro=new ResizeObserver(()=>{const w=document.body.clientWidth;if(w!==rw&&R){rw=w;placeTarget()}});ro.observe(document.body);
 ill4();render();
 }
+</script>
+<script>
+(()=>{
+const $=id=>document.getElementById(id),cv=$('aCv'),cx=cv.getContext('2d');
+const probe={};for(const k of['ink','muted','acc','el','line']){const d=document.createElement('i');d.style.cssText='position:absolute;visibility:hidden;color:var(--'+k+')';document.body.appendChild(d);probe[k]=d}
+let C={};const readC=()=>{for(const k in probe)C[k]=getComputedStyle(probe[k]).color};
+const ST=[
+ {l:'1 Sorgente e⁺',x:.07,t:'<b>Sorgente.</b> I positroni, rallentati, formano un fascio a bassa energia diretto al convertitore.'},
+ {l:'2 Convertitore W + Na',x:.27,t:'<b>Convertitore.</b> Un positrone può catturare due elettroni e diventare Ps⁻. Molti non si convertono: è la prima grande perdita.'},
+ {l:'3 Cavità laser',x:.50,t:'<b>Cavità laser.</b> Il Ps⁻ vive 479 ps: il laser stacca l\'elettrone in più e lascia Ps neutro. L\'elettrone esce di lato.'},
+ {l:'4 Interferometro',x:.72,t:'<b>Interferometro.</b> Il Ps è neutro, quindi insensibile ai campi elettrici e magnetici sparsi, e attraversa i reticoli come un\'onda.'},
+ {l:'5 Rivelatore',x:.93,t:'<b>Rivelatore.</b> Ogni Ps arriva come un punto. Se la gravità agisce sull\'antimateria, le frange si spostano.'}];
+const S={play:true,sp:1,w:0,h:0,dpr:1,parts:[],fx:[],dets:[],acc:0,last:0,tr:null,focus:-1,until:0,e:0,c:0,p:0,d:0};
+const PC=.55,PS=.8,PD=.65,G1=.66,G2=.78;
+function size(){const r=cv.getBoundingClientRect();S.dpr=Math.min(devicePixelRatio||1,2);S.w=r.width;S.h=r.height;cv.width=r.width*S.dpr;cv.height=r.height*S.dpr}
+const ay=()=>S.h*.5,X=n=>n*S.w;
+function spawn(t){const p={x:ST[0].x,y:ay(),k:'e',tr:t,fade:1,wc:t||Math.random()<PC,ws:t||Math.random()<PS,wd:t||Math.random()<PD,yt:.12+Math.random()*.76,dc:0,dl:0};S.e++;S.parts.push(p);if(t)S.tr=p}
+const flash=(x,y,s)=>S.fx.push({t:'f',x,y,s,l:1});
+function kill(p,w){p.k='x';p.why=w;if(w==='a'){S.fx.push({t:'g',x:X(p.x),y:p.y,d:-1,l:1},{t:'g',x:X(p.x),y:p.y,d:1,l:1})}}
+function cap(h){$('aCap').innerHTML=h}
+function trCap(){const t=S.tr;if(!t)return;if(t.k==='x'){cap(t.why==='c'?'<b>Non convertito:</b> il positrone seguito si è annichilato nel convertitore, senza dare Ps⁻.':t.why==='a'?'<b>Decaduto:</b> il Ps⁻ seguito è annichilato prima di raggiungere il laser.':'<b>Perso:</b> il Ps⁻ seguito non è stato neutralizzato ed è stato deviato dai campi.');return}
+ let i=0;ST.forEach((s,j)=>{if(t.x>=s.x-.07)i=j});if(t.k==='p'&&i<3)i=3;cap('<span class="note">Particella seguita: '+({e:'positrone',m:'ione Ps⁻',p:'positronio neutro'})[t.k]+'</span><br>'+ST[i].t)}
+function done(ok){if(ok)cap('<b>Arrivato al rivelatore.</b> Ripetendo la misura migliaia di volte emergono le frange.');S.tr=null;$('aTrace').disabled=false}
+function upd(dt){const d=dt*S.sp;if(S.play){S.acc+=d*3.2;while(S.acc>=1){S.acc--;spawn(false)}}
+ for(let i=S.parts.length-1;i>=0;i--){const p=S.parts[i];
+  if(p.k==='x'){p.fade-=d*1.6;if(p.fade<=0){if(S.tr===p)done();S.parts.splice(i,1)}continue}
+  if(!S.play&&!p.tr&&false)continue;
+  p.x+=(p.k==='e'?.16:p.k==='m'?.12:.15)*d*(p.tr?.8:1);
+  if(p.k==='e'&&!p.dc&&p.x>=ST[1].x){p.dc=1;if(p.wc){p.k='m';S.c++;flash(X(ST[1].x),p.y,22)}else{kill(p,'c');flash(X(ST[1].x),p.y,14);continue}}
+  if(p.k==='m'&&!p.ws&&p.x>=(ST[1].x+ST[2].x)/2){kill(p,'a');continue}
+  if(p.k==='m'&&!p.dl&&p.x>=ST[2].x){p.dl=1;if(p.wd){p.k='p';S.p++;S.fx.push({t:'e',x:X(ST[2].x),y:p.y,d:Math.random()<.5?-1:1,l:1});flash(X(ST[2].x),p.y,26)}else{kill(p,'l');continue}}
+  if(p.k==='p'&&p.x>G2){const t=Math.min(1,(p.x-G2)/(ST[4].x-G2));p.y=ay()+(p.yt-.5)*S.h*.8*t}
+  if(p.x>=ST[4].x){S.d++;S.dets.push({y:p.y,l:1});if(S.dets.length>60)S.dets.shift();flash(X(ST[4].x),p.y,18);if(S.tr===p)done(true);S.parts.splice(i,1)}}
+ for(let i=S.fx.length-1;i>=0;i--){const f=S.fx[i];f.l-=d*(f.t==='f'?2.2:1.1);if(f.t==='e'){f.y+=f.d*d*70;f.x+=d*20}if(f.t==='g'){f.x+=f.d*d*60;f.y-=d*30}if(f.l<=0)S.fx.splice(i,1)}
+ for(let i=S.dets.length-1;i>=0;i--){S.dets[i].l-=d*.35;if(S.dets[i].l<=0)S.dets.splice(i,1)}
+ $('aE').textContent=S.e;$('aC').textContent=S.c;$('aP').textContent=S.p;$('aD').textContent=S.d;
+ if(S.tr&&performance.now()>S.until)trCap()}
+let fr=0;
+function draw(){if(fr++%30===0)readC();const{w,h,dpr}=S,y0=ay(),t=performance.now();cx.save();cx.scale(dpr,dpr);cx.clearRect(0,0,w,h);
+ cx.lineCap='butt';cx.strokeStyle=C.line;cx.lineWidth=1.5;cx.setLineDash([4,6]);cx.beginPath();cx.moveTo(X(.07),y0);cx.lineTo(X(.93),y0);cx.stroke();cx.setLineDash([]);
+ if(S.focus>=0&&t<S.until){const x=X(ST[S.focus].x);cx.globalAlpha=.12;cx.fillStyle=C.acc;cx.fillRect(x-34,h*.06,68,h*.8);cx.globalAlpha=1;cx.strokeStyle=C.acc;cx.lineWidth=1.5;cx.strokeRect(x-34,h*.06,68,h*.8)}
+ cx.fillStyle=C.ink;cx.beginPath();cx.arc(X(.07),y0,16,0,7);cx.fill();cx.fillStyle=getComputedStyle(document.body).backgroundColor;cx.font='600 15px Geist,sans-serif';cx.textAlign='center';cx.fillText('e⁺',X(.07),y0+5);
+ let x=X(ST[1].x);cx.fillStyle=C.muted;cx.fillRect(x-4,y0-h*.2,8,h*.4);
+ x=X(ST[2].x);cx.globalAlpha=.25;cx.fillStyle=C.acc;cx.fillRect(x-13,h*.08,26,h*.66);cx.globalAlpha=1;cx.strokeStyle=C.ink;cx.lineWidth=5;cx.beginPath();cx.moveTo(x-26,h*.06);cx.quadraticCurveTo(x,h*.01,x+26,h*.06);cx.moveTo(x-26,h*.76);cx.quadraticCurveTo(x,h*.81,x+26,h*.76);cx.stroke();
+ cx.lineWidth=3;[G1,G2].forEach(g=>{for(let k=0;k<9;k++){const s=h*.16+k*(h*.62/9);cx.beginPath();cx.moveTo(X(g),s);cx.lineTo(X(g),s+h*.62/9*.56);cx.stroke()}});
+ x=X(ST[4].x)+14;cx.fillStyle=C.ink;cx.fillRect(x-4,h*.1,8,h*.68);S.dets.forEach(d=>{cx.globalAlpha=d.l;cx.fillStyle=C.acc;cx.beginPath();cx.arc(x,d.y,2.6,0,7);cx.fill()});cx.globalAlpha=1;
+ cx.fillStyle=C.muted;cx.font='15px Geist,sans-serif';[['Sorgente',.07],['W + Na',.27],['Cavità laser',.5],['Interferometro',.72]].forEach(([s,n])=>cx.fillText(s,X(n),h-8));cx.fillText('Rivelatore',X(.93)-6,h-8);
+ cx.fillText('e⁺',X(.17),y0-48);cx.fillText('Ps⁻',X(.385),y0-48);cx.fillText('Ps',X(.64),y0-48);
+ S.parts.forEach(p=>{const px=X(p.x),b=p.tr?1.5:1;cx.save();cx.globalAlpha=p.k==='x'?Math.max(0,p.fade)*.6:1;
+  if(p.k==='e'){cx.fillStyle=C.ink;cx.beginPath();cx.arc(px,p.y,4*b,0,7);cx.fill()}
+  else if(p.k==='m'){cx.fillStyle=C.el;cx.strokeStyle=C.ink;cx.lineWidth=2;cx.beginPath();cx.arc(px,p.y,6*b,0,7);cx.fill();cx.stroke()}
+  else if(p.k==='p'){cx.fillStyle=C.acc;cx.beginPath();cx.arc(px,p.y,5*b,0,7);cx.fill();if(p.x>G1){cx.strokeStyle=C.acc;cx.globalAlpha=.4;cx.lineWidth=1;for(let k=1;k<3;k++){cx.beginPath();cx.arc(px,p.y,5*b+k*5,0,7);cx.stroke()}}}
+  else{cx.fillStyle=C.muted;cx.beginPath();cx.arc(px,p.y,4*b,0,7);cx.fill()}
+  if(p.tr&&p.k!=='x'){cx.globalAlpha=1;cx.strokeStyle=C.ink;cx.lineWidth=1;cx.setLineDash([2,3]);cx.beginPath();cx.arc(px,p.y,12,0,7);cx.stroke();cx.setLineDash([])}cx.restore()});
+ S.fx.forEach(f=>{cx.save();const a=Math.max(0,f.l);cx.globalAlpha=a;
+  if(f.t==='f'){cx.fillStyle=C.acc;cx.beginPath();cx.arc(f.x,f.y,f.s*(1.2-a*.5),0,7);cx.fill()}
+  else if(f.t==='e'){cx.fillStyle=C.el;cx.beginPath();cx.arc(f.x,f.y,3,0,7);cx.fill();cx.font='12px Geist,sans-serif';cx.textAlign='left';cx.fillText('e⁻',f.x+6,f.y+4)}
+  else{cx.strokeStyle=C.acc;cx.lineWidth=1.5;cx.beginPath();for(let k=0;k<=14;k++){const q=f.x+f.d*k*2.2,r=f.y-k*1.1+Math.sin(k*1.4)*2.2;k?cx.lineTo(q,r):cx.moveTo(q,r)}cx.stroke()}cx.restore()});
+ cx.restore()}
+function loop(ts){if(!S.last)S.last=ts;const dt=Math.min(.05,(ts-S.last)/1000);S.last=ts;upd(dt);draw();requestAnimationFrame(loop)}
+const setPlay=p=>{S.play=p;$('aPlay').textContent=p?'Pausa':'Avvia';$('aPlay').setAttribute('aria-pressed',p)};
+$('aPlay').onclick=()=>setPlay(!S.play);
+$('aTrace').onclick=()=>{S.focus=-1;S.until=0;setPlay(true);spawn(true);$('aTrace').disabled=true;trCap()};
+$('aSp').oninput=e=>{S.sp=+e.target.value;$('aSpo').textContent=S.sp.toFixed(1).replace('.',',')+'×'};
+ST.forEach((s,i)=>{const b=document.createElement('button');b.textContent=s.l;b.onclick=()=>{S.focus=i;S.until=performance.now()+6000;cap(s.t);[...$('aStages').children].forEach((c,k)=>c.setAttribute('aria-pressed',k===i))};$('aStages').appendChild(b)});
+addEventListener('resize',size);size();readC();
+if(matchMedia('(prefers-reduced-motion: reduce)').matches)setPlay(false);
+requestAnimationFrame(loop)})();
 </script>
 </body>
 </html>

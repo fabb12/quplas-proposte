@@ -7,7 +7,10 @@ Pagina interattiva con tre proposte per la linea di fascio di QUPLAS (positroni 
 ## Contenuto
 
 - `index.html`: la pagina, autonoma, da aprire nel browser o pubblicare con GitHub Pages.
+- `interferenza.html`: simulazione dell'interferenza di singoli positroni (QUPLAS-0, Como 2019), con l'animazione dell'intero sistema.
 - `quplas_bilancio_flusso.py`: lo stesso bilancio di flusso in Python (`python3 quplas_bilancio_flusso.py`).
+
+`index.html` include anche un'animazione schematica della linea di fascio (e⁺ → Ps⁻ → Ps → interferometro), con rese illustrative.
 
 ## Le tre proposte
 
