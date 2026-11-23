@@ -8,7 +8,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
 /* VOICE: spiegazione paziente ma rigorosa, un'idea per sezione
-   IDEA: sei domande in fila (perché, quanto è difficile, come si produce, come si misura, quanti dati, a cosa serve), ognuna con la sua animazione
+   IDEA: sette domande in fila (perché, quanto è difficile, come si produce, come si misura, quanti dati, a cosa serve, e l'antigravità), ognuna con la sua animazione
    COLOUR and TYPE: come index.html: alluminio, nero, arancio #ff4f00 per Ps; Geist */
 :root{color-scheme:light dark;--bg:light-dark(#e9eaec,#141517);--panel:light-dark(#f7f7f8,#1c1e21);--ink:light-dark(#121314,#ececee);--muted:light-dark(#585c63,#9da2aa);--line:light-dark(#c8cace,#34373c);--acc:#ff4f00;--el:light-dark(#1f5fbf,#6ea8ff);--track:light-dark(#dcdee1,#2a2d31)}
 *{box-sizing:border-box;min-width:0}
@@ -62,7 +62,7 @@ a.back{color:var(--ink)}
 <body>
 <header class="band" style="padding-bottom:0"><div class="wrap">
 <h1>Capire QUPLAS: perché pesare l'antimateria è così difficile</h1>
-<p class="lede">L'obiettivo finale è misurare, per la prima volta, come cade un atomo di positronio (un elettrone e la sua antiparticella, il positrone). Sei domande in ordine, ognuna con un'animazione che puoi manovrare.</p>
+<p class="lede">L'obiettivo finale è misurare, per la prima volta, come cade un atomo di positronio (un elettrone e la sua antiparticella, il positrone). Sette domande in ordine, ognuna con un'animazione che puoi manovrare.</p>
 <nav aria-label="Indice"><ol>
 <li><a href="#d1"><span class="num">1</span><span>Che cosa vogliamo sapere?</span></a></li>
 <li><a href="#d2"><span class="num">2</span><span>Perché è così difficile?</span></a></li>
@@ -70,6 +70,7 @@ a.back{color:var(--ink)}
 <li><a href="#d4"><span class="num">4</span><span>Come si misura la caduta?</span></a></li>
 <li><a href="#d5"><span class="num">5</span><span>Perché servono tanti atomi?</span></a></li>
 <li><a href="#d6"><span class="num">6</span><span>A che cosa serve alla fine?</span></a></li>
+<li><a href="#d7"><span class="num">7</span><span>Si può studiare l'antigravità?</span></a></li>
 </ol></nav>
 <p class="note" style="margin-top:14px"><a class="back" href="index.html">← Le tre proposte per il fascio</a> · <a class="back" href="interferenza.html">Simulazione QUPLAS-0 (Como 2019)</a></p>
 </div></header>
@@ -89,7 +90,7 @@ a.back{color:var(--ink)}
 <div class="btns" id="h1btns" role="group" aria-label="Ipotesi">
 <button data-r="1" aria-pressed="true">Cade come la materia (g)</button>
 <button data-r="0.5">Cade più piano (g/2)</button>
-<button data-r="-1">Antigravità (−g)</button>
+<button data-r="-1">Antigravità (−g, antimateria pura)</button>
 </div>
 <canvas id="c1" height="260" role="img" aria-label="Due palline cadono: una di materia e una di antimateria, secondo l'ipotesi scelta"></canvas>
 <p class="cap" id="t1"></p>
@@ -206,7 +207,8 @@ a.back{color:var(--ink)}
 <tr><th>Risultato</th><th>Significato</th></tr>
 <tr><td>g<sub>Ps</sub> ≈ g (entro l'errore)</td><td>Il principio di equivalenza regge anche per questa antimateria leptonica. Un test in più, con un sistema che nessun altro esperimento usa.</td></tr>
 <tr><td>g<sub>Ps</sub> ≠ g</td><td>Violazione del principio di equivalenza: fisica oltre la relatività generale e il Modello Standard.</td></tr>
-<tr><td>g<sub>Ps</sub> ≈ −g</td><td>Antigravità. Molto improbabile (altri argomenti e misure la sfavoriscono), ma è ciò che la misura distinguerebbe senza ambiguità.</td></tr>
+<tr><td>g<sub>Ps</sub> ≈ g/2</td><td>Il positrone non sentirebbe la gravità, mentre l'elettrone sì (sezione 7).</td></tr>
+<tr><td>g<sub>Ps</sub> ≈ 0</td><td>Il positrone sarebbe respinto con la stessa intensità con cui l'elettrone è attratto: antigravità del positrone. Molto improbabile (altri argomenti e misure la sfavoriscono), ma la misura la distinguerebbe dal caso normale.</td></tr>
 <tr><td>Incertezza grande</td><td>Non si conclude: ecco perché le pagine su flusso ed efficienza contano.</td></tr>
 </table>
 <p>Ricadute oltre il singolo numero: una <b>sorgente di Ps continua e neutra</b> e un interferometro per atomi instabili sono strumenti nuovi. Servono anche a misure di precisione sul positronio e a studiare l'interferenza di particelle composte matter/antimatter.</p>
@@ -228,6 +230,43 @@ a.back{color:var(--ink)}
 <dt>Talbot-Lau</dt><dd>Interferometro con reticoli che funziona anche con fasci poco coerenti e produce frange con il passo dei reticoli.</dd>
 <dt>Principio di equivalenza</dt><dd>Tutti i corpi cadono con la stessa accelerazione nello stesso campo gravitazionale.</dd>
 </dl>
+</div>
+</section>
+
+
+<!-- 7 -->
+<section class="q" id="d7">
+<div><span class="num">7</span>
+<h2>Si può studiare l'antigravità?</h2>
+<p><span class="k">Sì, ma con una sfumatura importante.</span> La misura dà segno e intensità dell'accelerazione del positronio. Se fosse negativa, le frange si sposterebbero dalla parte opposta. Però il Ps non è antimateria «pura»: contiene un <b>elettrone</b> (materia) e un <b>positrone</b> (antimateria).</p>
+<p>Supponiamo (modello semplice) che le masse gravitazionali si sommino, che l'elettrone pesi come sempre e che il positrone abbia un rapporto ε tra massa gravitazionale e inerziale. Con ε = 1 il positrone cade come la materia, con ε = −1 è respinto. Allora:</p>
+<div class="box">g<sub>Ps</sub> = g · (1 + ε) / 2</div>
+<table>
+<tr><th>Positrone</th><th>ε</th><th>g<sub>Ps</sub></th></tr>
+<tr><td>cade come la materia</td><td>+1</td><td>g</td></tr>
+<tr><td>non sente la gravità</td><td>0</td><td>g/2</td></tr>
+<tr><td>antigravità</td><td>−1</td><td><b>0</b>: il Ps non cadrebbe</td></tr>
+</table>
+<p>Quindi l'antigravità del positrone si leggerebbe come <b>assenza di caduta</b>, non come caduta verso l'alto. Una caduta all'insù richiederebbe un atomo tutto di antimateria, come l'antidrogeno. I due tipi di esperimento si completano.</p>
+<h3>Che cosa si può davvero concludere</h3>
+<ul style="max-width:62ch;padding-left:20px">
+<li><b>La precisione decide.</b> Una misura con incertezza σ su g<sub>Ps</sub>/g dà ε con incertezza 2σ. Con σ ≈ 10% si separano bene i tre casi; con le incertezze grandi della pagina principale (circa 65% nello scenario ad alto flusso) no.</li>
+<li><b>Assunzioni.</b> Il modello trascura l'energia di legame e suppone l'elettrone normale (verificato su atomi ordinari). Misura l'accelerazione: non separa da sola massa inerziale e gravitazionale.</li>
+<li><b>Falsi segnali.</b> Forze non gravitazionali (campi residui, gradienti sul Ps polarizzabile) spostano le frange come farebbe un g diverso: vanno misurate e sottratte.</li>
+</ul>
+<h3>Perché l'antigravità è considerata improbabile</h3>
+<p>Da decenni ci sono argomenti teorici indiretti (conservazione dell'energia, effetti di coppie virtuali, esperimenti sui kaoni neutri): ognuno poggia su ipotesi, quindi non sostituisce la misura diretta. Una misura diretta è arrivata nel 2023 al CERN: l'esperimento ALPHA-g ha osservato atomi di antidrogeno cadere verso il basso, con accelerazione compatibile con g entro le incertezze (i valori esatti vanno controllati sul lavoro originale). Per l'antimateria leptonica restano quasi solo tentativi storici, limitati dai campi parassiti.</p>
+</div>
+<div class="panel">
+<canvas id="c7" height="360" role="img" aria-label="Caduta di materia, positrone e positronio secondo il valore di ε, e intervallo di compatibilità della misura"></canvas>
+<div class="ctl"><label for="s7e">Gravità del positrone, ε (1 = come la materia) <output id="o7e"></output></label><input id="s7e" type="range" min="-1" max="1" step="0.25" value="1"></div>
+<div class="ctl"><label for="s7s">Incertezza σ della misura di gPs/g <output id="o7s"></output></label><input id="s7s" type="range" min="5" max="100" step="5" value="10"></div>
+<div class="cmp">
+<div><b id="r7g">–</b><span>g<sub>Ps</sub>/g atteso</span></div>
+<div><b id="r7e">–</b><span>ε ricavato</span></div>
+</div>
+<p class="cap" id="t7"></p>
+<p class="note">In alto: accelerazioni per ε scelto. Il positrone «da solo» è tratteggiato perché non si può misurare isolato. In basso: valore atteso con banda ±2σ; i cerchi vuoti sono le tre ipotesi, in azzurro quelle compatibili con la misura.</p>
 </div>
 </section>
 
@@ -260,7 +299,7 @@ const dot=(cx,x,y,r,col)=>{cx.fillStyle=col;cx.beginPath();cx.arc(x,y,r,0,7);cx.
 
 /* ---------- 1: caduta ---------- */
 {let r=1,t=0;const hold=1.2;
-const T1={'1':'<b>Principio di equivalenza:</b> materia e antimateria cadono insieme. È ciò che si aspetta la relatività generale e che nessuna misura diretta ha mai contraddetto.','0.5':'<b>Antimateria più «leggera» nel peso:</b> cadrebbe più lentamente. Sarebbe una violazione del principio di equivalenza.','-1':'<b>Antigravità:</b> l\'antimateria sarebbe respinta. Ipotesi molto sfavorita, ma una misura diretta la esclude senza ambiguità.'};
+const T1={'1':'<b>Principio di equivalenza:</b> materia e antimateria cadono insieme. È ciò che si aspetta la relatività generale e che nessuna misura diretta ha mai contraddetto.','0.5':'<b>Antimateria più «leggera» nel peso:</b> cadrebbe più lentamente. Sarebbe una violazione del principio di equivalenza.','-1':'<b>Antigravità:</b> l\'antimateria sarebbe respinta. Ipotesi molto sfavorita, ma solo una misura diretta può escluderla. Il positronio è un caso speciale: vedi la sezione 7.'};
 const set=v=>{r=v;t=0;$('t1').innerHTML=T1[v];[...$('h1btns').children].forEach(b=>b.setAttribute('aria-pressed',b.dataset.r==v))};
 $('h1btns').onclick=e=>{const b=e.target.closest('button');if(b)set(b.dataset.r)};set('1');
 mk('c1',(o,cx,dt)=>{const{w,h}=o;t+=dt*(reduce?0:1);const dur=2.2,cyc=dur+hold*2;const tt=t%cyc;const p=Math.min(1,Math.max(0,(tt-.4)/dur));const top=36,bot=h-34,span=bot-top;
@@ -402,6 +441,35 @@ mk('c5',(o,cx,dt)=>{const{w,h}=o;const phi=+$('s5f').value,c=+$('s5c').value;
   cx.strokeStyle=C.acc;cx.lineWidth=2.5;cx.beginPath();cx.moveTo(xp(est),T);cx.lineTo(xp(est),B);cx.stroke()}
  cx.strokeStyle=C.ink;cx.lineWidth=1;cx.setLineDash([2,3]);cx.beginPath();cx.moveTo(xp(phi),T);cx.lineTo(xp(phi),B);cx.stroke();cx.setLineDash([]);
  txt(cx,'fase vera',xp(phi),T-6,11,C.ink);if(N)txt(cx,'stima',xp(est),T-18,11,C.acc)})}
+
+/* ---------- 7: antigravità e Ps ---------- */
+{const rd=()=>{$('o7e').textContent=IT(+$('s7e').value,2);$('o7s').textContent=$('s7s').value+'%'};
+['s7e','s7s'].forEach(i=>$(i).oninput=rd);rd();let t=0;const hold=1.2;
+mk('c7',(o,cx,dt)=>{const{w,h}=o;const eps=+$('s7e').value,sg=$('s7s').value/100,x=(1+eps)/2;
+ $('r7g').textContent=IT(x,2);$('r7e').textContent=IT(eps,2)+' ± '+IT(2*sg,2);
+ const hyp=[[0,'ε = −1 (antigravità)'],[.5,'ε = 0'],[1,'ε = +1 (come materia)']];
+ const comp=hyp.filter(q=>Math.abs(q[0]-x)<=2*sg).map(q=>q[1]);
+ $('t7').innerHTML=comp.length===1?'<b>Compatibile solo con:</b> '+comp[0]+'. La misura distingue questa ipotesi dalle altre.':comp.length?'<b>Compatibili:</b> '+comp.join(', ')+'. Con questa incertezza non si separano.':'<b>Nessuna delle tre ipotesi coincide:</b> valore intermedio, servirebbe un\'analisi più fine.';
+ t+=dt*(reduce?0:1);const dur=2.2,cyc=dur+hold*2,tt=t%cyc,p=Math.min(1,Math.max(0,(tt-.4)/dur));
+ const top=40,bot=h*.5,mid=(top+bot)/2,span=bot-top;
+ const cols=[w*.2,w*.5,w*.8],a=[1,eps,x],names=['Materia','Positrone','Positronio'],clr=[C.ink,C.muted,C.acc];
+ cx.strokeStyle=C.line;cx.lineWidth=1.5;cx.beginPath();cx.moveTo(18,bot+6);cx.lineTo(w-18,bot+6);cx.stroke();
+ cols.forEach((cxp,i)=>{cx.strokeStyle=C.line;cx.lineWidth=1;cx.setLineDash([3,5]);cx.beginPath();cx.moveTo(cxp,top);cx.lineTo(cxp,bot);cx.stroke();cx.setLineDash([]);
+  const y=Math.max(top,Math.min(bot,mid+a[i]*p*p*span*.5));
+  cx.globalAlpha=i===1?.55:1;dot(cx,cxp,y,i===1?7:9,clr[i]);if(i===2)dot(cx,cxp,y,3,C.bg);
+  if(i===1){cx.strokeStyle=C.muted;cx.lineWidth=1.5;cx.setLineDash([2,3]);cx.beginPath();cx.arc(cxp,y,10,0,7);cx.stroke();cx.setLineDash([])}
+  cx.globalAlpha=1;txt(cx,names[i],cxp,22,13,C.ink);
+  txt(cx,i===0?'g':'accel. '+IT(a[i],2)+' g',cxp,bot+24,12,C.muted)});
+ dot(cx,cols[0],mid,3,C.line);
+ // asse g_Ps/g
+ const L=34,R=w-34,Y=h*.82,X=v=>L+(v+.25)/1.5*(R-L);
+ txt(cx,'g_Ps / g misurato',w/2,h*.62,13,C.ink);
+ cx.strokeStyle=C.line;cx.lineWidth=1.5;cx.beginPath();cx.moveTo(L,Y);cx.lineTo(R,Y);cx.stroke();
+ [-.25,0,.5,1,1.25].forEach(v=>{cx.beginPath();cx.moveTo(X(v),Y-4);cx.lineTo(X(v),Y+4);cx.stroke();txt(cx,IT(v,2),X(v),Y+20,11)});
+ cx.fillStyle=C.acc;cx.globalAlpha=.22;const l=Math.max(L,X(x-2*sg)),r=Math.min(R,X(x+2*sg));cx.fillRect(l,Y-18,Math.max(0,r-l),36);cx.globalAlpha=1;
+ hyp.forEach(([v,n])=>{const ok=Math.abs(v-x)<=2*sg;cx.lineWidth=2;cx.strokeStyle=ok?C.el:C.muted;cx.fillStyle=ok?C.el:C.panel;cx.beginPath();cx.arc(X(v),Y,7,0,7);ok?cx.fill():cx.stroke()});
+ cx.strokeStyle=C.acc;cx.lineWidth=2.5;cx.beginPath();cx.moveTo(X(x),Y-22);cx.lineTo(X(x),Y+22);cx.stroke();
+ txt(cx,'antigravità',X(0),Y-30,11,C.muted);txt(cx,'ε=0',X(.5),Y-30,11,C.muted);txt(cx,'normale',X(1),Y-30,11,C.muted)})}
 
 requestAnimationFrame(loop);
 })();
